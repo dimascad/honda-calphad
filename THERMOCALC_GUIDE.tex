@@ -1,0 +1,315 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs,array,xcolor,hyperref,listings,fancyhdr,enumitem,colortbl}
+\usepackage{amsmath,amssymb}
+
+% Colors
+\definecolor{OSUscarlet}{HTML}{BB0000}
+\definecolor{codeblue}{HTML}{0077BB}
+\definecolor{codegray}{HTML}{F5F5F5}
+\definecolor{tableheader}{HTML}{595959}
+
+\hypersetup{colorlinks=true,linkcolor=OSUscarlet,urlcolor=codeblue}
+\lstset{basicstyle=\ttfamily\small,backgroundcolor=\color{codegray},frame=single,framerule=0pt,breaklines=true,showstringspaces=false}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{gray}{\small Thermo-Calc Guide}}
+\fancyhead[R]{\textcolor{gray}{\small Honda CALPHAD}}
+\fancyfoot[C]{\thepage}
+
+\setlength{\headheight}{14pt}
+
+\begin{document}
+
+\begin{center}
+{\LARGE\bfseries Thermo-Calc Workflow Guide}\\[0.5em]
+{\large Extracting CALPHAD Data for Python Plotting}\\[0.5em]
+{\normalsize Anthony DiMascio}\\[0.3em]
+{\small MSE 4381 $\vert$ Honda CALPHAD Project $\vert$ Spring 2026}
+\end{center}
+\vspace{0.5em}\hrule\vspace{1em}
+
+%--------------------------------------------------
+\section{File Organization}
+%--------------------------------------------------
+
+Create this folder structure \textbf{before} starting:
+
+\begin{lstlisting}
+honda-calphad/
+  data/
+    thermocalc/
+      raw/           <- Direct exports from TC
+      processed/     <- Cleaned CSVs for Python
+    literature/      <- Reference values from papers
+  simulations/
+    pycalphad/       <- Your existing Marimo notebook
+\end{lstlisting}
+
+\subsection{File Naming Convention}
+
+\begin{lstlisting}
+[system]_[property]_[conditions].txt
+
+Examples:
+  cu2o_dGf_1273-1873K.txt      Gibbs energy of Cu2O formation
+  al2o3_dGf_1273-1873K.txt     Gibbs energy of Al2O3 formation
+  fe-cu_activity_1873K.txt     Cu activity in Fe at 1873K
+  cu-al-o_isotherm_1873K.txt   Cu-Al-O phase diagram section
+\end{lstlisting}
+
+%--------------------------------------------------
+\section{Calculation 1: Oxide Gibbs Energies (Ellingham Data)}
+%--------------------------------------------------
+
+\textbf{Goal:} Get accurate $\Delta G_f^\circ$ vs $T$ for each oxide to replace our approximations.
+
+\subsection{Setup}
+
+\begin{enumerate}[noitemsep]
+\item Open Thermo-Calc $\rightarrow$ \texttt{File $\rightarrow$ New Project}
+\item Select database: \textbf{SSUB} (SGTE Substance Database)
+\item Define system: For Cu$_2$O, select elements \texttt{Cu, O}
+\end{enumerate}
+
+\subsection{For Each Oxide}
+
+\begin{table}[h]
+\centering\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{llll}
+\toprule
+\rowcolor{tableheader}
+\textcolor{white}{\textbf{Oxide}} & \textcolor{white}{\textbf{Elements}} & \textcolor{white}{\textbf{Phase to check}} & \textcolor{white}{\textbf{Output file}} \\
+\midrule
+Cu$_2$O & Cu, O & CU2O\_S & \texttt{cu2o\_dGf\_1273-1873K.txt} \\
+\rowcolor{gray!15}
+CuO & Cu, O & CUO\_S & \texttt{cuo\_dGf\_1273-1873K.txt} \\
+Al$_2$O$_3$ & Al, O & CORUNDUM & \texttt{al2o3\_dGf\_1273-1873K.txt} \\
+\rowcolor{gray!15}
+MgO & Mg, O & PERICLASE & \texttt{mgo\_dGf\_1273-1873K.txt} \\
+SiO$_2$ & Si, O & QUARTZ / CRISTOBALITE & \texttt{sio2\_dGf\_1273-1873K.txt} \\
+\rowcolor{gray!15}
+TiO$_2$ & Ti, O & RUTILE & \texttt{tio2\_dGf\_1273-1873K.txt} \\
+FeO & Fe, O & WUSTITE & \texttt{feo\_dGf\_1273-1873K.txt} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Running the Calculation}
+
+\begin{enumerate}[noitemsep]
+\item \texttt{Equilibrium Calculator $\rightarrow$ Property Diagram}
+\item Axis variable: \textbf{T} from 1273 to 1873 K, step 25 K
+\item Set composition to stoichiometric oxide (e.g., 66.67\% Cu, 33.33\% O for Cu$_2$O)
+\item Add to plot: \texttt{GM(*)} (Gibbs energy of system)
+\item \texttt{Perform $\rightarrow$ Calculate}
+\end{enumerate}
+
+\subsection{Exporting}
+
+\begin{enumerate}[noitemsep]
+\item \texttt{Results $\rightarrow$ Table Renderer}
+\item Select columns: \texttt{T}, \texttt{GM}
+\item \texttt{File $\rightarrow$ Export Table $\rightarrow$ Tab-separated}
+\item Save to: \texttt{data/thermocalc/raw/cu2o\_dGf\_1273-1873K.txt}
+\end{enumerate}
+
+\textbf{Repeat for each oxide.} Total: 7 files.
+
+%--------------------------------------------------
+\section{Calculation 2: Cu Activity in Liquid Fe}
+%--------------------------------------------------
+
+\textbf{Goal:} How ``active'' is 0.3\% Cu in molten steel?
+
+\subsection{Setup}
+\begin{enumerate}[noitemsep]
+\item Database: \textbf{TCFE} (Steels/Fe-alloys)
+\item System: \texttt{Fe, Cu}
+\item Phase: \texttt{LIQUID}
+\end{enumerate}
+
+\subsection{Calculation A: Activity vs Composition at 1873K}
+\begin{enumerate}[noitemsep]
+\item Property Diagram, axis: \texttt{X(Cu)} from 0 to 0.05 (0--5\%)
+\item Fixed: $T = 1873$ K
+\item Plot: \texttt{AC(Cu)} (activity of Cu)
+\item Export: \texttt{fe-cu\_activity-vs-xcu\_1873K.txt}
+\end{enumerate}
+
+\subsection{Calculation B: Activity vs Temperature at 0.3\% Cu}
+\begin{enumerate}[noitemsep]
+\item Property Diagram, axis: \texttt{T} from 1773 to 1973 K
+\item Fixed: \texttt{X(Cu)} = 0.003
+\item Plot: \texttt{AC(Cu)}
+\item Export: \texttt{fe-cu\_activity-vs-T\_xcu003.txt}
+\end{enumerate}
+
+%--------------------------------------------------
+\section{Calculation 3: Cu-Al-O Phase Diagram}
+%--------------------------------------------------
+
+\textbf{Goal:} What phases exist when Cu contacts Al$_2$O$_3$?
+
+\subsection{Setup}
+\begin{enumerate}[noitemsep]
+\item Database: \textbf{TCOX} (Oxides) --- \textit{check if available}
+\item System: \texttt{Cu, Al, O}
+\end{enumerate}
+
+\subsection{Isothermal Section at 1873K}
+\begin{enumerate}[noitemsep]
+\item \texttt{Phase Diagram $\rightarrow$ Ternary}
+\item Fix $T = 1873$ K, $P = 1$ atm
+\item Generate diagram
+\item Export tie-lines/phase boundaries as table
+\item Save: \texttt{cu-al-o\_isotherm\_1873K.txt}
+\end{enumerate}
+
+\textit{Note: If TCOX unavailable, check SSUB for limited oxide data.}
+
+%--------------------------------------------------
+\section{Calculation 4: Cu Solubility in Al$_2$O$_3$}
+%--------------------------------------------------
+
+\textbf{Goal:} Maximum Cu that dissolves in alumina vs temperature.
+
+This requires checking if the database models Cu solubility in the CORUNDUM phase.
+
+\begin{enumerate}[noitemsep]
+\item System: Cu-Al-O, database TCOX
+\item Fix Al$_2$O$_3$ composition (Al:O = 2:3)
+\item Step temperature 1273--1873 K
+\item Check: \texttt{X(CORUNDUM,Cu)} if available
+\item Export: \texttt{al2o3\_cu-solubility\_1273-1873K.txt}
+\end{enumerate}
+
+\textit{If not modeled:} Note this as a limitation; the database may treat Al$_2$O$_3$ as a stoichiometric compound with no Cu solubility.
+
+%--------------------------------------------------
+\section{Data Processing}
+%--------------------------------------------------
+
+\subsection{Raw Export Format}
+
+Thermo-Calc exports look like:
+\begin{lstlisting}
+T       GM
+1273    -245678.3
+1298    -246012.1
+...
+\end{lstlisting}
+
+\subsection{Processing Script}
+
+Save as \texttt{data/process\_tc\_data.py}:
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+import pandas as pd
+from pathlib import Path
+
+RAW = Path("thermocalc/raw")
+OUT = Path("thermocalc/processed")
+OUT.mkdir(exist_ok=True)
+
+def process_oxide(filename, o2_factor, molar_mass_oxide):
+    """Convert GM to dGf per mol O2 for Ellingham."""
+    df = pd.read_csv(RAW/filename, sep='\t')
+    df.columns = ['T_K', 'GM_J']
+
+    # GM is in J/mol, convert to kJ/mol O2
+    df['dGf_kJ_per_molO2'] = (df['GM_J'] / 1000) / o2_factor
+    df['T_C'] = df['T_K'] - 273.15
+
+    out_name = filename.replace('.txt', '_processed.csv')
+    df.to_csv(OUT/out_name, index=False)
+    print(f"Saved: {out_name}")
+
+# Process each oxide
+process_oxide('cu2o_dGf_1273-1873K.txt', 0.5, 143.09)
+process_oxide('al2o3_dGf_1273-1873K.txt', 1.5, 101.96)
+process_oxide('mgo_dGf_1273-1873K.txt', 0.5, 40.30)
+process_oxide('sio2_dGf_1273-1873K.txt', 1.0, 60.08)
+process_oxide('tio2_dGf_1273-1873K.txt', 1.0, 79.87)
+process_oxide('feo_dGf_1273-1873K.txt', 0.5, 71.84)
+\end{lstlisting}
+
+%--------------------------------------------------
+\section{Plotting in Python}
+%--------------------------------------------------
+
+Add to your Marimo notebook or create new script:
+
+\begin{lstlisting}[language=Python]
+import pandas as pd
+import matplotlib.pyplot as plt
+from pathlib import Path
+
+DATA = Path("data/thermocalc/processed")
+
+# Load all oxides
+oxides = {
+    'Cu2O':  ('cu2o_dGf_1273-1873K_processed.csv',  '#0077BB', '-'),
+    'Al2O3': ('al2o3_dGf_1273-1873K_processed.csv', '#AA3377', ':'),
+    'MgO':   ('mgo_dGf_1273-1873K_processed.csv',   '#009988', '-'),
+    'SiO2':  ('sio2_dGf_1273-1873K_processed.csv',  '#CC3311', '--'),
+    'TiO2':  ('tio2_dGf_1273-1873K_processed.csv',  '#E69F00', ':'),
+    'FeO':   ('feo_dGf_1273-1873K_processed.csv',   '#EE7733', '--'),
+}
+
+fig, ax = plt.subplots(figsize=(10, 7))
+
+for name, (file, color, ls) in oxides.items():
+    df = pd.read_csv(DATA/file)
+    ax.plot(df['T_C'], df['dGf_kJ_per_molO2'],
+            color=color, ls=ls, lw=2.5, label=name)
+
+ax.set_xlabel('Temperature (C)')
+ax.set_ylabel('dG (kJ/mol O2)')
+ax.set_title('Ellingham Diagram (Thermo-Calc Data)')
+ax.legend()
+ax.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig('ellingham_thermocalc.png', dpi=150)
+\end{lstlisting}
+
+%--------------------------------------------------
+\section{Checklist}
+%--------------------------------------------------
+
+\begin{tabular}{@{}p{0.6\textwidth}l@{}}
+\toprule
+\rowcolor{tableheader}
+\textcolor{white}{\textbf{Task}} & \textcolor{white}{\textbf{Done}} \\
+\midrule
+Create folder structure & $\square$ \\
+\rowcolor{gray!15}
+Export Cu$_2$O $\Delta G_f$ vs T & $\square$ \\
+Export Al$_2$O$_3$ $\Delta G_f$ vs T & $\square$ \\
+\rowcolor{gray!15}
+Export MgO $\Delta G_f$ vs T & $\square$ \\
+Export SiO$_2$ $\Delta G_f$ vs T & $\square$ \\
+\rowcolor{gray!15}
+Export TiO$_2$ $\Delta G_f$ vs T & $\square$ \\
+Export FeO $\Delta G_f$ vs T & $\square$ \\
+\rowcolor{gray!15}
+Export Cu activity in Fe vs X(Cu) & $\square$ \\
+Export Cu activity in Fe vs T & $\square$ \\
+\rowcolor{gray!15}
+Cu-Al-O isothermal section (if TCOX available) & $\square$ \\
+Run processing script & $\square$ \\
+\rowcolor{gray!15}
+Generate new Ellingham plot & $\square$ \\
+Update Marimo notebook with TC data & $\square$ \\
+\bottomrule
+\end{tabular}
+
+\vspace{1em}
+\hrule
+\vspace{0.5em}
+{\small\textit{After completing, commit data to GitHub:} \texttt{git add data/ \&\& git commit -m "Add TC data" \&\& git push}}
+
+\end{document}

@@ -1,0 +1,442 @@
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{colortbl}
+
+% Colors
+\definecolor{OSUscarlet}{HTML}{BB0000}
+\definecolor{OSUgray}{HTML}{666666}
+\definecolor{codeblue}{HTML}{0077BB}
+\definecolor{codeorange}{HTML}{EE7733}
+\definecolor{codegray}{HTML}{F5F5F5}
+\definecolor{tableheader}{HTML}{595959}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=OSUscarlet,
+    urlcolor=codeblue,
+    citecolor=OSUscarlet
+}
+
+% Code listing style
+\lstset{
+    basicstyle=\ttfamily\small,
+    backgroundcolor=\color{codegray},
+    frame=single,
+    framerule=0pt,
+    breaklines=true,
+    keywordstyle=\color{codeblue},
+    commentstyle=\color{OSUgray},
+    stringstyle=\color{codeorange},
+    showstringspaces=false,
+    tabsize=4
+}
+
+% Header/Footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{OSUgray}{\small Honda CALPHAD Documentation}}
+\fancyhead[R]{\textcolor{OSUgray}{\small MSE 4381}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Section formatting
+\titleformat{\section}{\Large\bfseries\color{OSUscarlet}}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\begin{document}
+
+% Title
+\begin{center}
+    {\LARGE\bfseries How This Works: A Non-Coder's Guide}\\[0.5em]
+    {\large Cu-Ceramic Thermodynamic Screening Tool}\\[1em]
+    {\normalsize MSE 4381 Senior Design $\vert$ Honda CALPHAD Project $\vert$ Spring 2026}\\[0.5em]
+    {\small Last updated: January 31, 2026}
+\end{center}
+
+\vspace{1em}
+\hrule
+\vspace{1.5em}
+
+\tableofcontents
+\newpage
+
+%--------------------------------------------------
+\section{What We Built}
+%--------------------------------------------------
+
+An \textbf{interactive thermodynamic screening tool} that helps answer: ``Which ceramic might best capture copper from molten steel?''
+
+\subsection{The Files}
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{>{\ttfamily}l p{8cm}}
+\toprule
+\rowcolor{tableheader}\textcolor{white}{\textbf{File}} & \textcolor{white}{\textbf{What it does}} \\
+\midrule
+cu\_ceramic\_thermodynamics.py & Main interactive notebook (Marimo) --- the one you share \\
+\rowcolor{gray!15}
+cu\_ceramic\_affinity.py & Standalone script that generates the Ellingham diagram PNG \\
+pycalphad\_cu\_fe\_example.py & Demo showing how pyCALPHAD library works \\
+\rowcolor{gray!15}
+ellingham\_diagram.png & Static image of oxide stability comparison \\
+cu\_fe\_gibbs\_energy.png & Gibbs energy curves for Cu-Fe system \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%--------------------------------------------------
+\section{The Thermodynamics Explained}
+%--------------------------------------------------
+
+\subsection{Gibbs Free Energy ($\Delta G$)}
+
+This is the ``will it react?'' number:
+\begin{itemize}[noitemsep]
+    \item $\Delta G < 0$ $\rightarrow$ Reaction happens spontaneously (favorable)
+    \item $\Delta G > 0$ $\rightarrow$ Reaction won't happen on its own (unfavorable)
+\end{itemize}
+
+\subsection{How We Calculate It}
+
+For oxide formation, we use a simple linear approximation:
+
+\begin{equation}
+\boxed{\Delta G_f^\circ = A + B \times T}
+\end{equation}
+
+Where:
+\begin{itemize}[noitemsep]
+    \item $A$ = enthalpy part (kJ/mol) --- roughly the ``heat'' of formation
+    \item $B$ = entropy part (kJ/mol$\cdot$K) --- how ``disordered'' things get
+    \item $T$ = temperature in Kelvin
+\end{itemize}
+
+\subsubsection{Example: Cu$_2$O}
+
+The parameters for Cu$_2$O are: $A = -170$ kJ/mol, $B = 0.075$ kJ/mol$\cdot$K
+
+At 1873 K (1600°C):
+\begin{align}
+\Delta G_f^\circ &= -170 + 0.075 \times 1873 \notag \\
+&= -170 + 140.5 \notag \\
+&= -29.5 \text{ kJ/mol}
+\end{align}
+
+\subsection{The Ellingham Diagram}
+
+To compare different oxides fairly, we normalize everything to ``per mole of O$_2$'':
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{llcc}
+\toprule
+\rowcolor{tableheader}
+\textcolor{white}{\textbf{Oxide}} & \textcolor{white}{\textbf{Reaction}} & \textcolor{white}{\textbf{O$_2$ in rxn}} & \textcolor{white}{\textbf{Divide $\Delta G_f$ by}} \\
+\midrule
+Cu$_2$O & 2Cu + $\frac{1}{2}$O$_2$ $\rightarrow$ Cu$_2$O & 0.5 mol & 0.5 \\
+\rowcolor{gray!15}
+MgO & Mg + $\frac{1}{2}$O$_2$ $\rightarrow$ MgO & 0.5 mol & 0.5 \\
+Al$_2$O$_3$ & 2Al + $\frac{3}{2}$O$_2$ $\rightarrow$ Al$_2$O$_3$ & 1.5 mol & 1.5 \\
+\rowcolor{gray!15}
+SiO$_2$ & Si + O$_2$ $\rightarrow$ SiO$_2$ & 1.0 mol & 1.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Key insight:} Lower on the diagram = more stable oxide.
+
+\subsection{What the Diagram Tells Us}
+
+Cu$_2$O is at the \textbf{TOP} (least stable). This means:
+\begin{itemize}[noitemsep]
+    \item Cu \textbf{cannot steal oxygen} from Al$_2$O$_3$, MgO, SiO$_2$, or TiO$_2$
+    \item The reaction Cu + Al$_2$O$_3$ $\rightarrow$ Cu$_2$O + Al will \textbf{NOT} happen
+    \item We need a \textit{different mechanism} to capture Cu
+\end{itemize}
+
+\subsection{The Actual Mechanisms}
+
+Since Cu can't reduce the oxides, how does Al$_2$O$_3$ capture Cu? (It did in last year's experiments)
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Solid Solution} --- Cu atoms dissolve into the ceramic crystal at high T
+    \item \textbf{Spinel Formation} --- CuAl$_2$O$_4$ forms (requires Cu to oxidize first)
+    \item \textbf{Surface Adsorption} --- Cu sticks to particle surfaces
+    \item \textbf{Capillary Action} --- Molten Cu wets and penetrates porous ceramics
+\end{enumerate}
+
+\subsection{Sulfide Exchange (The Alternative)}
+
+Dr.\ Zhang showed this reaction works:
+\begin{equation}
+\text{2Cu} + \text{FeS} \rightarrow \text{Cu}_2\text{S} + \text{Fe}
+\end{equation}
+
+Why? Because Cu$_2$S is more stable than FeS ($\Delta G < 0$ for this reaction).
+
+%--------------------------------------------------
+\section{How the Code is Structured}
+%--------------------------------------------------
+
+\subsection{The Marimo Notebook Format}
+
+Marimo notebooks are Python files with special structure:
+
+\begin{lstlisting}[language=Python]
+import marimo
+app = marimo.App()
+
+@app.cell          # This decorator marks a "cell"
+def _():
+    # Code goes here
+    return variables_to_share
+
+@app.cell
+def _(variables_from_above):
+    # This cell can use those variables
+    return more_variables
+\end{lstlisting}
+
+\subsection{Key Parts of Our Notebook}
+
+\subsubsection{1. Data Definition}
+
+The oxide data is stored in a Python dictionary:
+
+\begin{lstlisting}[language=Python]
+oxide_data = {
+    'Cu2O': (-170, 0.075, 0.5, '#0077BB', '-', '2Cu + 1/2O2 -> Cu2O'),
+    #        A      B     O2_factor  color  linestyle  reaction
+}
+\end{lstlisting}
+
+\subsubsection{2. Calculation Functions}
+
+\begin{lstlisting}[language=Python]
+def calc_dGf_per_O2(name, T_K):
+    A, B, O2_factor, *_ = oxide_data[name]
+    return (A + B * T_K) / O2_factor
+\end{lstlisting}
+
+\subsubsection{3. Interactive Controls}
+
+\begin{lstlisting}[language=Python]
+temp_slider = mo.ui.slider(start=1000, stop=1700, value=1600)
+oxide_selector = mo.ui.multiselect(options=[...], value=[...])
+\end{lstlisting}
+
+%--------------------------------------------------
+\section{How to Make Changes}
+%--------------------------------------------------
+
+\subsection{Change the Temperature Range}
+
+Find this line and edit the numbers:
+\begin{lstlisting}[language=Python]
+temp_slider = mo.ui.slider(start=1000, stop=1700, ...)
+\end{lstlisting}
+
+\subsection{Add a New Oxide}
+
+Add an entry to \texttt{oxide\_data}:
+\begin{lstlisting}[language=Python]
+'NewOxide': (A_value, B_value, O2_factor, '#HexColor', '-', 'Reaction'),
+\end{lstlisting}
+
+Where:
+\begin{itemize}[noitemsep]
+    \item Look up $A$ and $B$ values from thermodynamic tables (NIST-JANAF, Barin)
+    \item O2\_factor = moles of O$_2$ in the formation reaction
+    \item Color = hex code (colorblind-friendly: \texttt{\#0077BB}, \texttt{\#EE7733}, \texttt{\#009988})
+\end{itemize}
+
+\subsection{Change Label Positions}
+
+Find the \texttt{\_min\_spacing} variable in the plot cell:
+\begin{lstlisting}[language=Python]
+_min_spacing = 45  # Increase for more space between labels
+\end{lstlisting}
+
+%--------------------------------------------------
+\section{Limitations}
+%--------------------------------------------------
+
+\begin{center}
+\fcolorbox{OSUscarlet}{yellow!20}{
+\parbox{0.9\textwidth}{
+\textbf{Warning:} This tool uses \textbf{simplified approximations}. It is a screening tool, not rigorous CALPHAD.
+}}
+\end{center}
+
+\vspace{1em}
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{p{5cm}p{7cm}}
+\toprule
+\rowcolor{tableheader}
+\textcolor{white}{\textbf{Limitation}} & \textcolor{white}{\textbf{Why it matters}} \\
+\midrule
+No activity coefficients & Real solutions aren't ideal \\
+\rowcolor{gray!15}
+No phase diagrams & Can't find two-phase regions \\
+No Cu solubility in oxides & This is the real mechanism! \\
+\rowcolor{gray!15}
+No kinetics & Doesn't tell you how fast \\
+Linear $\Delta G$ approximation & Real curves have more terms \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{For real CALPHAD calculations, you need Thermo-Calc with proper databases.}
+
+%--------------------------------------------------
+\section{Next Steps: Thermo-Calc}
+%--------------------------------------------------
+
+\subsection{What Thermo-Calc Can Do That This Can't}
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Proper phase diagrams} --- Cu-Fe-O, Cu-Al-O ternary sections
+    \item \textbf{Cu solubility} --- How much Cu dissolves in Al$_2$O$_3$ at 1600°C?
+    \item \textbf{Activity coefficients} --- Real solution behavior
+    \item \textbf{Equilibrium calculations} --- What phases are stable?
+\end{enumerate}
+
+\subsection{Databases You Need}
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lll}
+\toprule
+\rowcolor{tableheader}
+\textcolor{white}{\textbf{Database}} & \textcolor{white}{\textbf{Contents}} & \textcolor{white}{\textbf{Use for}} \\
+\midrule
+TCFE & Steel thermodynamics & Cu in liquid Fe \\
+\rowcolor{gray!15}
+TCOX & Oxide systems & Cu-Al-O, Cu-Mg-O \\
+SSUB & Pure substances & Reference data \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Calculations to Run in Thermo-Calc}
+
+\begin{enumerate}[noitemsep]
+    \item \textbf{Cu-Fe binary phase diagram} --- Understand Cu miscibility in Fe
+    \item \textbf{Cu activity in liquid Fe} --- At 1600°C, how ``active'' is 0.3\% Cu?
+    \item \textbf{Cu-Al-O isothermal section at 1600°C} --- What phases form?
+    \item \textbf{Property diagram: Cu solubility in Al$_2$O$_3$ vs T} --- The key data we need
+\end{enumerate}
+
+%--------------------------------------------------
+\section{Workflow Summary}
+%--------------------------------------------------
+
+\begin{center}
+\fbox{\parbox{0.85\textwidth}{
+\centering
+\textbf{This Notebook (Screening Tool)}\\
+Quick oxide stability comparison\\
+Shows Cu CAN'T reduce these oxides\\
+Identifies need for different mechanism
+}}
+
+$\Big\downarrow$
+
+\fbox{\parbox{0.85\textwidth}{
+\centering
+\textbf{Thermo-Calc (Rigorous CALPHAD)}\\
+Calculate Cu solubility in each oxide\\
+Model spinel formation conditions\\
+Get real activity coefficients
+}}
+
+$\Big\downarrow$
+
+\fbox{\parbox{0.85\textwidth}{
+\centering
+\textbf{Experiments (Fontana Lab)}\\
+Test ceramics predicted to work best\\
+Validate CALPHAD predictions\\
+Measure actual Cu removal efficiency
+}}
+\end{center}
+
+%--------------------------------------------------
+\section{Reference: Thermodynamic Data}
+%--------------------------------------------------
+
+\subsection{Oxide Parameters Used}
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lcccc}
+\toprule
+\rowcolor{tableheader}
+\textcolor{white}{\textbf{Oxide}} & \textcolor{white}{\textbf{$A$ (kJ/mol)}} & \textcolor{white}{\textbf{$B$ (kJ/mol$\cdot$K)}} & \textcolor{white}{\textbf{O$_2$ factor}} & \textcolor{white}{\textbf{Source}} \\
+\midrule
+Cu$_2$O & $-170$ & 0.075 & 0.5 & NIST-JANAF \\
+\rowcolor{gray!15}
+CuO & $-155$ & 0.085 & 0.5 & NIST-JANAF \\
+FeO & $-264$ & 0.065 & 0.5 & NIST-JANAF \\
+\rowcolor{gray!15}
+Al$_2$O$_3$ & $-1676$ & 0.32 & 1.5 & NIST-JANAF \\
+MgO & $-601$ & 0.11 & 0.5 & NIST-JANAF \\
+\rowcolor{gray!15}
+SiO$_2$ & $-910$ & 0.18 & 1.0 & NIST-JANAF \\
+TiO$_2$ & $-944$ & 0.18 & 1.0 & NIST-JANAF \\
+\bottomrule
+\end{tabular}
+\caption{Gibbs energy parameters for oxide formation ($\Delta G_f^\circ = A + BT$). Values are approximations.}
+\end{table}
+
+\subsection{Sulfide Parameters}
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lll}
+\toprule
+\rowcolor{tableheader}
+\textcolor{white}{\textbf{Sulfide}} & \textcolor{white}{\textbf{$\Delta G_f$ approximation}} & \textcolor{white}{\textbf{Source}} \\
+\midrule
+FeS & $-150 + 0.027T$ & Literature estimate \\
+\rowcolor{gray!15}
+Cu$_2$S & $-180 + 0.032T$ & Literature estimate \\
+\bottomrule
+\end{tabular}
+\caption{Gibbs energy parameters for sulfide formation.}
+\end{table}
+
+%--------------------------------------------------
+\section{Links}
+%--------------------------------------------------
+
+\begin{itemize}[noitemsep]
+    \item \textbf{GitHub Repository:} \url{https://github.com/dimascad/honda-calphad}
+    \item \textbf{Interactive Notebook:} Open via Marimo from GitHub link
+    \item \textbf{Marimo Documentation:} \url{https://docs.marimo.io}
+\end{itemize}
+
+\end{document}

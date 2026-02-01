@@ -97,17 +97,17 @@ TiO$_2$ & Ti, O & X(Ti)=0.3333, X(O)=0.6667 & RUTILE & \texttt{tio2\_dGf.txt} \\
 FeO & Fe, O & X(Fe)=0.5, X(O)=0.5 & HALITE$^{**}$ & \texttt{feo\_dGf.txt} \\
 \bottomrule
 \end{tabular}
-\caption*{\footnotesize $^*$QUARTZ below 846K, CRISTOBALITE above; TC handles this automatically. $^{**}$FeO uses HALITE structure (NaCl-type) in SSUB.}
+\caption*{\footnotesize $^*$At 1273--1873K, SiO$_2$ is in the CRISTOBALITE or TRIDYMITE region (QUARTZ only stable below 846K); TC handles phase selection automatically. $^{**}$FeO uses HALITE structure (NaCl-type) in SSUB.}
 \end{table}
 
 \subsubsection{Stoichiometry Reference}
 
-The mole fractions come from the oxide formula:
+The mole fractions come from the oxide formula (atoms of each element / total atoms):
 \begin{align*}
 \text{Cu}_2\text{O}: \quad & \frac{2}{2+1} = 0.6667 \text{ Cu}, \quad \frac{1}{2+1} = 0.3333 \text{ O} \\
 \text{Al}_2\text{O}_3: \quad & \frac{2}{2+3} = 0.4 \text{ Al}, \quad \frac{3}{2+3} = 0.6 \text{ O} \\
-\text{MO (CuO, MgO, FeO)}: \quad & \frac{1}{1+1} = 0.5 \text{ M}, \quad \frac{1}{1+1} = 0.5 \text{ O} \\
-\text{MO}_2 \text{ (SiO}_2\text{, TiO}_2\text{)}: \quad & \frac{1}{1+2} = 0.3333 \text{ M}, \quad \frac{2}{1+2} = 0.6667 \text{ O}
+\text{CuO, MgO, FeO}: \quad & \frac{1}{1+1} = 0.5 \text{ metal}, \quad \frac{1}{1+1} = 0.5 \text{ O} \\
+\text{SiO}_2\text{, TiO}_2: \quad & \frac{1}{1+2} = 0.3333 \text{ metal}, \quad \frac{2}{1+2} = 0.6667 \text{ O}
 \end{align*}
 
 \subsection{Running the Calculation}
@@ -136,11 +136,11 @@ The mole fractions come from the oxide formula:
 \item Click \texttt{Calculate}
 \end{enumerate}
 
-\textbf{Console Mode (alternative):}
+\textbf{Console Mode (alternative, example for Cu$_2$O):}
 \begin{lstlisting}
 go poly
-s-sys Fe O
-s-c t=1273 p=101325 n=1 x(fe)=0.5 x(o)=0.5
+s-sys Cu O
+s-c t=1273 p=101325 n=1 x(cu)=0.6667 x(o)=0.3333
 c-e
 lis,,,,
 \end{lstlisting}
@@ -262,8 +262,8 @@ If ternary is complex, try a 1D cut:
 \begin{enumerate}[noitemsep]
 \item \texttt{Calculate $\rightarrow$ Property Diagram}
 \item Fix O content at Al$_2$O$_3$ stoichiometry: X(O) = 0.6
-\item Axis: vary X(Cu) from 0 to 0.3, with X(Al) = 0.4 $-$ X(Cu)$\times$(2/5)
-\item This walks from pure Al$_2$O$_3$ toward Cu-rich compositions
+\item Axis: vary X(Cu) from 0 to 0.3, with X(Al) = 0.4 $-$ X(Cu)
+\item This walks from pure Al$_2$O$_3$ toward Cu-rich compositions while maintaining 60\% oxygen
 \end{enumerate}
 
 \textit{Note: If TCOX unavailable, this calculation is limited. Document what database was actually used.}
@@ -339,7 +339,6 @@ T       GM
 Save as \texttt{data/process\_tc\_data.py}:
 
 \begin{lstlisting}[language=Python]
-import numpy as np
 import pandas as pd
 from pathlib import Path
 
@@ -347,7 +346,7 @@ RAW = Path("thermocalc/raw")
 OUT = Path("thermocalc/processed")
 OUT.mkdir(exist_ok=True)
 
-def process_oxide(filename, o2_factor, molar_mass_oxide):
+def process_oxide(filename, o2_factor):
     """Convert GM to dGf per mol O2 for Ellingham."""
     df = pd.read_csv(RAW/filename, sep='\t')
     df.columns = ['T_K', 'GM_J']
@@ -360,13 +359,13 @@ def process_oxide(filename, o2_factor, molar_mass_oxide):
     df.to_csv(OUT/out_name, index=False)
     print(f"Saved: {out_name}")
 
-# Process each oxide
-process_oxide('cu2o_dGf_1273-1873K.txt', 0.5, 143.09)
-process_oxide('al2o3_dGf_1273-1873K.txt', 1.5, 101.96)
-process_oxide('mgo_dGf_1273-1873K.txt', 0.5, 40.30)
-process_oxide('sio2_dGf_1273-1873K.txt', 1.0, 60.08)
-process_oxide('tio2_dGf_1273-1873K.txt', 1.0, 79.87)
-process_oxide('feo_dGf_1273-1873K.txt', 0.5, 71.84)
+# Process each oxide (filename, O2 factor in reaction)
+process_oxide('cu2o_dGf_1273-1873K.txt', 0.5)   # 2Cu + 1/2 O2 -> Cu2O
+process_oxide('al2o3_dGf_1273-1873K.txt', 1.5)  # 4/3 Al + O2 -> 2/3 Al2O3
+process_oxide('mgo_dGf_1273-1873K.txt', 0.5)    # Mg + 1/2 O2 -> MgO
+process_oxide('sio2_dGf_1273-1873K.txt', 1.0)   # Si + O2 -> SiO2
+process_oxide('tio2_dGf_1273-1873K.txt', 1.0)   # Ti + O2 -> TiO2
+process_oxide('feo_dGf_1273-1873K.txt', 0.5)    # Fe + 1/2 O2 -> FeO
 \end{lstlisting}
 
 %--------------------------------------------------

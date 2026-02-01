@@ -1,6 +1,6 @@
 # Honda CALPHAD: Cu Removal from Recycled Steel
 
-[![Open in Marimo](https://marimo.io/shield.svg)](https://marimo.io/p/@anthonydimascio/cu-ceramic-thermodynamics)
+[![Open in Marimo](https://marimo.io/shield.svg)](https://molab.marimo.io/notebooks/nb_ZnGGazDX6TcpFZz6w9yaw3/app)
 
 **MSE 4381 Senior Design Project | The Ohio State University | Spring 2026**
 
@@ -32,9 +32,8 @@ marimo edit simulations/pycalphad/cu_ceramic_thermodynamics.py
 ```
 
 **Option 2: Run in browser (no install)**
-```
-https://marimo.app/l/[YOUR_GIST_ID]
-```
+
+[https://molab.marimo.io/notebooks/nb_ZnGGazDX6TcpFZz6w9yaw3/app](https://molab.marimo.io/notebooks/nb_ZnGGazDX6TcpFZz6w9yaw3/app)
 
 ### What's in the Notebook
 

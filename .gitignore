@@ -26,3 +26,9 @@ env/
 *.tmp
 *.bak
 __marimo__/
+
+# LaTeX auxiliary
+*.aux
+*.log
+*.out
+*.toc

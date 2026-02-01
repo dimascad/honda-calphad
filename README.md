@@ -88,12 +88,11 @@ The notebook uses linear ΔG = A + BT approximations from literature. For proper
 - Model Cu solubility in oxide phases
 - Calculate activity coefficients and phase diagrams
 
-## Team
+## Author
 
-- Anthony DiMascio
-- Mohammed Oumer
-- Tim Kalmar
-- Aishwarya Muralidhar
+**Anthony DiMascio**
+
+MSE 4381 Senior Design, The Ohio State University
 
 **Advisors:** Prof. Alan Luo, Dr. Jianyue Zhang
 **Industry Partner:** Honda R&D (Dr. Jim Hu)

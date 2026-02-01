@@ -75,39 +75,75 @@ Examples:
 
 \subsection{For Each Oxide}
 
-Repeat the calculation (Section 2.3--2.4) for each oxide below. Change the elements and look for the corresponding phase name in the database.
+Repeat the calculation (Section 2.3--2.4) for each oxide below. Use the \textbf{exact mole fractions} shown to get stoichiometric composition.
 
 \begin{table}[h]
 \centering\small
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{llll}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lllll}
 \toprule
 \rowcolor{tableheader}
-\textcolor{white}{\textbf{Oxide}} & \textcolor{white}{\textbf{Elements}} & \textcolor{white}{\textbf{Phase to check}} & \textcolor{white}{\textbf{Output file}} \\
+\textcolor{white}{\textbf{Oxide}} & \textcolor{white}{\textbf{Elements}} & \textcolor{white}{\textbf{X (mole frac)}} & \textcolor{white}{\textbf{Phase}} & \textcolor{white}{\textbf{Output file}} \\
 \midrule
-Cu$_2$O & Cu, O & CU2O\_S & \texttt{cu2o\_dGf\_1273-1873K.txt} \\
+Cu$_2$O & Cu, O & X(Cu)=0.6667, X(O)=0.3333 & CU2O\_S & \texttt{cu2o\_dGf.txt} \\
 \rowcolor{gray!15}
-CuO & Cu, O & CUO\_S & \texttt{cuo\_dGf\_1273-1873K.txt} \\
-Al$_2$O$_3$ & Al, O & CORUNDUM & \texttt{al2o3\_dGf\_1273-1873K.txt} \\
+CuO & Cu, O & X(Cu)=0.5, X(O)=0.5 & CUO\_S & \texttt{cuo\_dGf.txt} \\
+Al$_2$O$_3$ & Al, O & X(Al)=0.4, X(O)=0.6 & CORUNDUM & \texttt{al2o3\_dGf.txt} \\
 \rowcolor{gray!15}
-MgO & Mg, O & PERICLASE & \texttt{mgo\_dGf\_1273-1873K.txt} \\
-SiO$_2$ & Si, O & QUARTZ / CRISTOBALITE & \texttt{sio2\_dGf\_1273-1873K.txt} \\
+MgO & Mg, O & X(Mg)=0.5, X(O)=0.5 & PERICLASE & \texttt{mgo\_dGf.txt} \\
+SiO$_2$ & Si, O & X(Si)=0.3333, X(O)=0.6667 & QUARTZ$^*$ & \texttt{sio2\_dGf.txt} \\
 \rowcolor{gray!15}
-TiO$_2$ & Ti, O & RUTILE & \texttt{tio2\_dGf\_1273-1873K.txt} \\
-FeO & Fe, O & WUSTITE & \texttt{feo\_dGf\_1273-1873K.txt} \\
+TiO$_2$ & Ti, O & X(Ti)=0.3333, X(O)=0.6667 & RUTILE & \texttt{tio2\_dGf.txt} \\
+FeO & Fe, O & X(Fe)=0.5, X(O)=0.5 & HALITE$^{**}$ & \texttt{feo\_dGf.txt} \\
 \bottomrule
 \end{tabular}
+\caption*{\footnotesize $^*$QUARTZ below 846K, CRISTOBALITE above; TC handles this automatically. $^{**}$FeO uses HALITE structure (NaCl-type) in SSUB.}
 \end{table}
+
+\subsubsection{Stoichiometry Reference}
+
+The mole fractions come from the oxide formula:
+\begin{align*}
+\text{Cu}_2\text{O}: \quad & \frac{2}{2+1} = 0.6667 \text{ Cu}, \quad \frac{1}{2+1} = 0.3333 \text{ O} \\
+\text{Al}_2\text{O}_3: \quad & \frac{2}{2+3} = 0.4 \text{ Al}, \quad \frac{3}{2+3} = 0.6 \text{ O} \\
+\text{MO (CuO, MgO, FeO)}: \quad & \frac{1}{1+1} = 0.5 \text{ M}, \quad \frac{1}{1+1} = 0.5 \text{ O} \\
+\text{MO}_2 \text{ (SiO}_2\text{, TiO}_2\text{)}: \quad & \frac{1}{1+2} = 0.3333 \text{ M}, \quad \frac{2}{1+2} = 0.6667 \text{ O}
+\end{align*}
 
 \subsection{Running the Calculation}
 
+\textbf{In Thermo-Calc Graphical Mode:}
+
 \begin{enumerate}[noitemsep]
-\item \texttt{Equilibrium Calculator $\rightarrow$ Property Diagram}
-\item Axis variable: \textbf{T} from 1273 to 1873 K, step 25 K
-\item Set composition to stoichiometric oxide (e.g., 66.67\% Cu, 33.33\% O for Cu$_2$O)
-\item Add to plot: \texttt{GM(*)} (Gibbs energy of system)
-\item \texttt{Perform $\rightarrow$ Calculate}
+\item \texttt{Calculate $\rightarrow$ Property Diagram}
+\item \textbf{Axis Variable:}
+    \begin{itemize}[noitemsep]
+    \item Variable: \texttt{T} (Temperature)
+    \item Min: \texttt{1273} K
+    \item Max: \texttt{1873} K
+    \item Step: \texttt{25} K (gives 25 data points)
+    \end{itemize}
+\item \textbf{Conditions:}
+    \begin{itemize}[noitemsep]
+    \item \texttt{P = 101325} (1 atm, in Pa)
+    \item \texttt{N = 1} (1 mole total)
+    \item \texttt{X(element)} = values from Table 1
+    \end{itemize}
+\item \textbf{Output:}
+    \begin{itemize}[noitemsep]
+    \item Add: \texttt{GM} (Gibbs energy of entire system, J/mol)
+    \end{itemize}
+\item Click \texttt{Calculate}
 \end{enumerate}
+
+\textbf{Console Mode (alternative):}
+\begin{lstlisting}
+go poly
+s-sys Fe O
+s-c t=1273 p=101325 n=1 x(fe)=0.5 x(o)=0.5
+c-e
+lis,,,,
+\end{lstlisting}
 
 \subsection{Exporting}
 
@@ -128,24 +164,54 @@ FeO & Fe, O & WUSTITE & \texttt{feo\_dGf\_1273-1873K.txt} \\
 
 \subsection{Setup}
 \begin{enumerate}[noitemsep]
-\item Database: \textbf{TCFE} (Steels/Fe-alloys)
-\item System: \texttt{Fe, Cu}
-\item Phase: \texttt{LIQUID}
+\item Database: \textbf{TCFE} (Steels/Fe-alloys database)
+\item \texttt{Define System}: select \texttt{Fe}, \texttt{Cu}
+\item Reject all phases except \texttt{LIQUID} (we only want liquid steel)
 \end{enumerate}
 
 \subsection{Calculation A: Activity vs Composition at 1873K}
+
+Shows how Cu activity changes with Cu content at fixed temperature.
+
 \begin{enumerate}[noitemsep]
-\item Property Diagram, axis: \texttt{X(Cu)} from 0 to 0.05 (0--5\%)
-\item Fixed: $T = 1873$ K
-\item Plot: \texttt{AC(Cu)} (activity of Cu)
+\item \texttt{Calculate $\rightarrow$ Property Diagram}
+\item \textbf{Axis Variable:}
+    \begin{itemize}[noitemsep]
+    \item Variable: \texttt{X(Cu)}
+    \item Min: \texttt{0.0001} (avoid zero)
+    \item Max: \texttt{0.05} (5 mol\%)
+    \item Step: \texttt{0.001}
+    \end{itemize}
+\item \textbf{Conditions:}
+    \begin{itemize}[noitemsep]
+    \item \texttt{T = 1873} K
+    \item \texttt{P = 101325} Pa
+    \item \texttt{N = 1}
+    \end{itemize}
+\item \textbf{Output:} \texttt{AC(Cu)} (activity of Cu, reference: pure liquid Cu)
 \item Export: \texttt{fe-cu\_activity-vs-xcu\_1873K.txt}
 \end{enumerate}
 
 \subsection{Calculation B: Activity vs Temperature at 0.3\% Cu}
+
+Shows how temperature affects Cu activity at typical contamination level.
+
 \begin{enumerate}[noitemsep]
-\item Property Diagram, axis: \texttt{T} from 1773 to 1973 K
-\item Fixed: \texttt{X(Cu)} = 0.003
-\item Plot: \texttt{AC(Cu)}
+\item \texttt{Calculate $\rightarrow$ Property Diagram}
+\item \textbf{Axis Variable:}
+    \begin{itemize}[noitemsep]
+    \item Variable: \texttt{T}
+    \item Min: \texttt{1773} K (1500°C)
+    \item Max: \texttt{1973} K (1700°C)
+    \item Step: \texttt{10} K
+    \end{itemize}
+\item \textbf{Conditions:}
+    \begin{itemize}[noitemsep]
+    \item \texttt{X(Cu) = 0.003} (0.3 mol\% $\approx$ 0.3 wt\%)
+    \item \texttt{P = 101325} Pa
+    \item \texttt{N = 1}
+    \end{itemize}
+\item \textbf{Output:} \texttt{AC(Cu)}
 \item Export: \texttt{fe-cu\_activity-vs-T\_xcu003.txt}
 \end{enumerate}
 
@@ -153,42 +219,106 @@ FeO & Fe, O & WUSTITE & \texttt{feo\_dGf\_1273-1873K.txt} \\
 \section{Calculation 3: Cu-Al-O Phase Diagram}
 %--------------------------------------------------
 
-\textbf{Goal:} What phases exist when Cu contacts Al$_2$O$_3$?
+\textbf{Goal:} What phases exist when Cu contacts Al$_2$O$_3$? Are spinels (CuAl$_2$O$_4$) stable?
 
-\subsection{Setup}
+\subsection{Check Database Availability}
+
 \begin{enumerate}[noitemsep]
-\item Database: \textbf{TCOX} (Oxides) --- \textit{check if available}
-\item System: \texttt{Cu, Al, O}
+\item In Thermo-Calc: \texttt{Database $\rightarrow$ Database Manager}
+\item Look for: \textbf{TCOX} (Metal Oxide Solutions Database)
+\item If unavailable: use \textbf{SSUB} (has stoichiometric oxides only, no solutions)
+\end{enumerate}
+
+\subsection{Setup (if TCOX available)}
+\begin{enumerate}[noitemsep]
+\item Database: \textbf{TCOX}
+\item \texttt{Define System}: select \texttt{Cu}, \texttt{Al}, \texttt{O}
+\item Keep all phases (to see what's stable)
 \end{enumerate}
 
 \subsection{Isothermal Section at 1873K}
+
 \begin{enumerate}[noitemsep]
-\item \texttt{Phase Diagram $\rightarrow$ Ternary}
-\item Fix $T = 1873$ K, $P = 1$ atm
-\item Generate diagram
-\item Export tie-lines/phase boundaries as table
-\item Save: \texttt{cu-al-o\_isotherm\_1873K.txt}
+\item \texttt{Calculate $\rightarrow$ Phase Diagram $\rightarrow$ Ternary}
+\item \textbf{Conditions:}
+    \begin{itemize}[noitemsep]
+    \item \texttt{T = 1873} K (fixed)
+    \item \texttt{P = 101325} Pa (fixed)
+    \end{itemize}
+\item \textbf{Axes:} Cu-Al-O composition triangle (automatic)
+\item Click \texttt{Calculate}
+\item Look for:
+    \begin{itemize}[noitemsep]
+    \item CORUNDUM (Al$_2$O$_3$) --- does it have Cu solubility?
+    \item SPINEL (CuAl$_2$O$_4$) --- is this phase stable?
+    \item LIQUID regions --- where does Cu melt?
+    \end{itemize}
 \end{enumerate}
 
-\textit{Note: If TCOX unavailable, check SSUB for limited oxide data.}
+\subsection{Alternative: Pseudo-Binary Cu--Al$_2$O$_3$}
+
+If ternary is complex, try a 1D cut:
+
+\begin{enumerate}[noitemsep]
+\item \texttt{Calculate $\rightarrow$ Property Diagram}
+\item Fix O content at Al$_2$O$_3$ stoichiometry: X(O) = 0.6
+\item Axis: vary X(Cu) from 0 to 0.3, with X(Al) = 0.4 $-$ X(Cu)$\times$(2/5)
+\item This walks from pure Al$_2$O$_3$ toward Cu-rich compositions
+\end{enumerate}
+
+\textit{Note: If TCOX unavailable, this calculation is limited. Document what database was actually used.}
 
 %--------------------------------------------------
 \section{Calculation 4: Cu Solubility in Al$_2$O$_3$}
 %--------------------------------------------------
 
-\textbf{Goal:} Maximum Cu that dissolves in alumina vs temperature.
+\textbf{Goal:} Maximum Cu that dissolves in alumina vs temperature. This is the key data for predicting ceramic capture capacity.
 
-This requires checking if the database models Cu solubility in the CORUNDUM phase.
+\subsection{Check if Modeled}
+
+First, check if CORUNDUM is a \textit{solution phase} or \textit{stoichiometric}:
 
 \begin{enumerate}[noitemsep]
-\item System: Cu-Al-O, database TCOX
-\item Fix Al$_2$O$_3$ composition (Al:O = 2:3)
-\item Step temperature 1273--1873 K
-\item Check: \texttt{X(CORUNDUM,Cu)} if available
+\item \texttt{Database $\rightarrow$ List Phase Status}
+\item Find CORUNDUM
+\item If it shows constituent species including Cu $\rightarrow$ solubility is modeled
+\item If only Al:O $\rightarrow$ stoichiometric, no Cu solubility (limitation)
+\end{enumerate}
+
+\subsection{If Cu Solubility is Modeled}
+
+\begin{enumerate}[noitemsep]
+\item Database: \textbf{TCOX}
+\item System: \texttt{Cu, Al, O}
+\item \texttt{Calculate $\rightarrow$ Property Diagram}
+\item \textbf{Axis:} \texttt{T} from 1273 to 1873 K, step 25 K
+\item \textbf{Conditions:}
+    \begin{itemize}[noitemsep]
+    \item Set system in two-phase region: CORUNDUM + LIQUID or CORUNDUM + CU2O
+    \item \texttt{P = 101325} Pa
+    \end{itemize}
+\item \textbf{Output:} \texttt{X(CORUNDUM,Cu)} --- mole fraction Cu in corundum phase
 \item Export: \texttt{al2o3\_cu-solubility\_1273-1873K.txt}
 \end{enumerate}
 
-\textit{If not modeled:} Note this as a limitation; the database may treat Al$_2$O$_3$ as a stoichiometric compound with no Cu solubility.
+\subsection{If NOT Modeled (Stoichiometric)}
+
+Document this limitation:
+\begin{itemize}[noitemsep]
+\item The database treats Al$_2$O$_3$ as a line compound with zero Cu solubility
+\item Real Al$_2$O$_3$ may dissolve small amounts of Cu at high T (literature values needed)
+\item Search literature for experimental Cu solubility data in Al$_2$O$_3$
+\item Add to \texttt{data/literature/} folder
+\end{itemize}
+
+\subsection{Repeat for Other Ceramics}
+
+If time permits, check Cu solubility in:
+\begin{itemize}[noitemsep]
+\item MgO (PERICLASE phase)
+\item TiO$_2$ (RUTILE phase)
+\item Spinels (SPINEL phase) --- may have higher Cu capacity
+\end{itemize}
 
 %--------------------------------------------------
 \section{Data Processing}

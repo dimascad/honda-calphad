@@ -1,6 +1,6 @@
 # Honda CALPHAD: Cu Removal from Recycled Steel
 
-[![Open in Marimo](https://marimo.io/shield.svg)](https://molab.marimo.io/notebooks/nb_ZnGGazDX6TcpFZz6w9yaw3/app)
+[![Open in Marimo](https://marimo.io/shield.svg)](https://molab.marimo.io/https://github.com/dimascad/honda-calphad/blob/main/simulations/pycalphad/cu_ceramic_thermodynamics.py)
 
 **MSE 4381 Senior Design Project | The Ohio State University | Spring 2026**
 
@@ -26,7 +26,7 @@ This project uses CALPHAD (CALculation of PHAse Diagrams) simulation to identify
 ### 1. Preliminary Analysis (Approximations)
 **Ellingham diagram with temperature slider — uses linearized thermodynamic data**
 
-- [Run in browser (Molab)](https://molab.marimo.io/notebooks/nb_ZnGGazDX6TcpFZz6w9yaw3/app)
+- [Run in browser (Molab)](https://molab.marimo.io/https://github.com/dimascad/honda-calphad/blob/main/simulations/pycalphad/cu_ceramic_thermodynamics.py)
 - Local: `marimo edit simulations/pycalphad/cu_ceramic_thermodynamics.py`
 
 ### 2. Cu-O System (Real CALPHAD Database)

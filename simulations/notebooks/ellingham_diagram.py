@@ -56,13 +56,18 @@ def _(mo):
 @app.cell
 def _(Path, pd):
     # Load TC-Python extracted data
-    data_path = Path(__file__).parent.parent.parent / "data" / "tcpython" / "raw" / "oxide_gibbs_energies.csv"
+    # Try local path first, fall back to GitHub raw URL for Molab
+    local_path = Path(__file__).parent.parent.parent / "data" / "tcpython" / "raw" / "oxide_gibbs_energies.csv"
+    github_url = "https://raw.githubusercontent.com/dimascad/honda-calphad/main/data/tcpython/raw/oxide_gibbs_energies.csv"
 
-    # Fallback for marimo cloud or if path doesn't exist
-    if not data_path.exists():
-        data_path = Path("../../data/tcpython/raw/oxide_gibbs_energies.csv")
-
-    df = pd.read_csv(data_path)
+    try:
+        if local_path.exists():
+            df = pd.read_csv(local_path)
+        else:
+            df = pd.read_csv(github_url)
+    except:
+        # Molab fallback - __file__ doesn't exist
+        df = pd.read_csv(github_url)
 
     # Extract relevant columns for Ellingham diagram
     T_K = df['T_K'].values

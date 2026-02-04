@@ -19,16 +19,15 @@ SCRIPT_DIR = Path(__file__).parent
 OUTPUT_DIR = SCRIPT_DIR.parent.parent / "data" / "tcpython" / "raw"
 OUTPUT_FILE = OUTPUT_DIR / "oxide_gibbs_energies.csv"
 
-# Oxide compositions: X(Metal), X(O) for stoichiometric oxide
-# These will find equilibrium and get the oxide phase Gibbs energy
+# Oxide compositions: X(O) for stoichiometric oxide
 OXIDES = {
-    "Cu2O": {"elements": ["CU", "O"], "X_O": 0.333},   # Cu2O: 2Cu + 1O
-    "CuO":  {"elements": ["CU", "O"], "X_O": 0.500},   # CuO: 1Cu + 1O
-    "Al2O3":{"elements": ["AL", "O"], "X_O": 0.600},   # Al2O3: 2Al + 3O
-    "MgO":  {"elements": ["MG", "O"], "X_O": 0.500},   # MgO: 1Mg + 1O
-    "SiO2": {"elements": ["SI", "O"], "X_O": 0.667},   # SiO2: 1Si + 2O
-    "TiO2": {"elements": ["TI", "O"], "X_O": 0.667},   # TiO2: 1Ti + 2O
-    "FeO":  {"elements": ["FE", "O"], "X_O": 0.500},   # FeO: 1Fe + 1O
+    "Cu2O": {"elements": ["CU", "O"], "X_O": 0.333},
+    "CuO":  {"elements": ["CU", "O"], "X_O": 0.500},
+    "Al2O3":{"elements": ["AL", "O"], "X_O": 0.600},
+    "MgO":  {"elements": ["MG", "O"], "X_O": 0.500},
+    "SiO2": {"elements": ["SI", "O"], "X_O": 0.667},
+    "TiO2": {"elements": ["TI", "O"], "X_O": 0.667},
+    "FeO":  {"elements": ["FE", "O"], "X_O": 0.500},
 }
 
 def main():
@@ -49,13 +48,14 @@ def main():
             elements = config["elements"]
             X_O = config["X_O"]
 
-            print(f"Processing {oxide_name} ({elements})...")
+            print(f"Processing {oxide_name} ({elements}, X_O={X_O})...")
 
             try:
                 system = (session
                     .select_database_and_elements("TCOX14", elements)
                     .get_system())
 
+                success_count = 0
                 for T in temperatures:
                     try:
                         calc = system.with_single_equilibrium_calculation()
@@ -65,7 +65,6 @@ def main():
 
                         result = calc.calculate()
 
-                        # Get total Gibbs energy and stable phases
                         G = result.get_value_of("G")
                         GM = result.get_value_of("GM")
                         stable = result.get_stable_phases()
@@ -73,31 +72,33 @@ def main():
                         results[T][f"G_{oxide_name}"] = G
                         results[T][f"GM_{oxide_name}"] = GM
                         results[T][f"phases_{oxide_name}"] = ";".join(stable)
+                        success_count += 1
 
-                    except Exception as e:
+                    except Exception as inner_e:
                         results[T][f"G_{oxide_name}"] = None
                         results[T][f"GM_{oxide_name}"] = None
-                        results[T][f"phases_{oxide_name}"] = f"Error: {e}"
+                        results[T][f"phases_{oxide_name}"] = f"CalcError"
 
-                # Sample output
-                sample_T = 1273
-                if results[sample_T].get(f"GM_{oxide_name}"):
-                    print(f"  GM at 1000C: {results[sample_T][f'GM_{oxide_name}']:.0f} J/mol")
+                print(f"  Completed: {success_count}/{len(temperatures)} temperatures")
+
+                # Sample output at T=1000 (index ~10)
+                sample_T = 1000
+                if sample_T in results and results[sample_T].get(f"GM_{oxide_name}"):
+                    print(f"  GM at {sample_T}K: {results[sample_T][f'GM_{oxide_name}']:.0f} J/mol")
                     print(f"  Phases: {results[sample_T][f'phases_{oxide_name}']}")
 
             except Exception as e:
-                print(f"  ERROR: {e}")
+                print(f"  SYSTEM ERROR: {e}")
                 for T in temperatures:
                     results[T][f"G_{oxide_name}"] = None
                     results[T][f"GM_{oxide_name}"] = None
-                    results[T][f"phases_{oxide_name}"] = f"Error: {e}"
+                    results[T][f"phases_{oxide_name}"] = f"SysError"
 
             print()
 
     # Write CSV
     print(f"Writing to {OUTPUT_FILE}")
 
-    # Build fieldnames
     fieldnames = ["T_K", "T_C"]
     for oxide in OXIDES.keys():
         fieldnames.extend([f"G_{oxide}", f"GM_{oxide}", f"phases_{oxide}"])
@@ -110,8 +111,6 @@ def main():
             writer.writerow(row)
 
     print(f"Done! {len(temperatures)} rows written.")
-    print("=" * 70)
-    print("Next: Copy the CSV to your Mac and process it.")
     print("=" * 70)
 
 

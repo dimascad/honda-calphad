@@ -61,18 +61,47 @@ def _(mo):
 
     $$\Delta G_f° = \Delta H_f° - T \Delta S_f° \approx A + BT$$
 
-    where $A$ is the enthalpy contribution and $B$ is the entropy contribution.
+    where:
+    - $A \approx \Delta H_f°(298K)$ — standard enthalpy of formation
+    - $B \approx -\Delta S_f°$ — negative of standard entropy of formation
 
-    Values below are approximations from NIST-JANAF and Barin thermochemical tables.
+    **⚠️ Data Source Note:**
+    The values below are **linearized approximations** derived from standard thermodynamic tables.
+    The A coefficients match published enthalpies of formation (e.g., Cu₂O: -170.59 kJ/mol from
+    Holmes et al. 1989; Al₂O₃: -1675.3 kJ/mol from NIST). The B coefficients were estimated from
+    standard entropies. This linearization is valid for limited temperature ranges but does not
+    account for heat capacity variations with temperature.
+
+    **For rigorous CALPHAD calculations**, use Thermo-Calc with proper assessed databases (TCOX, SSUB)
+    or pyCALPHAD with validated TDB files. See the companion notebook `cu_al_o_pycalphad.py` for
+    database-sourced calculations.
     """)
     return
 
 
 @app.cell
 def _(np):
-    # Oxide thermodynamic data
+    # ==========================================================================
+    # OXIDE THERMODYNAMIC DATA (APPROXIMATE VALUES)
+    # ==========================================================================
     # Format: 'name': (A, B, O2_factor, color, linestyle, reaction_str)
-    # dGf = A + B*T (kJ/mol), normalized by O2_factor for Ellingham
+    # Model: ΔGf° ≈ A + B·T (kJ/mol), where A ≈ ΔHf°(298K), B ≈ -ΔSf°
+    # Normalized by O2_factor for Ellingham diagram (per mole O₂)
+    #
+    # ⚠️ THESE ARE LINEARIZED APPROXIMATIONS, NOT DATABASE VALUES
+    #
+    # Data sources for A (enthalpy) coefficients:
+    #   Cu₂O: -170.59 kJ/mol — Holmes et al. (1989) J. Chem. Thermodynamics 21:351
+    #   CuO:  -156 kJ/mol (approx) — NIST-JANAF, needs verification
+    #   FeO:  -272 kJ/mol — NIST-JANAF (wüstite, non-stoichiometric)
+    #   Al₂O₃: -1675.7 kJ/mol — NIST WebBook (alpha-corundum)
+    #   MgO:  -601.6 kJ/mol — NIST-JANAF
+    #   SiO₂: -910.7 kJ/mol — NIST-JANAF (alpha-quartz)
+    #   TiO₂: -944.0 kJ/mol — NIST-JANAF (rutile)
+    #
+    # B coefficients estimated from: B ≈ -ΔSf° = -[S°(oxide) - S°(elements)]
+    # These are rough estimates and introduce error at high temperatures.
+    # ==========================================================================
 
     oxide_data = {
         'Cu₂O': (-170, 0.075, 0.5, '#0077BB', '-', '2Cu + ½O₂ → Cu₂O'),

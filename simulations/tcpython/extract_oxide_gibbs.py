@@ -35,12 +35,14 @@ OUTPUT_FILE = OUTPUT_DIR / "oxide_gibbs_energies.csv"
 OXIDES = {
     # name: elements, X_O for oxide, metal_coeff per O2, oxide_coeff per O2, phase_patterns
     # phase_patterns: TC phase names to search for (in priority order)
+    # atoms_per_formula: number of atoms in one formula unit (for GM normalization)
     "Cu2O": {
         "elements": ["CU", "O"],
         "X_O": 0.333,  # Cu2O = 2Cu + 1O, X_O = 1/3
         "metal_per_O2": 4,     # 4Cu + O2 -> 2Cu2O
         "oxide_per_O2": 2,
         "phase_patterns": ["CUPRITE", "CU2O"],
+        "atoms_per_formula": 3,  # Cu2O = 2+1 = 3 atoms
     },
     "CuO": {
         "elements": ["CU", "O"],
@@ -48,6 +50,7 @@ OXIDES = {
         "metal_per_O2": 2,     # 2Cu + O2 -> 2CuO
         "oxide_per_O2": 2,
         "phase_patterns": ["CUO", "TENORITE"],
+        "atoms_per_formula": 2,  # CuO = 1+1 = 2 atoms
     },
     "Al2O3": {
         "elements": ["AL", "O"],
@@ -55,6 +58,7 @@ OXIDES = {
         "metal_per_O2": 4/3,   # 4/3Al + O2 -> 2/3Al2O3
         "oxide_per_O2": 2/3,
         "phase_patterns": ["CORUNDUM", "AL2O3"],
+        "atoms_per_formula": 5,  # Al2O3 = 2+3 = 5 atoms
     },
     "MgO": {
         "elements": ["MG", "O"],
@@ -62,6 +66,7 @@ OXIDES = {
         "metal_per_O2": 2,     # 2Mg + O2 -> 2MgO
         "oxide_per_O2": 2,
         "phase_patterns": ["HALITE", "MGO", "PERICLASE"],
+        "atoms_per_formula": 2,  # MgO = 1+1 = 2 atoms
     },
     "SiO2": {
         "elements": ["SI", "O"],
@@ -69,6 +74,7 @@ OXIDES = {
         "metal_per_O2": 1,     # Si + O2 -> SiO2
         "oxide_per_O2": 1,
         "phase_patterns": ["QUARTZ", "SIO2", "TRIDYMITE", "CRISTOBALITE"],
+        "atoms_per_formula": 3,  # SiO2 = 1+2 = 3 atoms
     },
     "TiO2": {
         "elements": ["TI", "O"],
@@ -76,6 +82,7 @@ OXIDES = {
         "metal_per_O2": 1,     # Ti + O2 -> TiO2
         "oxide_per_O2": 1,
         "phase_patterns": ["RUTILE", "TIO2", "ANATASE"],
+        "atoms_per_formula": 3,  # TiO2 = 1+2 = 3 atoms
     },
     "FeO": {
         "elements": ["FE", "O"],
@@ -83,6 +90,7 @@ OXIDES = {
         "metal_per_O2": 2,     # 2Fe + O2 -> 2FeO
         "oxide_per_O2": 2,
         "phase_patterns": ["HALITE", "FEO", "WUSTITE"],  # FeO is halite structure
+        "atoms_per_formula": 2,  # FeO = 1+1 = 2 atoms
     },
 }
 
@@ -119,8 +127,9 @@ def main():
         print("Connected to Thermo-Calc")
 
         # First, get O2 gas reference energy at each temperature
+        # Note: GM returns per mole of O atoms, so multiply by 2 for O2 molecule
         print("\n--- Getting O2 reference energies ---")
-        G_O2 = {}
+        G_O2_per_mol_O2 = {}
         try:
             o2_system = session.select_database_and_elements("TCOX14", ["O"]).get_system()
             for T in temperatures:
@@ -128,13 +137,14 @@ def main():
                 calc.set_condition(ThermodynamicQuantity.temperature(), T)
                 calc.set_condition(ThermodynamicQuantity.pressure(), 101325)
                 result = calc.calculate()
-                # O2 gas should be stable phase
-                G_O2[T] = result.get_value_of("GM")  # per mole O
-            print(f"  O2 reference at 1000K: {G_O2.get(1000, 'N/A')} J/mol-O")
+                # GM is per mole O atoms; multiply by 2 for per mole O2
+                GM_O = result.get_value_of("GM")
+                G_O2_per_mol_O2[T] = 2 * GM_O
+            print(f"  O2 reference at 1000K: {G_O2_per_mol_O2.get(1000, 'N/A')} J/mol-O2")
         except Exception as e:
             print(f"  ERROR getting O2: {e}")
             print("  Using G_O2 = 0 (SER reference)")
-            G_O2 = {T: 0 for T in temperatures}
+            G_O2_per_mol_O2 = {T: 0 for T in temperatures}
 
         # Process each oxide
         for oxide_name, config in OXIDES.items():
@@ -185,12 +195,18 @@ def main():
                         # Calculate dG_f per mole O2
                         metal_coeff = config["metal_per_O2"]
                         oxide_coeff = config["oxide_per_O2"]
+                        atoms_per_formula = config["atoms_per_formula"]
 
                         # Use individual phase energy if available, else fall back to system
                         GM_for_calc = GM_oxide if GM_oxide else GM_system
 
-                        # dG per mole O2 = oxide_coeff*GM_oxide - metal_coeff*GM_metal - GM_O2
-                        dG_per_O2 = oxide_coeff * GM_for_calc - metal_coeff * G_metal[T] - G_O2[T]
+                        # IMPORTANT: GM is per mole of ATOMS/SITES, not per formula unit
+                        # Convert to per formula unit: G_formula = GM * atoms_per_formula
+                        G_oxide_per_formula = GM_for_calc * atoms_per_formula
+
+                        # dG per mole O2 = oxide_coeff*G(oxide) - metal_coeff*G(metal) - G(O2)
+                        # G_metal is already per mole of metal atoms (which = per formula unit for elements)
+                        dG_per_O2 = oxide_coeff * G_oxide_per_formula - metal_coeff * G_metal[T] - G_O2_per_mol_O2[T]
                         results[T][f"dG_{oxide_name}_per_O2"] = dG_per_O2
 
                         success += 1

@@ -111,9 +111,12 @@ honda-calphad/
 
 | Data | Source | Location |
 |------|--------|----------|
-| Cu-O thermodynamics | Schramm et al. (2005), *J. Phase Equilib. Diff.* 26:605 | `databases/cuo.tdb` |
-| Oxide ΔGf approximations | NIST-JANAF, Barin tables | Documented in `cu_ceramic_thermodynamics.py` |
-| Cu-Al-O phases | Thermo-Calc TCOX14 database | TC-Python (OSU license) |
+| **Cu-O** (CALPHAD) | Schramm et al. (2005), *J. Phase Equilib. Diff.* 26:605 | `databases/cuo.tdb` |
+| **Fe-O** (CALPHAD) | NIMS (2011), Kjellqvist & Selleby (2010) | `databases/fe_o.tdb` |
+| Al₂O₃, MgO, SiO₂, TiO₂ | NIST-JANAF linearized approximations | `cu_ceramic_thermodynamics.py` |
+| Cu-Al-O ternary | Thermo-Calc TCOX14 database | TC-Python (OSU license) |
+
+**Note:** Full CALPHAD databases for Al-O, Mg-O, Si-O, Ti-O require [NIMS CPDDB](https://cpddb.nims.go.jp/) access or commercial databases (TCOX). The linearized approximations are adequate for Ellingham diagram comparisons.
 
 ## Requirements
 

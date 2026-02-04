@@ -1,82 +1,80 @@
 # TC-Python Scripts
 
-Scripts in this folder run on OSU lab machines with ThermoCalc 2025b.
+Scripts for extracting thermodynamic data from Thermo-Calc on OSU lab machines.
 
-## Setup (Lab Machine)
+## Available Scripts
 
-**Python path:**
+| Script | Purpose |
+|--------|---------|
+| `check_databases.py` | **Run first!** Lists available databases and phases |
+| `extract_oxide_gibbs.py` | Extracts Gibbs energies for Ellingham diagram (Al2O3, MgO, etc.) |
+| `cu_al_o_phase_stability.py` | Cu-Al-O ternary phase diagram calculations |
+
+## Quick Start (Lab Machine)
+
+### Step 1: Get the scripts onto the lab machine
+
+**Option A: Download ZIP from GitHub**
+1. Go to https://github.com/dimascad/honda-calphad
+2. Click green "Code" button → "Download ZIP"
+3. Extract to `C:\Users\YOUR_NAME\Documents\honda-calphad`
+
+**Option B: Git clone (if git is installed)**
+```cmd
+cd C:\Users\YOUR_NAME\Documents
+git clone https://github.com/dimascad/honda-calphad.git
+```
+
+### Step 2: Run a script
+
+```cmd
+cd C:\Users\YOUR_NAME\Documents\honda-calphad\simulations\tcpython
+"C:\Program Files\Thermo-Calc\2025b\python\python.exe" check_databases.py
+```
+
+Or use the batch file:
+```cmd
+run_on_lab.bat check_databases.py
+```
+
+### Step 3: Get results back
+
+Output goes to: `data\tcpython\raw\`
+
+**Option A: Copy files manually**
+- Copy the CSV files to OneDrive, USB, or email to yourself
+
+**Option B: Git push (if available)**
+```cmd
+git add data/tcpython/
+git commit -m "TC-Python: oxide Gibbs energies"
+git push
+```
+
+## TC-Python Path
+
 ```
 C:\Program Files\Thermo-Calc\2025b\python\python.exe
 ```
 
-**First time only:**
-```cmd
-cd C:\Users\dimascio.12\Documents
-git clone https://github.com/dimascad/honda-calphad.git
-```
+## Database Reference
 
-## Workflow
-
-### 1. Write scripts locally (your Mac)
-Edit scripts in this folder using VS Code, then:
-```bash
-git add . && git commit -m "Update TC-Python script" && git push
-```
-
-### 2. Run on lab machine
-```cmd
-cd C:\Users\dimascio.12\Documents\honda-calphad
-git pull
-"C:\Program Files\Thermo-Calc\2025b\python\python.exe" simulations\tcpython\SCRIPT_NAME.py
-```
-
-### 3. Push results back
-```cmd
-git add data/tcpython/
-git commit -m "TC-Python output: description"
-git push
-```
-
-### 4. Pull results locally
-```bash
-git pull
-# Data now in data/tcpython/ - analyze in Marimo
-```
-
-## TC-Python API Quick Reference
-
-```python
-from tc_python import *
-
-with TCPython() as session:
-    # List databases
-    print(session.get_databases())
-
-    # Set up system
-    system = session.select_database_and_elements('TCOX14', ['Cu', 'Al', 'O'])
-
-    # Equilibrium calculation
-    calc = system.with_single_equilibrium_calculation()
-    calc.set_condition('T', 1273)      # Temperature in Kelvin
-    calc.set_condition('P', 101325)    # Pressure in Pa
-    calc.set_condition('X(Al)', 0.4)   # Mole fraction
-    calc.set_condition('X(O)', 0.5)
-
-    result = calc.calculate()
-    print(result.get_stable_phases())
-```
-
-## Available Databases (Relevant to Project)
-
-| Database | Description |
-|----------|-------------|
-| TCOX14 | Oxide systems (Cu-Al-O phase diagrams) |
+| Database | Contents |
+|----------|----------|
+| SSUB6/SSUB5 | Pure substances - Gibbs energies |
+| TCOX14 | Oxide systems (Cu-Al-O, etc.) |
+| TCFE14 | Steel/iron systems |
 | TCCU6 | Copper alloys |
-| TCFE14 | Iron/steel (Cu in Fe melt) |
-| SSUB3 | Pure substances (Gibbs energies) |
-| MOBCU5 | Copper mobility (diffusion) |
 
-## Output Convention
+Run `check_databases.py` first to see what's actually available!
 
-Scripts should save data to `../../data/tcpython/raw/` as CSV or JSON.
-Processing scripts on local machine move cleaned data to `processed/`.
+## Output Format
+
+Scripts output CSV files to `../../data/tcpython/raw/`:
+
+```
+T_K,T_C,dG_Cu2O_per_O2,dG_CuO_per_O2,dG_Al2O3_per_O2,...
+500,226.85,-264000,-220000,-1010000,...
+```
+
+These can be loaded directly into the visualization notebooks.

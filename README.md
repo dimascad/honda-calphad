@@ -32,8 +32,12 @@ This project uses CALPHAD (CALculation of PHAse Diagrams) simulation to identify
 ### 2. Cu-O System (Real CALPHAD Database)
 **Proper pyCALPHAD calculations using NIMS/Schramm (2005) database**
 
-- Local: `marimo edit simulations/pycalphad/cu_o_pycalphad.py`
+- **Molab version** (no dependencies): `cu_o_visualization.py` — loads pre-computed CSV
+- **Local version** (requires pyCALPHAD): `cu_o_pycalphad.py` — runs calculations live
+- **Data generator**: `compute_cu_o_data.py` — pre-computes and saves to CSV
 - Database: `databases/cuo.tdb` — Schramm et al. (2005), *J. Phase Equilibria and Diffusion*, 26(6), 605-612
+
+> **Note:** Molab doesn't have pyCALPHAD installed, so we pre-compute data locally and the Molab notebook loads from CSV or uses embedded data.
 
 ### 3. TC-Python (Full CALPHAD — OSU Lab Only)
 **Thermo-Calc calculations for Cu-Al-O ternary phase diagrams**
@@ -54,7 +58,9 @@ honda-calphad/
 │   │   ├── databases/
 │   │   │   └── cuo.tdb          # Cu-O database (NIMS/Schramm 2005)
 │   │   ├── cu_ceramic_thermodynamics.py   # Preliminary analysis (approximations)
-│   │   ├── cu_o_pycalphad.py    # Real pyCALPHAD calculations
+│   │   ├── cu_o_pycalphad.py    # Real pyCALPHAD (local only)
+│   │   ├── cu_o_visualization.py # Molab-compatible (loads pre-computed data)
+│   │   ├── compute_cu_o_data.py # Generates CSV from pyCALPHAD
 │   │   ├── cu_ceramic_affinity.py
 │   │   └── pycalphad_cu_fe_example.py
 │   │
@@ -64,6 +70,8 @@ honda-calphad/
 │       └── cu_al_o_phase_stability.py   # Phase equilibrium calculations
 │
 ├── data/
+│   ├── pycalphad/               # Pre-computed pyCALPHAD results
+│   │   └── cu_o_gibbs_energies.csv
 │   ├── thermocalc/              # Manual TC GUI exports
 │   │   ├── raw/
 │   │   └── processed/

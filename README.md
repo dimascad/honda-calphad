@@ -32,12 +32,9 @@ This project uses CALPHAD (CALculation of PHAse Diagrams) simulation to identify
 ### 2. Cu-O System (Real CALPHAD Database)
 **Proper pyCALPHAD calculations using NIMS/Schramm (2005) database**
 
-- **Molab version** (no dependencies): `cu_o_visualization.py` — loads pre-computed CSV
-- **Local version** (requires pyCALPHAD): `cu_o_pycalphad.py` — runs calculations live
-- **Data generator**: `compute_cu_o_data.py` — pre-computes and saves to CSV
+- [Run in browser (Molab)](https://molab.marimo.io/https://github.com/dimascad/honda-calphad/blob/main/simulations/pycalphad/cu_o_visualization.py) — no dependencies, loads pre-computed data
+- Local (requires pyCALPHAD): `marimo edit simulations/pycalphad/cu_o_pycalphad.py`
 - Database: `databases/cuo.tdb` — Schramm et al. (2005), *J. Phase Equilibria and Diffusion*, 26(6), 605-612
-
-> **Note:** Molab doesn't have pyCALPHAD installed, so we pre-compute data locally and the Molab notebook loads from CSV or uses embedded data.
 
 ### 3. TC-Python (Full CALPHAD — OSU Lab Only)
 **Thermo-Calc calculations for Cu-Al-O ternary phase diagrams**

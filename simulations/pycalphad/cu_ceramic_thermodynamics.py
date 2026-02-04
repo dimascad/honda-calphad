@@ -422,7 +422,7 @@ def _(mo):
         mo.md(r"""
         ### Use Thermo-Calc for Real CALPHAD
 
-        You have access through **MSE 3321**. Key databases:
+        OSU has Thermo-Calc licenses. Key databases:
 
         | Database | Contents | Use for |
         |----------|----------|---------|

@@ -1,0 +1,449 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{tcolorbox}
+
+% Colors
+\definecolor{scarlet}{RGB}{187,0,0}
+\definecolor{gray}{RGB}{102,102,102}
+\definecolor{codebg}{RGB}{245,245,245}
+\definecolor{codeframe}{RGB}{200,200,200}
+
+% Header/Footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{scarlet}{\textbf{Honda CALPHAD Project}}}
+\fancyhead[R]{\textcolor{gray}{MSE 4381 | Spring 2026}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% Code listing style
+\lstset{
+    backgroundcolor=\color{codebg},
+    frame=single,
+    rulecolor=\color{codeframe},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    columns=fullflexible
+}
+
+% Custom box for key findings
+\newtcolorbox{keybox}[1][]{
+    colback=scarlet!5,
+    colframe=scarlet!75,
+    fonttitle=\bfseries,
+    title=#1
+}
+
+\begin{document}
+
+% Title
+\begin{center}
+    {\LARGE\textbf{Ellingham Diagram Data Extraction}}\\[0.3cm]
+    {\Large\textcolor{scarlet}{Technical Guide}}\\[0.5cm]
+    {\large Honda CALPHAD Project | MSE 4381 Senior Design}\\[0.3cm]
+    {\normalsize February 4, 2026}
+\end{center}
+
+\vspace{0.5cm}
+
+\tableofcontents
+\newpage
+
+% ============================================================================
+\section{Introduction}
+% ============================================================================
+
+\subsection{Objective}
+Extract Gibbs energies of formation ($\Delta G_f^\circ$) for oxide materials from Thermo-Calc's TCOX14 database to create an Ellingham diagram. This diagram compares oxide stability and answers a key question for the Cu removal project:
+
+\begin{keybox}[Research Question]
+Can copper thermodynamically reduce ceramic oxides (Al$_2$O$_3$, MgO, SiO$_2$, TiO$_2$)?
+\end{keybox}
+
+\subsection{What is an Ellingham Diagram?}
+An Ellingham diagram plots $\Delta G_f^\circ$ per mole O$_2$ versus temperature for metal oxide formation reactions.
+
+\textbf{Key principles:}
+\begin{itemize}
+    \item Lower (more negative) $\Delta G$ = more stable oxide
+    \item A metal can reduce another metal's oxide only if its oxide line is \textit{below} the other
+    \item The vertical gap between lines indicates the thermodynamic driving force
+\end{itemize}
+
+% ============================================================================
+\section{Method}
+% ============================================================================
+
+\subsection{Software and Database}
+\begin{itemize}
+    \item \textbf{Thermo-Calc 2025b} with \textbf{TC-Python} API
+    \item \textbf{TCOX14} database (comprehensive oxide thermodynamics)
+    \item Run on \textbf{OSU ETS Virtual Machine} (Windows, Thermo-Calc license)
+\end{itemize}
+
+\subsection{Oxides Calculated}
+
+\begin{table}[h]
+\centering
+\caption{Oxide phases and formation reactions normalized per mole O$_2$}
+\begin{tabular}{llll}
+\toprule
+\textbf{Oxide} & \textbf{Mineral Name} & \textbf{TC Phase} & \textbf{Reaction (per mol O$_2$)} \\
+\midrule
+Cu$_2$O & Cuprite & CUPRITE\#1 & 4Cu + O$_2$ $\rightarrow$ 2Cu$_2$O \\
+CuO & Tenorite & CUO\#1 & 2Cu + O$_2$ $\rightarrow$ 2CuO \\
+Al$_2$O$_3$ & Corundum & CORUNDUM\#1 & $\frac{4}{3}$Al + O$_2$ $\rightarrow$ $\frac{2}{3}$Al$_2$O$_3$ \\
+MgO & Periclase & HALITE\#1 & 2Mg + O$_2$ $\rightarrow$ 2MgO \\
+SiO$_2$ & Quartz & QUARTZ\#1 & Si + O$_2$ $\rightarrow$ SiO$_2$ \\
+TiO$_2$ & Rutile & RUTILE\#1 & Ti + O$_2$ $\rightarrow$ TiO$_2$ \\
+FeO & W\"ustite & HALITE\#1 & 2Fe + O$_2$ $\rightarrow$ 2FeO \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Temperature Range}
+\begin{itemize}
+    \item Range: 500 K to 2000 K
+    \item Step size: 50 K
+    \item Total: 31 data points per oxide
+\end{itemize}
+
+% ============================================================================
+\section{Calculation Details}
+% ============================================================================
+
+\subsection{Formation Energy Formula}
+For the general reaction: Metal + O$_2$ $\rightarrow$ Oxide
+
+\begin{equation}
+\Delta G_f^\circ = G_{oxide}^\circ - n \cdot G_{metal}^\circ - G_{O_2}^\circ
+\end{equation}
+
+Where:
+\begin{itemize}
+    \item $G_{oxide}^\circ$ = Gibbs energy of the oxide phase (per formula unit)
+    \item $G_{metal}^\circ$ = Gibbs energy of pure metal reference state
+    \item $G_{O_2}^\circ$ = Gibbs energy of O$_2$ gas at 1 atm
+    \item $n$ = stoichiometric coefficient for metal
+\end{itemize}
+
+\subsection{Normalization per Mole O$_2$}
+All values are normalized per mole O$_2$ consumed for direct comparison on the Ellingham diagram. For example:
+\begin{itemize}
+    \item \textbf{Cu$_2$O:} $\Delta G_{per\ O_2} = 2 \times G(Cu_2O) - 4 \times G(Cu) - G(O_2)$
+    \item \textbf{Al$_2$O$_3$:} $\Delta G_{per\ O_2} = \frac{2}{3} \times G(Al_2O_3) - \frac{4}{3} \times G(Al) - G(O_2)$
+\end{itemize}
+
+\subsection{TC-Python Implementation}
+
+The extraction script performs four steps at each temperature:
+
+\begin{enumerate}
+    \item \textbf{O$_2$ Reference:} Calculate $G(O_2)$ using pure O system
+    \begin{itemize}
+        \item TC returns $GM$ per mole O atoms $\rightarrow$ multiply by 2 for per mole O$_2$
+    \end{itemize}
+
+    \item \textbf{Metal Reference:} Calculate $G(metal)$ at near-zero oxygen ($X_O = 0.0001$)
+
+    \item \textbf{Oxide Phase:} Set stoichiometric composition, calculate equilibrium
+    \begin{itemize}
+        \item Extract individual phase energy: \texttt{GM(CUPRITE\#1)}
+        \item Convert per-atom to per-formula-unit: multiply by atoms per formula
+    \end{itemize}
+
+    \item \textbf{Formation Energy:} Apply the $\Delta G_f$ formula
+\end{enumerate}
+
+\subsection{Technical Challenges Solved}
+
+\begin{table}[h]
+\centering
+\caption{Bugs encountered and solutions implemented}
+\begin{tabular}{p{4cm}p{5cm}p{5cm}}
+\toprule
+\textbf{Problem} & \textbf{Cause} & \textbf{Solution} \\
+\midrule
+Wrong sign for Cu$_2$O (+97 instead of -191 kJ/mol) & Two-phase equilibrium (CUPRITE + FCC\_A1); system $GM$ is mixture energy & Extract individual phase energy using \texttt{GM(CUPRITE\#1)} \\
+\addlinespace
+Values too small by factor of 2-5 & TC returns $GM$ per mole atoms, not per formula unit & Multiply by atoms\_per\_formula (e.g., 3 for Cu$_2$O) \\
+\addlinespace
+O$_2$ reference off by factor of 2 & $GM$ for pure O is per mole O atoms & Multiply by 2 for per mole O$_2$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================================
+\section{Results}
+% ============================================================================
+
+\subsection{Gibbs Energies at 1000 K}
+
+\begin{table}[h]
+\centering
+\caption{Gibbs energy of formation per mole O$_2$ at 1000 K (727°C)}
+\begin{tabular}{lrll}
+\toprule
+\textbf{Oxide} & \textbf{$\Delta G_f^\circ$ (kJ/mol O$_2$)} & \textbf{Phase} & \textbf{Stability} \\
+\midrule
+MgO & $-986.8$ & HALITE\#1 & Most stable \\
+Al$_2$O$_3$ & $-907.5$ & CORUNDUM\#1 & \\
+TiO$_2$ & $-760.2$ & RUTILE\#1 & \\
+SiO$_2$ & $-730.2$ & QUARTZ\#1 & \\
+FeO & $-411.2$ & HALITE\#1 & \\
+Cu$_2$O & $-190.8$ & CUPRITE\#1 & \\
+CuO & $-132.0$ & CUO\#1 & Least stable \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Key Finding}
+
+\begin{keybox}[Thermodynamic Conclusion]
+\textbf{Cu$_2$O is the LEAST stable oxide} among all candidates, with $\Delta G_f^\circ$ approximately 800 kJ/mol O$_2$ less negative than MgO or Al$_2$O$_3$.
+
+This means copper \textbf{cannot} reduce these ceramics:
+\[
+\text{Cu} + \text{Al}_2\text{O}_3 \nrightarrow \text{Cu}_2\text{O} + \text{Al} \quad (\Delta G_{rxn} \gg 0)
+\]
+
+The thermodynamic driving force is approximately +800 kJ/mol O$_2$ in the \textit{wrong} direction.
+\end{keybox}
+
+\subsection{Physical Stability: Melting Points}
+
+Cu oxides also melt at lower temperatures than the ceramic candidates:
+
+\begin{table}[h]
+\centering
+\caption{Melting points and phase behavior at steelmaking temperatures}
+\begin{tabular}{lrl}
+\toprule
+\textbf{Material} & \textbf{Melting Point (°C)} & \textbf{Status at 1500°C} \\
+\midrule
+Cu$_2$O & 1235 & \textbf{Liquid} \\
+CuO & 1326 & \textbf{Liquid} \\
+FeO & 1377 & \textbf{Liquid} \\
+SiO$_2$ & 1713 & Solid \\
+TiO$_2$ & 1843 & Solid \\
+Al$_2$O$_3$ & 2072 & Solid \\
+MgO & 2852 & Solid \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================================
+\section{Implications for the Project}
+% ============================================================================
+
+\subsection{What This Tells Us}
+\begin{enumerate}
+    \item \textbf{Direct oxide reduction is thermodynamically impossible} --- Cu cannot ``steal'' oxygen from Al$_2$O$_3$, MgO, SiO$_2$, or TiO$_2$
+    \item \textbf{Previous Cu capture observations} must involve different mechanisms
+\end{enumerate}
+
+\subsection{Alternative Cu Removal Mechanisms}
+
+\begin{table}[h]
+\centering
+\caption{Possible mechanisms for Cu capture by ceramics}
+\begin{tabular}{p{3.5cm}p{5.5cm}p{4cm}}
+\toprule
+\textbf{Mechanism} & \textbf{Description} & \textbf{Key Factor} \\
+\midrule
+Solid Solution & Cu dissolves into oxide lattice (substitutional or interstitial) & High temperature (entropy-driven) \\
+\addlinespace
+Spinel Formation & CuO + Al$_2$O$_3$ $\rightarrow$ CuAl$_2$O$_4$ & Requires Cu oxidation first \\
+\addlinespace
+Surface Adsorption & Cu atoms adsorb on ceramic particle surfaces & Surface area, porosity \\
+\addlinespace
+Capillary Penetration & Molten Cu wets porous ceramic structures & Porosity, wetting angle \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Recommended Next Steps}
+\begin{enumerate}
+    \item Model Cu solubility in Al$_2$O$_3$ and MgO using Thermo-Calc
+    \item Calculate CuAl$_2$O$_4$ spinel stability conditions
+    \item Compare predictions with last year's senior design experimental results
+    \item Design experiments to test the dominant mechanism
+\end{enumerate}
+
+% ============================================================================
+\section{Step-by-Step: Running on OSU Lab Machines}
+% ============================================================================
+
+This section documents exactly how the extraction was performed on the OSU ETS Virtual Machine.
+
+\subsection{Accessing the Virtual Machine}
+
+\begin{enumerate}
+    \item Go to \url{https://ets.engineering.osu.edu/}
+    \item Log in with OSU credentials
+    \item Select a Windows VM with Thermo-Calc installed
+    \item Open \textbf{File Explorer} and navigate to your U: drive
+\end{enumerate}
+
+\subsection{Getting the Code from GitHub}
+
+Since Git is not installed on the lab VMs, download the repository as a ZIP file:
+
+\begin{enumerate}
+    \item Open a browser and go to: \url{https://github.com/dimascad/honda-calphad}
+    \item Click the green \textbf{``Code''} button
+    \item Select \textbf{``Download ZIP''}
+    \item Extract the ZIP to your U: drive, e.g., \texttt{U:\textbackslash 4381\textbackslash honda-calphad\textbackslash}
+\end{enumerate}
+
+\subsection{Opening the Command Prompt}
+
+\begin{enumerate}
+    \item Press \texttt{Win + R}, type \texttt{cmd}, press Enter
+    \item Navigate to the script directory:
+\end{enumerate}
+
+\begin{lstlisting}
+cd U:\4381\honda-calphad\simulations\tcpython
+\end{lstlisting}
+
+\subsection{Running the TC-Python Script}
+
+Thermo-Calc includes its own Python distribution. Use this exact path:
+
+\begin{lstlisting}
+"C:\Program Files\Thermo-Calc\2025b\python\python.exe" extract_oxide_gibbs.py
+\end{lstlisting}
+
+\textbf{Important:} The quotes around the path are required because of the spaces in ``Program Files''.
+
+\subsection{Expected Output}
+
+The script takes approximately 4--5 minutes to complete. You will see:
+
+\begin{lstlisting}[basicstyle=\ttfamily\footnotesize]
+======================================================================
+TC-Python: Oxide Formation Energies for Ellingham Diagram
+======================================================================
+Temperature range: 500-2000 K (31 points)
+
+Connected to Thermo-Calc
+
+--- Getting O2 reference energies ---
+  O2 reference at 1000K: -220766.0 J/mol-O2
+
+--- Processing Cu2O ---
+  Getting CU reference...
+  Getting Cu2O oxide phase...
+  Completed: 31/31 temperatures
+  dG at 1000K: -190.8 kJ/mol O2
+  Stable phases: CUPRITE#1;FCC_A1#1
+  Used for calc: CUPRITE#1
+
+[... continues for each oxide ...]
+
+======================================================================
+Writing to ...\data\tcpython\raw\oxide_gibbs_energies.csv
+Done! 31 rows written.
+======================================================================
+\end{lstlisting}
+
+\subsection{Retrieving the Output}
+
+The CSV file is saved to:
+\begin{lstlisting}
+U:\4381\honda-calphad\data\tcpython\raw\oxide_gibbs_energies.csv
+\end{lstlisting}
+
+To get the file back to your local machine:
+\begin{itemize}
+    \item \textbf{Option A:} Copy to OneDrive/Google Drive from the VM
+    \item \textbf{Option B:} Email the CSV to yourself
+    \item \textbf{Option C:} Download directly from the VM browser
+\end{itemize}
+
+\subsection{Troubleshooting}
+
+\begin{table}[h]
+\centering
+\caption{Common issues and solutions}
+\begin{tabular}{p{5cm}p{8cm}}
+\toprule
+\textbf{Issue} & \textbf{Solution} \\
+\midrule
+``python is not recognized'' & Use the full path with quotes: \texttt{"C:\textbackslash Program Files\textbackslash Thermo-Calc\textbackslash 2025b\textbackslash python\textbackslash python.exe"} \\
+\addlinespace
+``tc\_python not found'' & You must use Thermo-Calc's bundled Python, not system Python \\
+\addlinespace
+``TCOX14 not found'' & Check available databases with \texttt{check\_databases.py} first \\
+\addlinespace
+IONIC\_LIQ warnings & These are normal and don't affect results \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================================
+\section{Files and Reproduction}
+% ============================================================================
+
+\subsection{Files Generated}
+
+\begin{table}[h]
+\centering
+\caption{Output files from this analysis}
+\begin{tabular}{ll}
+\toprule
+\textbf{File} & \textbf{Description} \\
+\midrule
+\texttt{data/tcpython/raw/oxide\_gibbs\_energies.csv} & Raw data (31 temps $\times$ 7 oxides) \\
+\texttt{data/tcpython/ellingham\_diagram\_tcox14.png} & Static plot (PNG) \\
+\texttt{data/tcpython/ellingham\_diagram\_tcox14.pdf} & Vector plot (PDF) \\
+\texttt{simulations/notebooks/ellingham\_diagram.py} & Interactive Marimo notebook \\
+\texttt{simulations/tcpython/extract\_oxide\_gibbs.py} & TC-Python extraction script \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{How to Reproduce}
+
+\textbf{On OSU ETS Virtual Machine:}
+\begin{lstlisting}
+cd U:\4381\honda-calphad\simulations\tcpython
+"C:\Program Files\Thermo-Calc\2025b\python\python.exe" extract_oxide_gibbs.py
+\end{lstlisting}
+
+Output: \texttt{data/tcpython/raw/oxide\_gibbs\_energies.csv}
+
+\subsection{Interactive Notebook}
+
+The Marimo notebook can be accessed via GitHub import:
+\begin{center}
+\url{https://github.com/dimascad/honda-calphad/blob/main/simulations/notebooks/ellingham_diagram.py}
+\end{center}
+
+% ============================================================================
+\section{References}
+% ============================================================================
+
+\begin{enumerate}
+    \item Thermo-Calc Software, \textit{TCOX14 Database Documentation}, 2024.
+    \item Ellingham, H.J.T. (1944). ``Reducibility of oxides and sulphides in metallurgical processes.'' \textit{J. Soc. Chem. Ind.} 63: 125--133.
+    \item Gaskell, D.R. \textit{Introduction to the Thermodynamics of Materials}, 5th ed. Taylor \& Francis, 2008.
+    \item NIST-JANAF Thermochemical Tables, \url{https://janaf.nist.gov/}
+\end{enumerate}
+
+\vfill
+\begin{center}
+\textcolor{gray}{\textit{Document generated: February 4, 2026}}
+\end{center}
+
+\end{document}

@@ -1,6 +1,6 @@
 # Honda CALPHAD: Cu Removal from Recycled Steel
 
-[![Open in Marimo](https://marimo.io/shield.svg)](https://molab.marimo.io/https://github.com/dimascad/honda-calphad/blob/main/simulations/pycalphad/cu_ceramic_thermodynamics.py)
+[![Open in molab](https://molab.marimo.io/molab-shield.svg)](https://molab.marimo.io/notebooks/nb_dRsVuCmRdf5F8LjdcZppjq)
 
 **MSE 4381 Senior Design Project | The Ohio State University | Spring 2026**
 
@@ -21,64 +21,57 @@ This project uses CALPHAD (CALculation of PHAse Diagrams) simulation to identify
 2. **Mechanism Analysis** — Understand how ceramics capture Cu (solid solution, spinel formation, adsorption)
 3. **Experimental Validation** — Electric furnace experiments in Fontana Lab
 
-## Interactive Notebooks
+## Interactive Ellingham Diagram
 
-### 1. Preliminary Analysis (Approximations)
-**Ellingham diagram with temperature slider — uses linearized thermodynamic data**
+**[➡️ Open Interactive App (Molab)](https://molab.marimo.io/notebooks/nb_dRsVuCmRdf5F8LjdcZppjq/app)**
 
-- [Run in browser (Molab)](https://molab.marimo.io/https://github.com/dimascad/honda-calphad/blob/main/simulations/pycalphad/cu_ceramic_thermodynamics.py)
-- Local: `marimo edit simulations/pycalphad/cu_ceramic_thermodynamics.py`
+Real thermodynamic data from Thermo-Calc TCOX14 database — compare oxide stability with temperature slider.
 
-### 2. Cu-O System (Real CALPHAD Database)
-**Proper pyCALPHAD calculations using NIMS/Schramm (2005) database**
+**Local:** `marimo edit simulations/notebooks/ellingham_diagram.py`
 
-- [Run in browser (Molab)](https://molab.marimo.io/https://github.com/dimascad/honda-calphad/blob/main/simulations/pycalphad/cu_o_visualization.py) — no dependencies, loads pre-computed data
-- Local (requires pyCALPHAD): `marimo edit simulations/pycalphad/cu_o_pycalphad.py`
-- Database: `databases/cuo.tdb` — Schramm et al. (2005), *J. Phase Equilibria and Diffusion*, 26(6), 605-612
+## Key Findings
 
-### 3. TC-Python (Full CALPHAD — OSU Lab Only)
-**Thermo-Calc calculations for Cu-Al-O ternary phase diagrams**
+| Oxide | ΔGf° at 1000K (kJ/mol O₂) | Stability |
+|-------|---------------------------|-----------|
+| MgO | -986.8 | Most stable |
+| Al₂O₃ | -907.5 | |
+| TiO₂ | -760.2 | |
+| SiO₂ | -730.2 | |
+| FeO | -411.2 | |
+| Cu₂O | -190.8 | |
+| CuO | -132.0 | Least stable |
 
-- Requires OSU lab machine with ThermoCalc 2025b
-- See `simulations/tcpython/README.md` for workflow
+**Conclusion:** Cu₂O is ~800 kJ/mol O₂ less stable than MgO/Al₂O₃. **Cu cannot reduce these ceramics.** Any Cu removal mechanism must involve solid solution, spinel formation, or surface adsorption — not oxide reduction.
 
 ## Project Structure
 
 ```
 honda-calphad/
-├── README.md                    # This file
-├── DOCUMENTATION.pdf            # Code explanation for non-programmers
-├── THERMOCALC_GUIDE.pdf         # Step-by-step TC workflow
+├── README.md
+├── docs/
+│   ├── DOCUMENTATION.pdf         # Code explanation for non-programmers
+│   ├── THERMOCALC_GUIDE.pdf      # Step-by-step TC workflow
+│   └── ELLINGHAM_EXTRACTION_GUIDE.pdf  # How we extracted the data
 │
 ├── simulations/
-│   ├── pycalphad/               # Runs locally (Mac/Windows/Linux)
-│   │   ├── databases/
-│   │   │   └── cuo.tdb          # Cu-O database (NIMS/Schramm 2005)
-│   │   ├── cu_ceramic_thermodynamics.py   # Preliminary analysis (approximations)
-│   │   ├── cu_o_pycalphad.py    # Real pyCALPHAD (local only)
-│   │   ├── cu_o_visualization.py # Molab-compatible (loads pre-computed data)
-│   │   ├── compute_cu_o_data.py # Generates CSV from pyCALPHAD
-│   │   ├── cu_ceramic_affinity.py
-│   │   └── pycalphad_cu_fe_example.py
+│   ├── notebooks/                # Marimo notebooks for visualization
+│   │   ├── ellingham_diagram.py  # Main interactive diagram (TCOX14 data)
+│   │   ├── databases/            # TDB files for pyCALPHAD
+│   │   └── *.py                  # Other visualization notebooks
 │   │
-│   └── tcpython/                # Runs on OSU lab machines only
-│       ├── README.md            # TC-Python workflow documentation
-│       ├── run_on_lab.bat       # Helper script for Windows
-│       └── cu_al_o_phase_stability.py   # Phase equilibrium calculations
+│   └── tcpython/                 # Runs on OSU lab machines only
+│       ├── README.md
+│       ├── extract_oxide_gibbs.py    # Main extraction script
+│       └── check_databases.py        # Diagnostic script
 │
 ├── data/
-│   ├── pycalphad/               # Pre-computed pyCALPHAD results
-│   │   └── cu_o_gibbs_energies.csv
-│   ├── thermocalc/              # Manual TC GUI exports
-│   │   ├── raw/
-│   │   └── processed/
-│   ├── tcpython/                # TC-Python script outputs
-│   │   ├── raw/
-│   │   └── processed/
-│   └── literature/              # Reference data from papers
+│   ├── tcpython/
+│   │   ├── raw/oxide_gibbs_energies.csv  # Extracted Gibbs energies
+│   │   ├── ellingham_diagram_tcox14.png
+│   │   └── ellingham_diagram_tcox14.pdf
+│   └── literature/               # Reference data from papers
 │
-├── literature/                  # Papers and references
-└── reports/                     # Deliverables
+└── reports/                      # Deliverables
 ```
 
 ## Computation Workflow
@@ -86,49 +79,39 @@ honda-calphad/
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │  LOCAL (Your Computer)                                          │
-│  • Write scripts, analyze data, create plots                    │
-│  • pyCALPHAD for quick checks (open-source databases)           │
+│  • Analyze data, create plots                                   │
 │  • Marimo notebooks for visualization                           │
+│  • pyCALPHAD for quick checks (open-source databases)           │
 └─────────────────────────────────────────────────────────────────┘
                                ↕ git push/pull
 ┌─────────────────────────────────────────────────────────────────┐
-│  OSU LAB MACHINE (Remote)                                       │
-│  • TC-Python with full databases (TCOX, TCFE, TCCU)             │
+│  OSU LAB MACHINE (ETS Virtual Machine)                          │
+│  • TC-Python with full databases (TCOX14, TCFE, TCCU)           │
 │  • Commercial CALPHAD calculations                              │
 │  • Export results to data/tcpython/                             │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## Key Findings (Preliminary)
-
-| Question | Answer |
-|----------|--------|
-| Can Cu reduce Al₂O₃, MgO, SiO₂, TiO₂? | **No** — Cu oxides are thermodynamically least stable |
-| How does Al₂O₃ capture Cu? | Solid solution, spinel formation (CuAl₂O₄), surface adsorption |
-| Does sulfide exchange work? | **Yes** — FeS + Cu → Cu₂S + Fe is favorable at steelmaking temps |
-
 ## Data Sources
 
-| Data | Source | Location |
-|------|--------|----------|
-| **Cu-O** (CALPHAD) | Schramm et al. (2005), *J. Phase Equilib. Diff.* 26:605 | `databases/cuo.tdb` |
-| **Fe-O** (CALPHAD) | NIMS (2011), Kjellqvist & Selleby (2010) | `databases/fe_o.tdb` |
-| Al₂O₃, MgO, SiO₂, TiO₂ | NIST-JANAF linearized approximations | `cu_ceramic_thermodynamics.py` |
-| Cu-Al-O ternary | Thermo-Calc TCOX14 database | TC-Python (OSU license) |
-
-**Note:** Full CALPHAD databases for Al-O, Mg-O, Si-O, Ti-O require [NIMS CPDDB](https://cpddb.nims.go.jp/) access or commercial databases (TCOX). The linearized approximations are adequate for Ellingham diagram comparisons.
+| Data | Source | Status |
+|------|--------|--------|
+| Cu₂O, CuO, Al₂O₃, MgO, SiO₂, TiO₂, FeO | Thermo-Calc TCOX14 | ✅ Extracted |
+| Cu-O TDB | Schramm et al. (2005) | ✅ Available |
+| Fe-O TDB | NIMS (2011) | ✅ Available |
+| Cu-Al-O ternary | TCOX14 | 🔜 Next step |
 
 ## Requirements
 
-**For local notebooks (pyCALPHAD):**
+**For interactive notebooks:**
 ```bash
-pip install marimo pycalphad numpy matplotlib
+pip install marimo pandas numpy matplotlib
 ```
 
 **For TC-Python (OSU lab machines):**
 - ThermoCalc 2025b installed
 - Python: `C:\Program Files\Thermo-Calc\2025b\python\python.exe`
-- OSU VPN or on-campus network
+- OSU ETS Virtual Machine access
 
 ## Team
 
@@ -139,11 +122,10 @@ pip install marimo pycalphad numpy matplotlib
 
 ## References
 
-1. Schramm et al. (2005) — Cu-O thermodynamic reassessment, *J. Phase Equilibria and Diffusion*, 26(6), 605-612
+1. Thermo-Calc TCOX14 Database (2024)
 2. Daehn et al. (2019) — Cu removal from steel scrap, *Met. Trans. B*
-3. Matsuo et al. (2000) — Cu/Sn removal via decarburization, *ISIJ Int.*
-4. Kattner (2016) — CALPHAD method overview
+3. Ellingham, H.J.T. (1944) — Reducibility of oxides and sulphides, *J. Soc. Chem. Ind.*
 
 ## License
 
-This project is part of coursework at The Ohio State University. Contact the team for collaboration inquiries.
+This project is part of coursework at The Ohio State University.

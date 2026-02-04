@@ -33,62 +33,75 @@ OUTPUT_FILE = OUTPUT_DIR / "oxide_gibbs_energies.csv"
 # Reaction per mole O2: (metal_coeff)*M + O2 -> (oxide_coeff)*MxOy
 # =============================================================================
 OXIDES = {
-    # name: elements, X_O for oxide, metal_coeff per O2, oxide_coeff per O2
+    # name: elements, X_O for oxide, metal_coeff per O2, oxide_coeff per O2, phase_patterns
+    # phase_patterns: TC phase names to search for (in priority order)
     "Cu2O": {
         "elements": ["CU", "O"],
         "X_O": 0.333,  # Cu2O = 2Cu + 1O, X_O = 1/3
         "metal_per_O2": 4,     # 4Cu + O2 -> 2Cu2O
         "oxide_per_O2": 2,
+        "phase_patterns": ["CUPRITE", "CU2O"],
     },
     "CuO": {
         "elements": ["CU", "O"],
         "X_O": 0.500,  # CuO = 1Cu + 1O, X_O = 1/2
         "metal_per_O2": 2,     # 2Cu + O2 -> 2CuO
         "oxide_per_O2": 2,
+        "phase_patterns": ["CUO", "TENORITE"],
     },
     "Al2O3": {
         "elements": ["AL", "O"],
         "X_O": 0.600,  # Al2O3 = 2Al + 3O, X_O = 3/5
         "metal_per_O2": 4/3,   # 4/3Al + O2 -> 2/3Al2O3
         "oxide_per_O2": 2/3,
+        "phase_patterns": ["CORUNDUM", "AL2O3"],
     },
     "MgO": {
         "elements": ["MG", "O"],
         "X_O": 0.500,  # MgO = 1Mg + 1O
         "metal_per_O2": 2,     # 2Mg + O2 -> 2MgO
         "oxide_per_O2": 2,
+        "phase_patterns": ["HALITE", "MGO", "PERICLASE"],
     },
     "SiO2": {
         "elements": ["SI", "O"],
         "X_O": 0.667,  # SiO2 = 1Si + 2O
         "metal_per_O2": 1,     # Si + O2 -> SiO2
         "oxide_per_O2": 1,
+        "phase_patterns": ["QUARTZ", "SIO2", "TRIDYMITE", "CRISTOBALITE"],
     },
     "TiO2": {
         "elements": ["TI", "O"],
         "X_O": 0.667,  # TiO2 = 1Ti + 2O
         "metal_per_O2": 1,     # Ti + O2 -> TiO2
         "oxide_per_O2": 1,
+        "phase_patterns": ["RUTILE", "TIO2", "ANATASE"],
     },
     "FeO": {
         "elements": ["FE", "O"],
         "X_O": 0.500,  # FeO = 1Fe + 1O
         "metal_per_O2": 2,     # 2Fe + O2 -> 2FeO
         "oxide_per_O2": 2,
+        "phase_patterns": ["HALITE", "FEO", "WUSTITE"],  # FeO is halite structure
     },
 }
 
 
-def get_phase_gibbs(result, phase_pattern):
-    """Try to get Gibbs energy of a phase matching the pattern."""
+def get_phase_gibbs(result, phase_patterns):
+    """
+    Get Gibbs energy of a specific phase matching one of the patterns.
+    Returns (GM_value, phase_name) or (None, None) if not found.
+    """
     stable_phases = result.get_stable_phases()
-    for phase in stable_phases:
-        if phase_pattern.upper() in phase.upper():
-            try:
-                return result.get_value_of(f"GM({phase})")
-            except:
-                pass
-    return None
+    for pattern in phase_patterns:
+        for phase in stable_phases:
+            if pattern.upper() in phase.upper():
+                try:
+                    gm = result.get_value_of(f"GM({phase})")
+                    return gm, phase
+                except:
+                    pass
+    return None, None
 
 
 def main():
@@ -146,6 +159,7 @@ def main():
 
                 # Get oxide energy at stoichiometric composition
                 print(f"  Getting {oxide_name} oxide phase...")
+                phase_patterns = config["phase_patterns"]
                 success = 0
                 for T in temperatures:
                     try:
@@ -158,31 +172,32 @@ def main():
                         stable = result.get_stable_phases()
                         GM_system = result.get_value_of("GM")
 
-                        # Calculate formation energy per mole O2
-                        # dG_f = oxide_coeff * G(oxide) - metal_coeff * G(metal) - G(O2)
-                        # For now, use system GM as approximation
-                        # Proper: need to extract individual phase energies
+                        # Get the INDIVIDUAL oxide phase Gibbs energy, not mixture
+                        GM_oxide, oxide_phase = get_phase_gibbs(result, phase_patterns)
 
                         # Store raw data
-                        results[T][f"GM_{oxide_name}"] = GM_system
+                        results[T][f"GM_{oxide_name}"] = GM_oxide if GM_oxide else GM_system
+                        results[T][f"GM_system_{oxide_name}"] = GM_system
                         results[T][f"G_metal_{oxide_name}"] = G_metal[T]
                         results[T][f"phases_{oxide_name}"] = ";".join(stable)
+                        results[T][f"oxide_phase_{oxide_name}"] = oxide_phase if oxide_phase else "NOT_FOUND"
 
-                        # Calculate dG_f per mole O2 (simplified)
-                        # This assumes GM_system ~ G of oxide at stoichiometric comp
+                        # Calculate dG_f per mole O2
                         metal_coeff = config["metal_per_O2"]
                         oxide_coeff = config["oxide_per_O2"]
 
+                        # Use individual phase energy if available, else fall back to system
+                        GM_for_calc = GM_oxide if GM_oxide else GM_system
+
                         # dG per mole O2 = oxide_coeff*GM_oxide - metal_coeff*GM_metal - GM_O2
-                        # Approximate: use GM_system for oxide
-                        dG_per_O2 = oxide_coeff * GM_system - metal_coeff * G_metal[T] - G_O2[T]
+                        dG_per_O2 = oxide_coeff * GM_for_calc - metal_coeff * G_metal[T] - G_O2[T]
                         results[T][f"dG_{oxide_name}_per_O2"] = dG_per_O2
 
                         success += 1
                     except Exception as e:
                         results[T][f"GM_{oxide_name}"] = None
                         results[T][f"dG_{oxide_name}_per_O2"] = None
-                        results[T][f"phases_{oxide_name}"] = "Error"
+                        results[T][f"phases_{oxide_name}"] = f"Error: {e}"
 
                 print(f"  Completed: {success}/{len(temperatures)} temperatures")
 
@@ -190,8 +205,10 @@ def main():
                 if 1000 in results and results[1000].get(f"dG_{oxide_name}_per_O2"):
                     dG = results[1000][f"dG_{oxide_name}_per_O2"]
                     phases = results[1000].get(f"phases_{oxide_name}", "")
+                    used_phase = results[1000].get(f"oxide_phase_{oxide_name}", "")
                     print(f"  dG at 1000K: {dG/1000:.1f} kJ/mol O2")
-                    print(f"  Phases: {phases}")
+                    print(f"  Stable phases: {phases}")
+                    print(f"  Used for calc: {used_phase}")
 
             except Exception as e:
                 print(f"  SYSTEM ERROR: {e}")
@@ -202,8 +219,8 @@ def main():
 
         fieldnames = ["T_K", "T_C"]
         for oxide in OXIDES.keys():
-            fieldnames.extend([f"GM_{oxide}", f"G_metal_{oxide}",
-                             f"dG_{oxide}_per_O2", f"phases_{oxide}"])
+            fieldnames.extend([f"GM_{oxide}", f"GM_system_{oxide}", f"G_metal_{oxide}",
+                             f"dG_{oxide}_per_O2", f"phases_{oxide}", f"oxide_phase_{oxide}"])
 
         with open(OUTPUT_FILE, 'w', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)

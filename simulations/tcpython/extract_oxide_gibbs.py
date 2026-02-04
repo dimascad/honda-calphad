@@ -1,22 +1,12 @@
 #!/usr/bin/env python3
 """
-Extract Gibbs energy of formation for oxides from Thermo-Calc TCOX14 database.
-
-Calculates dGf (per mole O2) for Ellingham diagram:
-- Cu2O, CuO, Al2O3, MgO, SiO2, TiO2, FeO
-
+Extract Gibbs energy of formation for oxides from Thermo-Calc TCOX14.
 Output: ../../data/tcpython/raw/oxide_gibbs_energies.csv
 """
 
-import os
 import csv
 from pathlib import Path
-
-try:
-    from tc_python import *
-except ImportError:
-    print("ERROR: tc_python not found. Run on OSU lab machine.")
-    exit(1)
+from tc_python import *
 
 # =============================================================================
 # Configuration
@@ -29,9 +19,18 @@ SCRIPT_DIR = Path(__file__).parent
 OUTPUT_DIR = SCRIPT_DIR.parent.parent / "data" / "tcpython" / "raw"
 OUTPUT_FILE = OUTPUT_DIR / "oxide_gibbs_energies.csv"
 
-# =============================================================================
-# Main
-# =============================================================================
+# Oxide compositions: X(Metal), X(O) for stoichiometric oxide
+# These will find equilibrium and get the oxide phase Gibbs energy
+OXIDES = {
+    "Cu2O": {"elements": ["CU", "O"], "X_O": 0.333},   # Cu2O: 2Cu + 1O
+    "CuO":  {"elements": ["CU", "O"], "X_O": 0.500},   # CuO: 1Cu + 1O
+    "Al2O3":{"elements": ["AL", "O"], "X_O": 0.600},   # Al2O3: 2Al + 3O
+    "MgO":  {"elements": ["MG", "O"], "X_O": 0.500},   # MgO: 1Mg + 1O
+    "SiO2": {"elements": ["SI", "O"], "X_O": 0.667},   # SiO2: 1Si + 2O
+    "TiO2": {"elements": ["TI", "O"], "X_O": 0.667},   # TiO2: 1Ti + 2O
+    "FeO":  {"elements": ["FE", "O"], "X_O": 0.500},   # FeO: 1Fe + 1O
+}
+
 def main():
     print("=" * 70)
     print("TC-Python: Extracting Oxide Gibbs Energies (TCOX14)")
@@ -41,66 +40,78 @@ def main():
     temperatures = list(range(T_MIN, T_MAX + 1, T_STEP))
     print(f"Temperature range: {T_MIN}-{T_MAX} K ({len(temperatures)} points)")
 
-    results = []
+    results = {T: {"T_K": T, "T_C": T - 273.15} for T in temperatures}
 
     with TCPython() as session:
-        print("Connected to Thermo-Calc")
+        print("Connected to Thermo-Calc\n")
 
-        # Use TCOX14 for oxide calculations
-        print("\nSetting up TCOX14 with Cu-Al-Mg-Si-Ti-Fe-O...")
+        for oxide_name, config in OXIDES.items():
+            elements = config["elements"]
+            X_O = config["X_O"]
 
-        try:
-            system = (session
-                .select_database_and_elements("TCOX14", ["CU", "AL", "MG", "SI", "TI", "FE", "O"])
-                .get_system())
-            print("System created successfully")
-        except Exception as e:
-            print(f"Error creating system: {e}")
-            print("Trying with fewer elements...")
-            system = (session
-                .select_database_and_elements("TCOX14", ["CU", "AL", "O"])
-                .get_system())
+            print(f"Processing {oxide_name} ({elements})...")
 
-        # For each temperature, calculate Gibbs energy of key oxide phases
-        print("\nCalculating Gibbs energies...")
-
-        for T in temperatures:
-            row = {"T_K": T, "T_C": T - 273.15}
-
-            # Calculate equilibrium at this temperature for each oxide composition
-            calc = system.with_single_equilibrium_calculation()
-            calc.set_condition(ThermodynamicQuantity.temperature(), T)
-            calc.set_condition(ThermodynamicQuantity.pressure(), 101325)
-
-            # Cu2O: X(Cu)=0.667, X(O)=0.333
             try:
-                calc.set_condition(ThermodynamicQuantity.mole_fraction_of_a_component("CU"), 0.667)
-                calc.set_condition(ThermodynamicQuantity.mole_fraction_of_a_component("O"), 0.333)
-                calc.set_condition(ThermodynamicQuantity.mole_fraction_of_a_component("AL"), 0.0)
-                result = calc.calculate()
-                G_sys = result.get_value_of(ThermodynamicQuantity.gibbs_energy_of_a_phase("*"))
-                row["G_Cu2O_system"] = G_sys
+                system = (session
+                    .select_database_and_elements("TCOX14", elements)
+                    .get_system())
+
+                for T in temperatures:
+                    try:
+                        calc = system.with_single_equilibrium_calculation()
+                        calc.set_condition(ThermodynamicQuantity.temperature(), T)
+                        calc.set_condition(ThermodynamicQuantity.pressure(), 101325)
+                        calc.set_condition(ThermodynamicQuantity.mole_fraction_of_a_component("O"), X_O)
+
+                        result = calc.calculate()
+
+                        # Get total Gibbs energy and stable phases
+                        G = result.get_value_of("G")
+                        GM = result.get_value_of("GM")
+                        stable = result.get_stable_phases()
+
+                        results[T][f"G_{oxide_name}"] = G
+                        results[T][f"GM_{oxide_name}"] = GM
+                        results[T][f"phases_{oxide_name}"] = ";".join(stable)
+
+                    except Exception as e:
+                        results[T][f"G_{oxide_name}"] = None
+                        results[T][f"GM_{oxide_name}"] = None
+                        results[T][f"phases_{oxide_name}"] = f"Error: {e}"
+
+                # Sample output
+                sample_T = 1273
+                if results[sample_T].get(f"GM_{oxide_name}"):
+                    print(f"  GM at 1000C: {results[sample_T][f'GM_{oxide_name}']:.0f} J/mol")
+                    print(f"  Phases: {results[sample_T][f'phases_{oxide_name}']}")
+
             except Exception as e:
-                row["G_Cu2O_system"] = f"Error: {e}"
+                print(f"  ERROR: {e}")
+                for T in temperatures:
+                    results[T][f"G_{oxide_name}"] = None
+                    results[T][f"GM_{oxide_name}"] = None
+                    results[T][f"phases_{oxide_name}"] = f"Error: {e}"
 
-            results.append(row)
+            print()
 
-            if T % 500 == 0:
-                print(f"  T = {T} K done")
+    # Write CSV
+    print(f"Writing to {OUTPUT_FILE}")
 
-        print(f"\nWriting to {OUTPUT_FILE}")
+    # Build fieldnames
+    fieldnames = ["T_K", "T_C"]
+    for oxide in OXIDES.keys():
+        fieldnames.extend([f"G_{oxide}", f"GM_{oxide}", f"phases_{oxide}"])
 
-        # Write CSV
-        if results:
-            fieldnames = list(results[0].keys())
-            with open(OUTPUT_FILE, 'w', newline='') as f:
-                writer = csv.DictWriter(f, fieldnames=fieldnames)
-                writer.writeheader()
-                writer.writerows(results)
-            print(f"Done! {len(results)} rows written.")
-        else:
-            print("No results to write!")
+    with open(OUTPUT_FILE, 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        for T in temperatures:
+            row = {k: results[T].get(k, "") for k in fieldnames}
+            writer.writerow(row)
 
+    print(f"Done! {len(temperatures)} rows written.")
+    print("=" * 70)
+    print("Next: Copy the CSV to your Mac and process it.")
     print("=" * 70)
 
 

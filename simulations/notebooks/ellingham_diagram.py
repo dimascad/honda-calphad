@@ -260,8 +260,8 @@ def _(mo):
 
     The thermodynamic driving force is ~800 kJ/mol O₂ in the WRONG direction.
 
-    ### So how did previous studies observe Cu capture by Al₂O₃?
-    The mechanism must be **different** from oxide reduction.
+    ### So what mechanism could remove Cu using ceramics?
+    The mechanism must be **different** from oxide reduction. This is an open research question.
     """)
     return
 
@@ -270,19 +270,18 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ---
-    ## 5. Actual Cu-Ceramic Interaction Mechanisms
+    ## 5. Candidate Cu-Ceramic Interaction Mechanisms
 
-    Since direct reduction is thermodynamically impossible, Cu removal must occur through:
+    Since direct reduction is thermodynamically impossible, Cu removal would need to occur through an alternative pathway. Possible mechanisms to investigate include:
 
-    | Mechanism | How it works | Key factor |
-    |-----------|--------------|------------|
-    | **Solid Solution** | Cu dissolves into oxide lattice (substitutional or interstitial) | High temperature (entropy-driven) |
-    | **Spinel Formation** | CuO + Al₂O₃ → CuAl₂O₄ (requires Cu oxidation first) | Oxygen potential |
-    | **Surface Adsorption** | Cu atoms adsorb on ceramic particle surfaces | Surface area, porosity |
-    | **Capillary Penetration** | Molten Cu wets and penetrates porous ceramics | Porosity, wetting angle |
+    | Mechanism | How it would work | Key factor | Status |
+    |-----------|-------------------|------------|--------|
+    | **Solid Solution** | Cu dissolves into oxide lattice (substitutional or interstitial) | High temperature (entropy-driven) | Unverified |
+    | **Spinel Formation** | CuO + Al₂O₃ → CuAl₂O₄ (requires Cu oxidation first) | Oxygen potential | Hypothesis — not yet demonstrated for decopperization |
+    | **Surface Adsorption** | Cu atoms adsorb on ceramic particle surfaces | Surface area, porosity | Unverified |
+    | **Physical Infiltration** | Fe-Cu melt infiltrates porous ceramic substrate | Porosity, capillary pressure | Observed by Draczuk et al. (2021), but not selective for Cu |
 
-    **Important:** These mechanisms don't reduce the ceramic - they either dissolve Cu INTO the oxide
-    structure or adsorb it ON the surface. The ceramic remains oxidized.
+    **Note:** Draczuk et al. (2021) tested ZnAl₂O₄ filters for decopperization of Fe-Cu melts and found limited selectivity. Copper loss was attributed primarily to evaporation, not chemical capture. Both molten Cu and molten Fe are non-wetting on oxide ceramics (contact angles >100°), so selective wetting is not a viable mechanism. These mechanisms remain hypotheses for CALPHAD screening.
     """)
     return
 
@@ -338,7 +337,7 @@ def _(mo):
     | Question | Answer |
     |----------|--------|
     | Can Cu reduce Al₂O₃, MgO, SiO₂, TiO₂? | **No** — Cu₂O is the least stable oxide (~800 kJ/mol O₂ gap) |
-    | How might ceramics capture Cu? | Solid solution, spinel formation, surface adsorption |
+    | How might ceramics capture Cu? | Open question — candidates: solid solution, spinel formation, surface adsorption |
     | Which ceramic is most stable? | **MgO** (-987 kJ/mol O₂ at 1000K), then Al₂O₃ (-908) |
     | Do Cu oxides survive steelmaking temps? | **No** — they melt below 1400°C |
 

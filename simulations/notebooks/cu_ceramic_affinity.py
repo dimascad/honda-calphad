@@ -213,8 +213,8 @@ def oxide_interaction_mechanisms():
     Discuss the actual mechanisms for Cu-oxide interactions.
     """
     print("\n" + "=" * 60)
-    print("Cu-CERAMIC INTERACTION MECHANISMS")
-    print("(Why Al2O3 can still capture Cu despite thermodynamics)")
+    print("CANDIDATE Cu-CERAMIC INTERACTION MECHANISMS")
+    print("(Hypotheses for how ceramics might capture Cu)")
     print("=" * 60)
 
     mechanisms = """
@@ -236,10 +236,10 @@ def oxide_interaction_mechanisms():
        - High surface area particles are beneficial
        - Temperature and surface chemistry dependent
 
-    4. WETTING AND PENETRATION
-       - Molten Cu/Cu compounds wetting ceramic particles
-       - Capillary action drawing Cu into porous ceramics
-       - Important for high-surface-area additions
+    4. PHYSICAL INFILTRATION (unlikely Cu-selective)
+       - Fe-Cu melt can infiltrate porous ceramic substrates
+       - Both Cu and Fe are non-wetting on oxide ceramics (contact angle >100°)
+       - Draczuk et al. (2021) found infiltration is not selective for Cu
 
     5. OXYGEN POTENTIAL GRADIENTS
        - Local oxygen activity differences

@@ -48,6 +48,7 @@ def _(mo):
     - Individual phase energies extracted (CUPRITE, CORUNDUM, HALITE, etc.)
 
     **Calculation method:**
+
     $$\Delta G_f^{\circ} = G_{oxide}^{\circ} - n \cdot G_{metal}^{\circ} - G_{O_2}^{\circ}$$
     """)
     return

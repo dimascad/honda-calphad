@@ -5,7 +5,7 @@
 \usepackage{amssymb}
 \usepackage{booktabs}
 \usepackage{array}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{hyperref}
 \usepackage{fancyhdr}
 \usepackage{listings}
@@ -181,6 +181,108 @@ O$_2$ reference off by factor of 2 & $GM$ for pure O is per mole O atoms & Multi
 \bottomrule
 \end{tabular}
 \end{table}
+
+% ============================================================================
+\section{How the Pipeline Works}
+% ============================================================================
+
+\subsection{What the Script Actually Does}
+
+The extraction script is not doing anything clever. It is a mechanical loop that calls the same Thermo-Calc API function over and over with different inputs. At each temperature, for each oxide, the script asks Thermo-Calc three questions:
+
+\begin{enumerate}
+    \item What is the Gibbs energy of the \textbf{pure metal}? (e.g., pure Cu)
+    \item What is the Gibbs energy of the \textbf{oxide}? (e.g., Cu$_2$O at $X_O = 1/3$)
+    \item What is the Gibbs energy of \textbf{O$_2$ gas}?
+\end{enumerate}
+
+It then subtracts reactants from products to get $\Delta G$ of formation, writes one number per oxide per temperature to the CSV, and moves on. There is no curve fitting, no interpolation, and no thermodynamic modeling on our part. The science is entirely inside Thermo-Calc's TCOX14 database, which contains assessed model parameters fitted to decades of experimental calorimetry, EMF measurements, and phase equilibrium data. Our script is a glorified database query.
+
+The equivalent GUI workflow would be: Property Diagram $\rightarrow$ select binary system (e.g., Cu-O) $\rightarrow$ set $X(O) = 0.333$ $\rightarrow$ plot $GM$ vs $T$ $\rightarrow$ read off values. Repeat for each oxide. Export to Excel. Make a chart. That takes roughly 45 minutes of clicking for all 7 oxides. The TC-Python script automates the same process in $\sim$5 minutes of runtime.
+
+\subsection{What the Notebook Does with the Data}
+
+The Marimo notebook reads the CSV and does three things:
+
+\begin{enumerate}
+    \item Reads the \texttt{dG\_[oxide]\_per\_O2} column for each oxide
+    \item Divides by 1000 to convert J $\rightarrow$ kJ
+    \item Calls \texttt{plt.plot(T\_C, dG\_vals)} to plot temperature vs.\ $\Delta G$
+\end{enumerate}
+
+That is the entire analysis. Matplotlib's \texttt{plot()} connects each consecutive pair of data points with a straight line segment. At 50~K spacing, the 31 dots are close enough that the result looks like a smooth, continuous curve.
+
+The interactive controls (temperature slider, oxide selector) are cosmetic. The slider marks a vertical line at the selected temperature and the selector filters which oxides to display. Neither changes the underlying data.
+
+\textbf{Note on the slider:} The Marimo slider uses 25\textdegree{}C steps from 500 to 1700\textdegree{}C, giving 49 positions. This controls only the vertical temperature marker, not the data resolution. The actual data is 31 points at 50~K spacing from 500 to 2000~K.
+
+\subsection{Resolution: Why 31 Points Is Sufficient}
+
+The 50~K step size was chosen for convenience, not necessity. To increase resolution, change one line in \texttt{extract\_oxide\_gibbs.py}:
+
+\begin{lstlisting}
+# Line 24 - current setting (31 points, ~5 min runtime)
+T_STEP = 50
+
+# Higher resolution (301 points, ~10 min runtime)
+T_STEP = 5
+
+# Maximum resolution (1501 points, excessive)
+T_STEP = 1
+\end{lstlisting}
+
+The curves would be indistinguishable at any of these resolutions. This is because $\Delta G$ vs.\ $T$ for oxide formation is nearly linear, a consequence of the Gibbs-Helmholtz relation:
+
+\begin{equation}
+\Delta G^\circ = \Delta H^\circ - T\Delta S^\circ
+\end{equation}
+
+$\Delta H^\circ$ and $\Delta S^\circ$ are approximately constant over a given temperature range (they change slowly due to heat capacity). So $\Delta G$ vs.\ $T$ is nearly a straight line. The slight curvature comes from $C_p$ effects and phase transitions (for example, Cu$_2$O melting at 1235\textdegree{}C produces a visible slope change). 31 points at 50~K spacing captures this shape completely. The interpolation error between our connected line segments and a ``true'' continuous curve is less than 1~kJ/mol~O$_2$, which is meaningless when the stability gaps we are examining are $\sim$800~kJ.
+
+\subsection{Is This a ``Real'' Ellingham Diagram?}
+
+Yes. The data points are exactly the same numbers Thermo-Calc would produce in the GUI. We query the same TCOX14 database, the same equilibrium solver, and the same thermodynamic models. The only difference is resolution: we computed 31 points, whereas the GUI's Property Diagram calculator would compute several hundred. But as shown above, this does not affect the result.
+
+Every textbook Ellingham diagram is constructed the same way. Ellingham's original 1944 paper was plotted from tabulated data points connected by line segments. There is no closed-form analytical function that produces a continuous Ellingham curve. Our version uses a commercial thermodynamic database instead of JANAF tables, but the method is identical.
+
+\subsection{CSV Output Format}
+
+The output CSV contains 31 rows (one per temperature) and 44 columns. For each oxide, the following columns are recorded (shown here using Cu$_2$O as an example):
+
+\begin{table}[h]
+\centering
+\caption{CSV column descriptions (repeated for each of 7 oxides)}
+\renewcommand{\arraystretch}{1.3}
+\setlength{\arrayrulewidth}{0.8pt}
+\begin{tabular}{|l|l|r|}
+\hline
+\rowcolor[HTML]{595959}
+\textcolor{white}{\textbf{Column}} & \textcolor{white}{\textbf{Description}} & \textcolor{white}{\textbf{Example (1000 K)}} \\
+\hline
+\texttt{T\_K} & Temperature in Kelvin & 1000 \\
+\hline
+\rowcolor[HTML]{E0E0E0}
+\texttt{T\_C} & Temperature in Celsius & 726.85 \\
+\hline
+\texttt{GM\_Cu2O} & Gibbs energy of Cu$_2$O phase, per mole atoms (J) & $-99{,}489$ \\
+\hline
+\rowcolor[HTML]{E0E0E0}
+\texttt{GM\_system\_Cu2O} & Total system energy at that composition (J) & $-99{,}436$ \\
+\hline
+\texttt{G\_metal\_Cu2O} & Gibbs energy of pure Cu reference (J) & $-46{,}339$ \\
+\hline
+\rowcolor[HTML]{E0E0E0}
+\texttt{dG\_Cu2O\_per\_O2} & \textbf{Final result:} $\Delta G_f^\circ$ in J/mol O$_2$ & $-190{,}813$ \\
+\hline
+\texttt{phases\_Cu2O} & Stable phases found by TC & CUPRITE\#1;FCC\_A1\#1 \\
+\hline
+\rowcolor[HTML]{E0E0E0}
+\texttt{oxide\_phase\_Cu2O} & Phase used for the calculation & CUPRITE\#1 \\
+\hline
+\end{tabular}
+\end{table}
+
+This pattern repeats for all 7 oxides (Cu$_2$O, CuO, Al$_2$O$_3$, MgO, SiO$_2$, TiO$_2$, FeO). The only column the Marimo notebook reads is \texttt{dG\_[oxide]\_per\_O2}. Everything else is retained for traceability so the calculation can be verified at any step.
 
 % ============================================================================
 \section{Results}

@@ -1,6 +1,6 @@
 # Honda CALPHAD: Cu Removal from Recycled Steel
 
-[![Open in molab](https://molab.marimo.io/molab-shield.svg)](https://molab.marimo.io/notebooks/nb_dRsVuCmRdf5F8LjdcZppjq)
+[![Open with marimo](https://molab.marimo.io/molab-shield.svg)](https://molab.marimo.io/https://github.com/dimascad/honda-calphad/blob/main/simulations/notebooks/ellingham_diagram.py)
 
 **MSE 4381 Senior Design Project | The Ohio State University | Spring 2026**
 
@@ -23,7 +23,7 @@ This project uses CALPHAD (CALculation of PHAse Diagrams) simulation to identify
 
 ## Interactive Ellingham Diagram
 
-**[➡️ Open Interactive App (Molab)](https://molab.marimo.io/notebooks/nb_dRsVuCmRdf5F8LjdcZppjq/app)**
+**[Open Interactive App](https://molab.marimo.io/https://github.com/dimascad/honda-calphad/blob/main/simulations/notebooks/ellingham_diagram.py)**
 
 Real thermodynamic data from Thermo-Calc TCOX14 database — compare oxide stability with temperature slider.
 

@@ -58,6 +58,24 @@ with TCPython() as session:
                     print(f"  {p}")
             except Exception as e:
                 print(f"  Error: {e}")
+
+            # Check phases for new screening oxides
+            new_systems = {
+                "Ca-O": ["CA", "O"],
+                "Zr-O": ["ZR", "O"],
+                "Cr-O": ["CR", "O"],
+                "Mn-O": ["MN", "O"],
+            }
+            for label, elems in new_systems.items():
+                print(f"\n{'=' * 70}")
+                print(f"Phases in {db} for {label} system:")
+                try:
+                    system = session.select_database_and_elements(db, elems).get_system()
+                    phases = system.get_phase_names()
+                    for p in phases:
+                        print(f"  {p}")
+                except Exception as e:
+                    print(f"  Error: {e}")
             break
 
 print(f"\n{'=' * 70}")

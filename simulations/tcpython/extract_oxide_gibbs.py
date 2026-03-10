@@ -92,6 +92,39 @@ OXIDES = {
         "phase_patterns": ["HALITE", "FEO", "WUSTITE"],  # FeO is halite structure
         "atoms_per_formula": 2,  # FeO = 1+1 = 2 atoms
     },
+    # --- NEW OXIDES (added Feb 2026 for expanded screening) ---
+    "CaO": {
+        "elements": ["CA", "O"],
+        "X_O": 0.500,  # CaO = 1Ca + 1O
+        "metal_per_O2": 2,     # 2Ca + O2 -> 2CaO
+        "oxide_per_O2": 2,
+        "phase_patterns": ["HALITE", "CAO", "LIME"],  # CaO has NaCl (halite) structure
+        "atoms_per_formula": 2,
+    },
+    "ZrO2": {
+        "elements": ["ZR", "O"],
+        "X_O": 0.667,  # ZrO2 = 1Zr + 2O
+        "metal_per_O2": 1,     # Zr + O2 -> ZrO2
+        "oxide_per_O2": 1,
+        "phase_patterns": ["BADDELEYITE", "ZRO2", "FLUORITE", "MONOCLINIC"],
+        "atoms_per_formula": 3,
+    },
+    "Cr2O3": {
+        "elements": ["CR", "O"],
+        "X_O": 0.600,  # Cr2O3 = 2Cr + 3O, X_O = 3/5
+        "metal_per_O2": 4/3,   # 4/3Cr + O2 -> 2/3Cr2O3
+        "oxide_per_O2": 2/3,
+        "phase_patterns": ["CORUNDUM", "CR2O3", "ESKOLAITE"],  # Same structure as Al2O3
+        "atoms_per_formula": 5,
+    },
+    "MnO": {
+        "elements": ["MN", "O"],
+        "X_O": 0.500,  # MnO = 1Mn + 1O
+        "metal_per_O2": 2,     # 2Mn + O2 -> 2MnO
+        "oxide_per_O2": 2,
+        "phase_patterns": ["HALITE", "MNO", "MANGANOSITE"],  # NaCl structure like MgO/FeO
+        "atoms_per_formula": 2,
+    },
 }
 
 

@@ -1,11 +1,11 @@
 Oxide,Formula,Density (g/cm³),Melting Point (°C),Floats on Steel?,Solid at 1527°C?,ΔG_rxn @ 727°C (kJ/mol O₂),ΔG_rxn @ 1227°C (kJ/mol O₂),ΔG_rxn @ 1527°C (kJ/mol O₂),Cu Can Reduce?,Toxicity,Cost / Availability
 MgO,MgO,3.58,2852,Yes,Yes,+796.0,+736.5,+642.9,No,Low,Low — common refractory
 Al₂O₃,Al2O3,3.95,2072,Yes,Yes,+716.7,+682.7,+644.8,No,Low,Low — common ceramic
-CaO,CaO,3.34,2613,Yes,Yes,TBD — needs TC-Python,TBD — needs TC-Python,TBD — needs TC-Python,TBD,Low,Very low — lime/steelmaking flux
-ZrO₂,ZrO2,5.68,2715,Yes,Yes,TBD — needs TC-Python,TBD — needs TC-Python,TBD — needs TC-Python,TBD,Low,Moderate — refractory ceramic
-Cr₂O₃,Cr2O3,5.22,2435,Yes,Yes,TBD — needs TC-Python,TBD — needs TC-Python,TBD — needs TC-Python,TBD,Moderate — Cr(VI) risk if oxidized,Moderate
+CaO,CaO,3.34,2613,Yes,Yes,+870.2,+836.4,+791.3,No,Low,Very low — lime/steelmaking flux
+ZrO₂,ZrO2,5.68,2715,Yes,Yes,+718.6,+702.1,+675.7,No,Low,Moderate — refractory ceramic
+Cr₂O₃,Cr2O3,5.22,2435,Yes,Yes,+385.7,+377.8,+354.8,No,Moderate — Cr(VI) risk if oxidized,Moderate
 TiO₂,TiO2,4.23,1843,Yes,Yes,+569.4,+556.7,+531.3,No,Low,Moderate
 SiO₂,SiO2,2.65,1713,Yes,Yes,+539.4,+529.4,+502.7,No,Low (crystalline silica = inhalation hazard),Very low — sand
-MnO,MnO,5.43,1842,Yes,Yes,TBD — needs TC-Python,TBD — needs TC-Python,TBD — needs TC-Python,TBD,Low,Low — common slag component
+MnO,MnO,5.43,1842,Yes,Yes,+434.1,+433.9,+408.9,No,Low,Low — common slag component
 FeO,FeO,5.74,1377,Yes,No — LIQUID,+220.4,+230.7,+213.8,No,Low,Very low — mill scale
 CuO,CuO,6.31,1326,Yes,No — LIQUID,-58.8,-51.7,-41.0,Trivially yes (Cu self-oxidation),Moderate — aquatic toxin,Moderate

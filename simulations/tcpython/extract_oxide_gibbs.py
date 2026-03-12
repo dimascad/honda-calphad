@@ -125,6 +125,63 @@ OXIDES = {
         "phase_patterns": ["HALITE", "MNO", "MANGANOSITE"],  # NaCl structure like MgO/FeO
         "atoms_per_formula": 2,
     },
+    # --- MOONSHOT OXIDES (added Mar 2026 for expanded comparison) ---
+    "NiO": {
+        "elements": ["NI", "O"],
+        "X_O": 0.500,  # NiO = 1Ni + 1O
+        "metal_per_O2": 2,     # 2Ni + O2 -> 2NiO
+        "oxide_per_O2": 2,
+        "phase_patterns": ["HALITE", "NIO", "BUNSENITE"],  # NaCl structure
+        "atoms_per_formula": 2,
+    },
+    "CoO": {
+        "elements": ["CO", "O"],
+        "X_O": 0.500,  # CoO = 1Co + 1O
+        "metal_per_O2": 2,     # 2Co + O2 -> 2CoO
+        "oxide_per_O2": 2,
+        "phase_patterns": ["HALITE", "COO"],  # NaCl structure
+        "atoms_per_formula": 2,
+    },
+    "PbO": {
+        "elements": ["PB", "O"],
+        "X_O": 0.500,  # PbO = 1Pb + 1O
+        "metal_per_O2": 2,     # 2Pb + O2 -> 2PbO
+        "oxide_per_O2": 2,
+        "phase_patterns": ["LITHARGE", "PBO", "MASSICOT"],
+        "atoms_per_formula": 2,
+    },
+    "B2O3": {
+        "elements": ["B", "O"],
+        "X_O": 0.600,  # B2O3 = 2B + 3O, X_O = 3/5
+        "metal_per_O2": 4/3,   # 4/3B + O2 -> 2/3B2O3
+        "oxide_per_O2": 2/3,
+        "phase_patterns": ["B2O3", "BORON_OXIDE"],
+        "atoms_per_formula": 5,  # B2O3 = 2+3 = 5 atoms
+    },
+    "V2O5": {
+        "elements": ["V", "O"],
+        "X_O": 5/7,    # V2O5 = 2V + 5O, X_O = 5/7
+        "metal_per_O2": 4/5,   # 4/5V + O2 -> 2/5V2O5
+        "oxide_per_O2": 2/5,
+        "phase_patterns": ["V2O5", "SHCHERBINAITE"],
+        "atoms_per_formula": 7,  # V2O5 = 2+5 = 7 atoms
+    },
+    "La2O3": {
+        "elements": ["LA", "O"],
+        "X_O": 0.600,  # La2O3 = 2La + 3O, X_O = 3/5
+        "metal_per_O2": 4/3,   # 4/3La + O2 -> 2/3La2O3
+        "oxide_per_O2": 2/3,
+        "phase_patterns": ["LA2O3", "A_LA2O3", "C_LA2O3", "HEXAGONAL"],
+        "atoms_per_formula": 5,  # La2O3 = 2+3 = 5 atoms
+    },
+    "CeO2": {
+        "elements": ["CE", "O"],
+        "X_O": 2/3,    # CeO2 = 1Ce + 2O, X_O = 2/3
+        "metal_per_O2": 1,     # Ce + O2 -> CeO2
+        "oxide_per_O2": 1,
+        "phase_patterns": ["FLUORITE", "CEO2", "CERIANITE"],
+        "atoms_per_formula": 3,  # CeO2 = 1+2 = 3 atoms
+    },
 }
 
 

@@ -59,12 +59,20 @@ with TCPython() as session:
             except Exception as e:
                 print(f"  Error: {e}")
 
-            # Check phases for new screening oxides
+            # Check phases for all screening oxides
             new_systems = {
                 "Ca-O": ["CA", "O"],
                 "Zr-O": ["ZR", "O"],
                 "Cr-O": ["CR", "O"],
                 "Mn-O": ["MN", "O"],
+                # Moonshot oxides (Mar 2026)
+                "Ni-O": ["NI", "O"],
+                "Co-O": ["CO", "O"],
+                "Pb-O": ["PB", "O"],
+                "B-O":  ["B", "O"],
+                "V-O":  ["V", "O"],
+                "La-O": ["LA", "O"],
+                "Ce-O": ["CE", "O"],
             }
             for label, elems in new_systems.items():
                 print(f"\n{'=' * 70}")

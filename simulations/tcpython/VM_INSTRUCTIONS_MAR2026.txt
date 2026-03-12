@@ -1,0 +1,90 @@
+VM EXTRACTION RUN — March 2026 (18 Oxides)
+=========================================
+
+Quick reference for running TC-Python on the OSU ETS Windows VM.
+Working from macOS via Citrix remote desktop.
+
+SETUP
+=====
+
+1. Open Citrix → https://ets.engineering.osu.edu/ → Log in → Launch VM
+
+2. On VM: Start menu → type "cmd" → click Command Prompt
+   (NOT PowerShell — it handles quotes differently)
+
+3. Navigate to script directory:
+   U:
+   cd \4381\honda-calphad-main\honda-calphad-main\simulations\tcpython
+
+   NOTE: If you re-downloaded the ZIP, adjust path accordingly.
+
+GET UPDATED SCRIPTS ONTO VM
+============================
+
+The scripts were updated locally (Mar 12) to add 7 moonshot oxides.
+You need to get the updated .py files onto the VM.
+
+Option A: Re-download ZIP from GitHub (if pushed first)
+   → git push from Mac first
+   → On VM browser: github.com/dimascad/honda-calphad → Code → Download ZIP
+   → Extract to U:\4381\
+
+Option B: Manually copy these 3 files via Citrix clipboard:
+   - extract_oxide_gibbs.py  (now has 18 oxides)
+   - check_databases.py      (now checks 11 element systems)
+   - verify_oxide_data.py    (now has 18 literature values)
+
+RUN CHECK
+=========
+
+"C:\Program Files\Thermo-Calc\2025b\python\python.exe" check_databases.py
+
+Look for: each element system (Cu-O, Al-O, Ni-O, Co-O, Pb-O, B-O, V-O,
+La-O, Ce-O) should show stable phases. If any element is NOT in TCOX14,
+that oxide will be skipped during extraction — note which ones.
+
+RUN EXTRACTION
+==============
+
+"C:\Program Files\Thermo-Calc\2025b\python\python.exe" extract_oxide_gibbs.py
+
+Timing: ~5-10 minutes (18 oxides × 31 temperatures = 558 data points)
+
+Watch for: "Completed: 31/31 temperatures" for each oxide.
+Note any ERRORS or oxides that fail.
+
+RUN VERIFY
+==========
+
+"C:\Program Files\Thermo-Calc\2025b\python\python.exe" verify_oxide_data.py
+
+All values should be within 15% of literature. Report outliers.
+
+COPY OUTPUT BACK TO MAC
+========================
+
+Output file location on VM:
+   U:\4381\honda-calphad-main\honda-calphad-main\data\tcpython\raw\oxide_gibbs_energies.csv
+
+Transfer methods:
+   A) Citrix clipboard drag-and-drop
+   B) Email to yourself
+   C) Upload to Google Drive via VM browser
+
+Place it at (on Mac):
+   honda-calphad/data/tcpython/raw/oxide_gibbs_energies.csv
+
+IMPORTANT REMINDERS
+===================
+
+- Python path (with quotes!): "C:\Program Files\Thermo-Calc\2025b\python\python.exe"
+- Use CMD, not PowerShell
+- To switch to U: drive, just type "U:" and Enter (not "cd U:\")
+- Save terminal output: copy-paste into a text file for reproducibility
+
+OXIDES IN THIS RUN (18 total)
+==============================
+
+Original 7:   Cu2O, CuO, Al2O3, MgO, SiO2, TiO2, FeO
+Feb 2026:     CaO, ZrO2, Cr2O3, MnO
+Mar 2026:     NiO, CoO, PbO, B2O3, V2O5, La2O3, CeO2

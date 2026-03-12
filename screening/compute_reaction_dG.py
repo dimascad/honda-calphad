@@ -24,11 +24,19 @@ oxides = {
     "TiO₂":   "dG_TiO2_per_O2",
     "FeO":    "dG_FeO_per_O2",
     "CuO":    "dG_CuO_per_O2",
-    # --- New oxides (from expanded screening) ---
+    # --- Expanded screening (Feb 2026) ---
     "CaO":    "dG_CaO_per_O2",
     "ZrO₂":   "dG_ZrO2_per_O2",
     "Cr₂O₃":  "dG_Cr2O3_per_O2",
     "MnO":    "dG_MnO_per_O2",
+    # --- Moonshot oxides (Mar 2026) ---
+    "NiO":    "dG_NiO_per_O2",
+    "CoO":    "dG_CoO_per_O2",
+    "PbO":    "dG_PbO_per_O2",
+    "B₂O₃":   "dG_B2O3_per_O2",
+    "V₂O₅":   "dG_V2O5_per_O2",
+    "La₂O₃":  "dG_La2O3_per_O2",
+    "CeO₂":   "dG_CeO2_per_O2",
 }
 
 cu2o_col = "dG_Cu2O_per_O2"
@@ -91,9 +99,11 @@ for r in results:
     print(f"  {r['Oxide']:<8}  ΔG_rxn = {gap:+.1f} kJ/mol O₂  →  {'UNFAVORABLE' if gap > 0 else 'FAVORABLE'}")
 
 print()
-print("Conclusion: Cu cannot reduce ANY of these oxides at any temperature.")
-print("The minimum gap is FeO, but even that is >200 kJ/mol O₂ unfavorable.")
+print("Conclusion: Cu cannot reduce ANY ceramic oxide at any steelmaking temperature.")
+print("The only 'reducible' oxides (NiO, PbO, CuO) are themselves tramp-element oxides.")
 print("Cu removal via direct oxide reduction is thermodynamically impossible.")
+print("Alternative mechanisms (vanadate formation, borate slag dissolution, spinel trapping)")
+print("must be investigated for candidates like V₂O₅, B₂O₃, and CeO₂.")
 
 # --- Screening table with literature data ---
 print("\n\n" + "=" * 85)

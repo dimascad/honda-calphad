@@ -24,11 +24,19 @@ LITERATURE_1000K = {
     "SiO2":  -730,   # moderately stable
     "TiO2":  -760,   # moderately stable
     "FeO":   -411,   # moderately stable
-    # New 4 (to verify)
+    # Screening expansion (Feb 2026)
     "CaO":   -1060,  # extremely stable, near MgO
     "ZrO2":  -920,   # very stable, between Al2O3 and MgO
     "Cr2O3": -580,   # moderate
     "MnO":   -640,   # moderate, between FeO and SiO2
+    # Moonshot oxides (Mar 2026) — literature values from EMF data & NIST
+    "NiO":   -244,   # just above Cu2O — Ni is a co-tramp element
+    "CoO":   -430,   # between FeO and MnO
+    "PbO":   -239,   # near Cu2O — Pb is a co-tramp element
+    "B2O3":  -845,   # low-melting flux, Cu2O soluble in borate slag
+    "V2O5":  -542,   # experimental evidence for Cu removal via copper vanadates
+    "La2O3": -1148,  # most stable — rare earth anchor
+    "CeO2":  -1000,  # Ce4+/Ce3+ redox active oxygen carrier
 }
 
 # Acceptable tolerance: 15% of literature value (TC databases may differ slightly)
@@ -97,7 +105,7 @@ def main():
     # Additional check: ordering should match Ellingham diagram
     print(f"\n{'='*75}")
     print("STABILITY ORDERING CHECK (most stable -> least stable at 1000 K)")
-    print("Expected: CaO > MgO > ZrO2 > Al2O3 > TiO2 > SiO2 > MnO > Cr2O3 > FeO > Cu2O > CuO")
+    print("Expected: La2O3 > CaO > CeO2 > MgO > ZrO2 > Al2O3 > B2O3 > TiO2 > SiO2 > MnO > V2O5 > Cr2O3 > CoO > FeO > NiO > PbO > Cu2O > CuO")
     print("=" * 75)
 
     found = {}

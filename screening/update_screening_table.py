@@ -74,31 +74,30 @@ def main():
             "Solid at 1527°C?": "Yes" if oxide["Tm"] > 1527 else ("No — LIQUID" if oxide["Tm"] <= 1527 else "Yes"),
         }
 
-        has_data = col in rows[0] and rows[0][col].strip() != ''
+        col_exists = col in rows[0]
         for T in TEMPS_K:
             T_C = T - 273
             key = f"ΔG_rxn @ {T_C}°C (kJ/mol O₂)"
-            if has_data:
+            if col_exists:
                 idx = int(np.argmin(np.abs(T_vals - T)))
-                val = rows[idx][col].strip()
+                val = rows[idx][col].strip() if rows[idx][col] else ''
                 if val:
                     dG_oxide = float(val)
                     dG_rxn = (cu2o_vals[T] - dG_oxide) / 1000  # J -> kJ
                     row[key] = f"{dG_rxn:+.1f}"
                 else:
-                    row[key] = "TBD — needs TC-Python"
-                    has_data = False
+                    row[key] = "No data at this T"
             else:
                 row[key] = "TBD — needs TC-Python"
 
-        if has_data:
-            # Use 1800K value for verdict
-            idx = int(np.argmin(np.abs(T_vals - 1800)))
-            val = rows[idx][col].strip()
-            dG_rxn_1800 = (cu2o_vals[1800] - float(val)) / 1000 if val else None
-            if dG_rxn_1800 is None:
-                row["Cu Can Reduce?"] = "TBD"
-            elif oxide["name"] == "CuO":
+        # Verdict: use 1800K value if available
+        idx_1800 = int(np.argmin(np.abs(T_vals - 1800)))
+        val_1800 = ''
+        if col_exists:
+            val_1800 = rows[idx_1800][col].strip() if rows[idx_1800][col] else ''
+        if val_1800:
+            dG_rxn_1800 = (cu2o_vals[1800] - float(val_1800)) / 1000
+            if oxide["name"] == "CuO":
                 row["Cu Can Reduce?"] = "Trivially yes (Cu self-oxidation)"
             elif dG_rxn_1800 > 0:
                 row["Cu Can Reduce?"] = "No"

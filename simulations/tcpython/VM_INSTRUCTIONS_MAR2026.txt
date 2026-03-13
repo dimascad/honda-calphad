@@ -88,3 +88,63 @@ OXIDES IN THIS RUN (18 total)
 Original 7:   Cu2O, CuO, Al2O3, MgO, SiO2, TiO2, FeO
 Feb 2026:     CaO, ZrO2, Cr2O3, MnO
 Mar 2026:     NiO, CoO, PbO, B2O3, V2O5, La2O3, CeO2
+
+
+==========================================================================
+PHASE 2: TERNARY REACTION EXTRACTION (Added Mar 13, 2026)
+==========================================================================
+
+This is the NEW calculation Zhang requested. Instead of formation energies,
+we now calculate Cu + oxide -> ternary compound (spinel, vanadate, etc.)
+
+RUN TERNARY EXTRACTION
+======================
+
+"C:\Program Files\Thermo-Calc\2025b\python\python.exe" extract_ternary_reactions.py
+
+Timing: ~15-30 minutes (15 ternary systems × ~20 products × ~23 temperatures)
+
+This script:
+  1. Sets up Cu-M-O ternary systems in TCOX14 for each oxide
+  2. Calculates equilibrium at the ternary compound stoichiometry
+  3. Compares system G to mechanical mixture (Cu + oxide) reference
+  4. Reports which reactions are FAVORABLE (dG < 0 = Cu captured)
+
+Watch for:
+  - "System: Cu-AL-O" → each ternary system starts
+  - "At 1800K: dG_rxn = -XX.X kJ → FAVORABLE" → copper captured!
+  - Elements not in TCOX14 will show "SYSTEM SETUP ERROR"
+  - SUMMARY table printed at end — screenshot this!
+
+Output file:
+  ..\..\data\tcpython\raw\ternary_reaction_energies.csv
+
+COPY OUTPUT BACK TO MAC
+========================
+
+Place at: honda-calphad/data/tcpython/raw/ternary_reaction_energies.csv
+
+Then run locally:
+  python3 screening/compute_ternary_dG.py
+
+TERNARY SYSTEMS CHECKED (15 oxide systems, ~20 products)
+=========================================================
+
+Spinel-formers:  Al2O3 -> CuAl2O4, CuAlO2
+                 Cr2O3 -> CuCr2O4
+                 MnO   -> CuMn2O4
+                 FeO   -> CuFe2O4
+                 CoO   -> CuCo2O4
+
+Vanadates:       V2O5  -> CuV2O6, Cu3V2O8
+
+Other compounds: TiO2  -> CuTiO3
+                 SiO2  -> CuSiO3, Cu2SiO4
+                 NiO   -> CuNiO2
+                 La2O3 -> CuLaO2
+                 CeO2  -> CuCeO3
+                 B2O3  -> Cu(BO2)2
+
+Hypothetical:    MgO   -> CuMgO2
+                 CaO   -> CuCaO2
+                 ZrO2  -> CuZrO3

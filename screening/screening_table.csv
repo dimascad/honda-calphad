@@ -12,7 +12,7 @@ CuO,CuO,6.31,1326,Yes,No — LIQUID,-58.8,-51.7,-41.0,Trivially yes (Cu self-oxi
 NiO,NiO,6.67,1955,Yes,Yes,+107.5,+99.5,+76.0,No,HIGH — IARC Group 1 carcinogen (inhalation),$0.016/g
 CoO,CoO,6.44,1830,Yes,Yes,+134.9,+141.3,+126.6,No,"HIGH — Carc. 1B, reproductive toxin",$0.018/g
 PbO,PbO,9.53,888,No,No — LIQUID,-34.7,+81.0,+136.2,No,"HIGH — Repr. 1A, cumulative neurotoxin",$0.004/g
-B₂O₃,B2O3,2.55,450,Yes,No — LIQUID,TBD — needs TC-Python,TBD — needs TC-Python,TBD — needs TC-Python,TBD,Moderate — Repr. 1B reproductive toxicant,$0.003/g
+B₂O₃,B2O3,2.55,450,Yes,No — LIQUID,No data at this T,No data at this T,+481.1,No,Moderate — Repr. 1B reproductive toxicant,$0.003/g
 V₂O₅,V2O5,3.36,690,Yes,No — LIQUID,+257.2,+267.0,+259.4,No,"HIGH — Carc. 1B, mutagenic, acute toxic",$0.011/g
 La₂O₃,La2O3,6.51,2315,Yes,Yes,+813.0,+795.2,+766.3,No,Low-Moderate — mild pulmonary risk,$0.010/g
 CeO₂,CeO2,7.22,2400,No,Yes,+997.2,+1156.3,+1240.7,No,Low,$0.006/g

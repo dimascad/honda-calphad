@@ -34,7 +34,6 @@ Run on OSU lab machine:
 """
 
 import csv
-import os
 from pathlib import Path
 from datetime import datetime
 

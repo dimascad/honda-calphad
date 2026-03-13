@@ -1,0 +1,152 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2867
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 U:\\4381\\honda-calphad-main (1)\\honda-calphad-main\\simulations\\tcpython>"C:\\Program Files\\Thermo-Calc\\2025b\\python\\python.exe" verify_oxide_data.py\
+===========================================================================\
+VERIFICATION: TC-Python vs Literature at 1000 K\
+===========================================================================\
+\
+Oxide           TC-Python     Literature       Diff     Status\
+-----------------------------------------------------------------\
+Cu2O             -190.8 kJ         -191 kJ      0.1%         OK\
+CuO              -132.0 kJ         -132 kJ      0.0%         OK\
+Al2O3            -907.5 kJ         -908 kJ      0.1%         OK\
+MgO              -986.8 kJ         -987 kJ      0.0%         OK\
+SiO2             -730.2 kJ         -730 kJ      0.0%         OK\
+TiO2             -760.2 kJ         -760 kJ      0.0%         OK\
+FeO              -411.2 kJ         -411 kJ      0.0%         OK\
+CaO             -1061.0 kJ        -1060 kJ      0.1%         OK\
+ZrO2             -909.4 kJ         -920 kJ      1.2%         OK\
+Cr2O3            -576.5 kJ         -580 kJ      0.6%         OK\
+MnO              -624.9 kJ         -640 kJ      2.4%         OK\
+NiO              -298.4 kJ         -244 kJ     22.3%      CHECK\
+CoO              -325.7 kJ         -430 kJ     24.3%      CHECK\
+PbO               MISSING         -239 kJ        ---    MISSING\
+B2O3              MISSING         -845 kJ        ---    MISSING\
+V2O5             -448.0 kJ         -542 kJ     17.3%      CHECK\
+La2O3           -1003.8 kJ        -1148 kJ     12.6%         OK\
+CeO2              MISSING        -1000 kJ        ---    MISSING\
+-----------------------------------------------------------------\
+\
+MISSING OXIDES: PbO, B2O3, CeO2\
+These need to be extracted \'97 run extract_oxide_gibbs.py on the OSU VM.\
+\
+Some values outside 15% tolerance \'97 review flagged entries.\
+Small deviations are expected (different databases, activity models).\
+Large deviations (>25%) suggest wrong phase or stoichiometry.\
+\
+===========================================================================\
+STABILITY ORDERING CHECK (most stable -> least stable at 1000 K)\
+Expected: La2O3 > CaO > CeO2 > MgO > ZrO2 > Al2O3 > B2O3 > TiO2 > SiO2 > MnO > V2O5 > Cr2O3 > CoO > FeO > NiO > PbO > Cu2O > CuO\
+===========================================================================\
+\
+TC-Python ordering (most negative = most stable):\
+   1. CaO           -1061.0 kJ/mol O2\
+   2. La2O3         -1003.8 kJ/mol O2\
+   3. MgO            -986.8 kJ/mol O2\
+   4. ZrO2           -909.4 kJ/mol O2\
+   5. Al2O3          -907.5 kJ/mol O2\
+   6. TiO2           -760.2 kJ/mol O2\
+   7. SiO2           -730.2 kJ/mol O2\
+   8. MnO            -624.9 kJ/mol O2\
+   9. Cr2O3          -576.5 kJ/mol O2\
+  10. V2O5           -448.0 kJ/mol O2\
+  11. FeO            -411.2 kJ/mol O2\
+  12. CoO            -325.7 kJ/mol O2\
+  13. NiO            -298.4 kJ/mol O2\
+  14. Cu2O           -190.8 kJ/mol O2\
+  15. CuO            -132.0 kJ/mol O2\
+\
+===========================================================================\
+PHASE IDENTIFICATION CHECK\
+===========================================================================\
+  Cu2O       phase: CUPRITE#1\
+  CuO        phase: CUO#1\
+  Al2O3      phase: CORUNDUM#1\
+  MgO        phase: HALITE#1\
+  SiO2       phase: QUARTZ#1\
+  TiO2       phase: RUTILE#1\
+  FeO        phase: HALITE#1\
+  CaO        phase: HALITE#1\
+  ZrO2       phase: ZRO2_MONO#1\
+  Cr2O3      phase: CORUNDUM#1\
+  MnO        phase: HALITE#1\
+  NiO        phase: HALITE#1\
+  CoO        phase: HALITE#1\
+  PbO        phase:\
+  B2O3       phase:\
+  V2O5       phase: NOT_FOUND            *** NOT_FOUND \'97 used system GM instead\
+  La2O3      phase: NOT_FOUND            *** NOT_FOUND \'97 used system GM instead\
+  CeO2       phase:\
+\
+U:\\4381\\honda-calphad-main (1)\\honda-calphad-main\\simulations\\tcpython>cd "U:\\4381\\honda-calphad-main (2)\\honda-calphad-main\\simulations\\tcpython"\
+\
+U:\\4381\\honda-calphad-main (2)\\honda-calphad-main\\simulations\\tcpython>"C:\\Program Files\\Thermo-Calc\\2025b\\python\\python.exe" extract_ssub3_fallback.py\
+============================================================\
+SSUB3 Fallback Extraction for Missing Oxides\
+PbO, B2O3, CeO2 \'97 not available in TCOX14\
+============================================================\
+\
+Existing CSV: 31 rows, 110 columns\
+Temperature range: 500 - 2000 K\
+19:42:32,781 [Thread-1] INFO  CalculationEngine: Starting Thermo-Calc 2025b, Java-version: 21.0.2\
+\
+============================================================\
+Extracting PbO from SSUB3 (['PB', 'O'])\
+  X_O = 0.5000, atoms_per_formula = 2\
+============================================================\
+19:42:35,444 [Thread-1] INFO  CalculationEngine: Opening database::SSUB3::\
+  T=500K: GM=-127614.5 J/mol-at, dG_f=-127.6 kJ/mol O2\
+  T=1000K: GM=-156073.6 J/mol-at, dG_f=-156.1 kJ/mol O2\
+  T=1500K: GM=-195901.7 J/mol-at, dG_f=-195.9 kJ/mol O2\
+  T=2000K: GM=-245436.4 J/mol-at, dG_f=-245.4 kJ/mol O2\
+\
+  Completed: 31/31 temperatures\
+\
+============================================================\
+Extracting B2O3 from SSUB3 (['B', 'O'])\
+  X_O = 0.6000, atoms_per_formula = 5\
+============================================================\
+19:42:38,158 [Thread-1] INFO  CalculationEngine: Opening database::SSUB3::\
+  T=500K: GM=-260918.9 J/mol-at, dG_f=-1956.9 kJ/mol O2\
+  T=1000K: GM=-276690.4 J/mol-at, dG_f=-2075.2 kJ/mol O2\
+  T=1500K: GM=-302370.0 J/mol-at, dG_f=-2267.8 kJ/mol O2\
+  T=2000K: GM=-336521.7 J/mol-at, dG_f=-2523.9 kJ/mol O2\
+\
+  Completed: 31/31 temperatures\
+\
+============================================================\
+Extracting CeO2 from SSUB3 (['CE', 'O'])\
+  X_O = 0.6667, atoms_per_formula = 3\
+============================================================\
+19:42:40,055 [Thread-1] INFO  CalculationEngine: Opening database::SSUB3::\
+  T=500K: GM=-375086.9 J/mol-at, dG_f=-1125.3 kJ/mol O2\
+  T=1000K: GM=-395996.5 J/mol-at, dG_f=-1188.0 kJ/mol O2\
+  T=1500K: GM=-423728.6 J/mol-at, dG_f=-1271.2 kJ/mol O2\
+  T=2000K: GM=-456214.7 J/mol-at, dG_f=-1368.6 kJ/mol O2\
+\
+  Completed: 31/31 temperatures\
+\
+============================================================\
+Updating CSV...\
+  PbO: wrote 31/31 values to dG_PbO_per_O2\
+  B2O3: wrote 31/31 values to dG_B2O3_per_O2\
+  CeO2: wrote 31/31 values to dG_CeO2_per_O2\
+\
+CSV updated: U:\\4381\\honda-calphad-main (2)\\honda-calphad-main\\data\\tcpython\\raw\\oxide_gibbs_energies.csv\
+Total columns: 110\
+\
+============================================================\
+SUMMARY\
+============================================================\
+  PbO: 31/31 temps, dG_f(1000K) = -156.1 kJ/mol O2\
+  B2O3: 31/31 temps, dG_f(1000K) = -2075.2 kJ/mol O2\
+  CeO2: 31/31 temps, dG_f(1000K) = -1188.0 kJ/mol O2\
+\
+Done. Run verify_oxide_data.py to check results.\
+\
+U:\\4381\\honda-calphad-main (2)\\honda-calphad-main\\simulations\\tcpython>}

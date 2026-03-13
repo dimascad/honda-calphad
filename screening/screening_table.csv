@@ -1,11 +1,18 @@
 Oxide,Formula,Density (g/cm³),Melting Point (°C),Floats on Steel?,Solid at 1527°C?,ΔG_rxn @ 727°C (kJ/mol O₂),ΔG_rxn @ 1227°C (kJ/mol O₂),ΔG_rxn @ 1527°C (kJ/mol O₂),Cu Can Reduce?,Toxicity,Cost / Availability
-MgO,MgO,3.58,2852,Yes,Yes,+796.0,+736.5,+642.9,No,Low,Low — common refractory
-Al₂O₃,Al2O3,3.95,2072,Yes,Yes,+716.7,+682.7,+644.8,No,Low,Low — common ceramic
-CaO,CaO,3.34,2613,Yes,Yes,+870.2,+836.4,+791.3,No,Low,Very low — lime/steelmaking flux
-ZrO₂,ZrO2,5.68,2715,Yes,Yes,+718.6,+702.1,+675.7,No,Low,Moderate — refractory ceramic
-Cr₂O₃,Cr2O3,5.22,2435,Yes,Yes,+385.7,+377.8,+354.8,No,Moderate — Cr(VI) risk if oxidized,Moderate
-TiO₂,TiO2,4.23,1843,Yes,Yes,+569.4,+556.7,+531.3,No,Low,Moderate
-SiO₂,SiO2,2.65,1713,Yes,Yes,+539.4,+529.4,+502.7,No,Low (crystalline silica = inhalation hazard),Very low — sand
-MnO,MnO,5.43,1842,Yes,Yes,+434.1,+433.9,+408.9,No,Low,Low — common slag component
-FeO,FeO,5.74,1377,Yes,No — LIQUID,+220.4,+230.7,+213.8,No,Low,Very low — mill scale
-CuO,CuO,6.31,1326,Yes,No — LIQUID,-58.8,-51.7,-41.0,Trivially yes (Cu self-oxidation),Moderate — aquatic toxin,Moderate
+MgO,MgO,3.58,2852,Yes,Yes,+796.0,+736.5,+642.9,No,Low,$0.0003/g
+Al₂O₃,Al2O3,3.95,2072,Yes,Yes,+716.7,+682.7,+644.8,No,Low,$0.0005/g
+CaO,CaO,3.34,2613,Yes,Yes,+870.2,+836.4,+791.3,No,Low,$0.0002/g
+ZrO₂,ZrO2,5.68,2715,Yes,Yes,+718.6,+702.1,+675.7,No,Low,$0.035/g
+Cr₂O₃,Cr2O3,5.22,2435,Yes,Yes,+385.7,+377.8,+354.8,No,Moderate — Cr(VI) risk if oxidized,$0.005/g
+TiO₂,TiO2,4.23,1843,Yes,Yes,+569.4,+556.7,+531.3,No,Low,$0.003/g
+SiO₂,SiO2,2.65,1713,Yes,Yes,+539.4,+529.4,+502.7,No,Low (crystalline = inhalation hazard),$0.00005/g
+MnO,MnO,5.43,1842,Yes,Yes,+434.1,+433.9,+408.9,No,Low,$0.005/g
+FeO,FeO,5.74,1377,Yes,No — LIQUID,+220.4,+230.7,+213.8,No,Low,$0.0009/g
+CuO,CuO,6.31,1326,Yes,No — LIQUID,-58.8,-51.7,-41.0,Trivially yes (Cu self-oxidation),Moderate — aquatic toxin,$0.008/g
+NiO,NiO,6.67,1955,Yes,Yes,+107.5,+99.5,+76.0,No,HIGH — IARC Group 1 carcinogen (inhalation),$0.016/g
+CoO,CoO,6.44,1830,Yes,Yes,+134.9,+141.3,+126.6,No,"HIGH — Carc. 1B, reproductive toxin",$0.018/g
+PbO,PbO,9.53,888,No,No — LIQUID,-34.7,+81.0,+136.2,No,"HIGH — Repr. 1A, cumulative neurotoxin",$0.004/g
+B₂O₃,B2O3,2.55,450,Yes,No — LIQUID,TBD — needs TC-Python,TBD — needs TC-Python,TBD — needs TC-Python,TBD,Moderate — Repr. 1B reproductive toxicant,$0.003/g
+V₂O₅,V2O5,3.36,690,Yes,No — LIQUID,+257.2,+267.0,+259.4,No,"HIGH — Carc. 1B, mutagenic, acute toxic",$0.011/g
+La₂O₃,La2O3,6.51,2315,Yes,Yes,+813.0,+795.2,+766.3,No,Low-Moderate — mild pulmonary risk,$0.010/g
+CeO₂,CeO2,7.22,2400,No,Yes,+997.2,+1156.3,+1240.7,No,Low,$0.006/g

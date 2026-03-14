@@ -12,19 +12,13 @@ Since ln(a_Cu) is negative (a_Cu < 1), the RT*ln(a_Cu) term is POSITIVE,
 making reactions LESS favorable. This correction preserves the ranking but
 changes which reactions remain thermodynamically viable.
 
-For the oxide reference, we keep the pure oxide (activity = 1) since we're
-adding solid oxide powder, not dissolved oxide.
-
-For O2, at steelmaking conditions pO2 is very low (~1e-10 atm for Al-killed
-steel), but in our reaction framework O2 is consumed from the atmosphere or
-slag, not the steel. We compute two cases:
-  Case A: pO2 = 1 atm (as in our existing calculations)
-  Case B: pO2 = 0.21 atm (air)
-
-The dominant correction is the Cu activity term.
+IMPORTANT: For each parent oxide, we evaluate ALL possible products and pick
+the one with the most favorable corrected dG. Under dilute Cu conditions,
+products consuming fewer Cu atoms are preferred (e.g., CuV2O6 over Cu3V2O8).
 
 Output: data/tcpython/processed/activity_corrected_dG.csv
         figures/dG_corrected_comparison.png + .pdf
+        figures/dG_sensitivity_gamma_Cu.png + .pdf
 """
 
 import csv
@@ -36,7 +30,12 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).parent
-CSV_IN = SCRIPT_DIR.parent / "data" / "tcpython" / "raw" / "dG_vs_T_top6.csv"
+
+# Primary data source: fine-resolution top 6 (25K steps)
+CSV_TOP6 = SCRIPT_DIR.parent / "data" / "tcpython" / "raw" / "dG_vs_T_top6.csv"
+# Full data source: all products (50K steps) — for products not in top 6
+CSV_FULL = SCRIPT_DIR.parent / "data" / "tcpython" / "raw" / "ternary_reaction_energies.csv"
+
 CSV_OUT = SCRIPT_DIR.parent / "data" / "tcpython" / "processed" / "activity_corrected_dG.csv"
 FIG_DIR = SCRIPT_DIR.parent / "figures"
 
@@ -45,9 +44,9 @@ R = 8.314  # J/(mol*K)
 # Steelmaking Cu level
 X_CU = 0.003  # ~0.3 wt% Cu in steel
 
-# For dilute solution in liquid iron, a_Cu ≈ gamma * X_Cu
-# gamma_Cu in liquid Fe at 1800K is approximately 8-10 (Raoultian)
-# Using gamma = 8.5 as a reasonable estimate from literature
+# For dilute solution in liquid iron, a_Cu = gamma * X_Cu
+# gamma_Cu in liquid Fe at 1800K: literature range 5-13 (Raoultian)
+# Hino & Ito (2010) recommend ~8.5; Sigworth & Elliott (1974) give ~10
 GAMMA_CU = 8.5
 A_CU = GAMMA_CU * X_CU  # ~0.0255
 
@@ -55,10 +54,11 @@ A_CU = GAMMA_CU * X_CU  # ~0.0255
 # Cu + MOx + n*O2 -> CuMOy
 O2_COEFFICIENTS = {
     "CuFe2O4": 1.0,     # Cu + 2FeO + O2 -> CuFe2O4
-    "Cu3V2O8": 1.5,     # 3Cu + V2O5 + 1.5O2 -> Cu3V2O8 (need to check)
+    "Cu3V2O8": 1.5,     # 3Cu + V2O5 + 1.5O2 -> Cu3V2O8
+    "CuV2O6":  0.5,     # Cu + V2O5 + 0.5O2 -> CuV2O6
     "CuMn2O4": 1.0,     # Cu + 2MnO + O2 -> CuMn2O4
-    "Cu2SiO4": 1.0,     # 2Cu + SiO2 + O2 -> Cu2SiO4 (need to check)
-    "CuB2O4": 0.5,      # Cu + B2O3 + 0.5O2 -> CuB2O4
+    "Cu2SiO4": 1.0,     # 2Cu + SiO2 + O2 -> Cu2SiO4
+    "CuB2O4":  0.5,     # Cu + B2O3 + 0.5O2 -> CuB2O4
     "CuAl2O4": 0.5,     # Cu + Al2O3 + 0.5O2 -> CuAl2O4
 }
 
@@ -66,17 +66,23 @@ O2_COEFFICIENTS = {
 CU_ATOMS = {
     "CuFe2O4": 1,
     "Cu3V2O8": 3,
+    "CuV2O6":  1,
     "CuMn2O4": 1,
     "Cu2SiO4": 2,
-    "CuB2O4": 1,
+    "CuB2O4":  1,
     "CuAl2O4": 1,
 }
 
-PRODUCT_ORDER = ["CuFe2O4", "Cu3V2O8", "CuMn2O4", "Cu2SiO4", "CuB2O4", "CuAl2O4"]
+# Plot order: by corrected dG (most favorable first)
+PRODUCT_ORDER = [
+    "CuFe2O4", "CuMn2O4", "CuV2O6", "CuB2O4",
+    "CuAl2O4", "Cu3V2O8", "Cu2SiO4",
+]
 
 COLORS = {
     "CuFe2O4": "#0077BB",
     "Cu3V2O8": "#EE7733",
+    "CuV2O6":  "#CC6600",
     "CuMn2O4": "#AA3377",
     "Cu2SiO4": "#009988",
     "CuB2O4":  "#EE3377",
@@ -86,6 +92,7 @@ COLORS = {
 LINE_STYLES = {
     "CuFe2O4": "-",
     "Cu3V2O8": "--",
+    "CuV2O6":  "-.",
     "CuMn2O4": ":",
     "Cu2SiO4": "-.",
     "CuB2O4":  "-",
@@ -95,11 +102,69 @@ LINE_STYLES = {
 SHORT_LABELS = {
     "CuFe2O4": r"CuFe$_2$O$_4$",
     "Cu3V2O8": r"Cu$_3$V$_2$O$_8$",
+    "CuV2O6":  r"CuV$_2$O$_6$",
     "CuMn2O4": r"CuMn$_2$O$_4$",
     "Cu2SiO4": r"Cu$_2$SiO$_4$",
     "CuB2O4":  r"CuB$_2$O$_4$",
     "CuAl2O4": r"CuAl$_2$O$_4$",
 }
+
+# Parent oxide for each product (for sensitivity analysis grouping)
+PARENT_OXIDE = {
+    "CuFe2O4": "FeO",
+    "Cu3V2O8": "V2O5",
+    "CuV2O6":  "V2O5",
+    "CuMn2O4": "MnO",
+    "Cu2SiO4": "SiO2",
+    "CuB2O4":  "B2O3",
+    "CuAl2O4": "Al2O3",
+}
+
+
+def load_data():
+    """Load dG data from both CSV sources."""
+    data = {}
+
+    # First load fine-resolution top-6 data
+    if CSV_TOP6.exists():
+        with open(CSV_TOP6) as f:
+            for r in csv.DictReader(f):
+                product = r["product"]
+                if product not in O2_COEFFICIENTS:
+                    continue
+                if product not in data:
+                    data[product] = []
+                try:
+                    T = float(r["T_K"])
+                    dG_pure = float(r["dG_rxn_system_kJ"])
+                    data[product].append((T, dG_pure))
+                except (ValueError, KeyError):
+                    pass
+
+    # Then load any missing products from the full ternary CSV
+    # Only load products we don't already have from the fine-resolution CSV
+    products_from_top6 = set(data.keys())
+    if CSV_FULL.exists():
+        with open(CSV_FULL) as f:
+            for r in csv.DictReader(f):
+                product = r.get("product", "")
+                if product not in O2_COEFFICIENTS:
+                    continue
+                if product in products_from_top6:
+                    continue  # already have fine-resolution data
+                if product not in data:
+                    data[product] = []
+                try:
+                    T = float(r["T_K"])
+                    dG_kJ_str = r.get("dG_rxn_system_kJ", "")
+                    if not dG_kJ_str:
+                        continue
+                    dG_pure = float(dG_kJ_str)
+                    data[product].append((T, dG_pure))
+                except (ValueError, KeyError):
+                    pass
+
+    return data
 
 
 def main():
@@ -110,24 +175,16 @@ def main():
     print("RT*ln(a_Cu) at 1800K = %.1f kJ/mol" % (R * 1800 * math.log(A_CU) / 1000))
     print()
 
-    # Read existing dG data
-    with open(CSV_IN) as f:
-        rows = list(csv.DictReader(f))
+    data = load_data()
 
-    # Group by product
-    data = {}
-    for r in rows:
-        product = r["product"]
-        if product not in PRODUCT_ORDER:
-            continue
-        if product not in data:
-            data[product] = []
-        try:
-            T = float(r["T_K"])
-            dG_pure = float(r["dG_rxn_system_kJ"])
-            data[product].append((T, dG_pure))
-        except (ValueError, KeyError):
-            pass
+    # Report what we loaded
+    for product in PRODUCT_ORDER:
+        n = len(data.get(product, []))
+        src = "top6" if product in ["CuFe2O4", "Cu3V2O8", "CuMn2O4",
+                                     "Cu2SiO4", "CuB2O4", "CuAl2O4"] and n > 30 \
+              else "ternary_full"
+        print("  %-14s: %3d data points (source: %s)" % (product, n, src))
+    print()
 
     # Compute corrections
     CSV_OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -135,11 +192,9 @@ def main():
 
     out_rows = []
 
-    print("%-14s  %8s  %8s  %8s  %8s  %s" % (
-        "Product", "dG_pure", "Cu_corr", "dG_corr", "dG_corr", "Verdict"))
-    print("%-14s  %8s  %8s  %8s  %8s" % (
-        "", "(kJ)", "(kJ)", "(kJ)", "@1800K"))
-    print("-" * 70)
+    print("%-14s  %4s  %8s  %8s  %8s  %8s  %s" % (
+        "Product", "nCu", "dG_pure", "Cu_corr", "dG_corr", "dG_air", "Verdict"))
+    print("-" * 75)
 
     for product in PRODUCT_ORDER:
         if product not in data:
@@ -179,19 +234,20 @@ def main():
                 "a_Cu": round(A_CU, 4),
                 "n_Cu": n_cu,
                 "n_O2": n_o2,
+                "parent_oxide": PARENT_OXIDE[product],
                 "verdict_corrected": "FAVORABLE" if dG_corrected_A < 0 else "UNFAVORABLE",
             })
 
             # Print 1800K values
             if abs(T - 1800) < 1:
                 verdict = "FAVORABLE" if dG_corrected_A < 0 else "UNFAVORABLE"
-                print("%-14s  %8.1f  %8.1f  %8.1f  %8.1f  %s" % (
-                    product, dG_pure, cu_correction_kJ,
+                print("%-14s  %4d  %8.1f  %8.1f  %8.1f  %8.1f  %s" % (
+                    product, n_cu, dG_pure, cu_correction_kJ,
                     dG_corrected_A, dG_corrected_B, verdict))
 
     # Write CSV
     fieldnames = [
-        "product", "T_K", "T_C", "dG_pure_kJ", "Cu_correction_kJ",
+        "product", "parent_oxide", "T_K", "T_C", "dG_pure_kJ", "Cu_correction_kJ",
         "O2_correction_air_kJ", "dG_corrected_pO2_1atm_kJ",
         "dG_corrected_pO2_air_kJ", "a_Cu", "n_Cu", "n_O2", "verdict_corrected",
     ]
@@ -204,7 +260,7 @@ def main():
     print("CSV saved: %s" % CSV_OUT)
 
     # ==========================================================================
-    # Plot: Pure vs Corrected comparison
+    # Plot 1: Pure vs Corrected comparison (both panels)
     # ==========================================================================
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
@@ -239,8 +295,6 @@ def main():
     for ax in [ax1, ax2]:
         ax.axhline(y=0, color='black', linewidth=0.8, linestyle='-', alpha=0.5)
         ax.axvspan(1500, 1650, color='#CCCCCC', alpha=0.25, zorder=0)
-        ax.text(1575, ax.get_ylim()[1] * 0.9, "Steelmaking\nrange",
-                fontsize=8, color='#777777', ha='center', va='top', style='italic')
         ax.set_xlabel(r"Temperature ($^\circ$C)", fontsize=12)
         ax.set_ylabel(r"$\Delta G_{\mathrm{rxn}}$ (kJ/mol)", fontsize=12)
         ax.grid(True, which='major', alpha=0.3)
@@ -248,6 +302,12 @@ def main():
         ax.grid(True, which='minor', alpha=0.1)
         for spine in ax.spines.values():
             spine.set_visible(False)
+
+    # Set y-limits after plotting so text placement works
+    for ax in [ax1, ax2]:
+        ymin, ymax = ax.get_ylim()
+        ax.text(1575, ymax - 0.05 * (ymax - ymin), "Steelmaking\nrange",
+                fontsize=8, color='#777777', ha='center', va='top', style='italic')
 
     ax1.set_title("Pure Reference States\n" + r"($a_{\mathrm{Cu}}$ = 1)", fontsize=11)
     ax2.set_title("Steelmaking Conditions\n" +
@@ -269,31 +329,127 @@ def main():
     print("Figure saved: %s" % pdf_path)
 
     # ==========================================================================
+    # Plot 2: gamma_Cu sensitivity analysis at 1800K
+    # ==========================================================================
+    gamma_range = np.linspace(3.0, 15.0, 50)
+    T_sens = 1800.0
+
+    # Get dG_pure at 1800K for each product
+    dG_pure_1800 = {}
+    for product in PRODUCT_ORDER:
+        if product not in data:
+            continue
+        for T, dG in data[product]:
+            if abs(T - T_sens) < 1:
+                dG_pure_1800[product] = dG
+                break
+
+    fig2, ax3 = plt.subplots(1, 1, figsize=(8, 5.5))
+
+    for product in PRODUCT_ORDER:
+        if product not in dG_pure_1800:
+            continue
+
+        dG_pure = dG_pure_1800[product]
+        n_cu = CU_ATOMS[product]
+
+        dG_eff = np.array([
+            dG_pure + (-n_cu * R * T_sens * math.log(g * X_CU) / 1000.0)
+            for g in gamma_range
+        ])
+
+        ax3.plot(gamma_range, dG_eff,
+                 color=COLORS[product],
+                 linestyle=LINE_STYLES[product],
+                 linewidth=1.8,
+                 label="%s (n$_{Cu}$=%d)" % (SHORT_LABELS[product], n_cu))
+
+    ax3.axhline(y=0, color='black', linewidth=0.8, linestyle='-', alpha=0.5)
+    ax3.axvspan(7.0, 10.0, color='#CCCCCC', alpha=0.2, zorder=0,
+                label=r"Literature $\gamma_{\mathrm{Cu}}$ range")
+    ax3.axvline(x=GAMMA_CU, color='black', linewidth=0.5, linestyle='--', alpha=0.4)
+
+    ax3.set_xlabel(r"$\gamma_{\mathrm{Cu}}$ (Raoultian activity coefficient)", fontsize=12)
+    ax3.set_ylabel(r"$\Delta G_{\mathrm{eff}}$ at 1800 K (kJ/mol)", fontsize=12)
+    ax3.set_title(r"Sensitivity to $\gamma_{\mathrm{Cu}}$ at 1800 K, $X_{\mathrm{Cu}}$ = 0.003",
+                  fontsize=11)
+    ax3.legend(fontsize=7, loc='upper left', framealpha=0.9, edgecolor='#CCCCCC')
+    ax3.grid(True, which='major', alpha=0.3)
+    ax3.minorticks_on()
+    ax3.grid(True, which='minor', alpha=0.1)
+    for spine in ax3.spines.values():
+        spine.set_visible(False)
+
+    plt.tight_layout()
+    sens_png = FIG_DIR / "dG_sensitivity_gamma_Cu.png"
+    sens_pdf = FIG_DIR / "dG_sensitivity_gamma_Cu.pdf"
+    fig2.savefig(sens_png, dpi=300, bbox_inches='tight')
+    fig2.savefig(sens_pdf, bbox_inches='tight')
+    plt.close(fig2)
+
+    print("Figure saved: %s" % sens_png)
+    print("Figure saved: %s" % sens_pdf)
+
+    # ==========================================================================
     # Summary at 1800K
     # ==========================================================================
     print()
-    print("=" * 70)
-    print("RANKING AT 1800K — Activity-Corrected (a_Cu = %.4f)" % A_CU)
-    print("=" * 70)
+    print("=" * 75)
+    print("RANKING AT 1800K - Activity-Corrected (a_Cu = %.4f)" % A_CU)
+    print("=" * 75)
     print()
 
-    results_1800 = [(r["product"], r["dG_pure_kJ"], r["dG_corrected_pO2_1atm_kJ"])
+    results_1800 = [(r["product"], r["n_Cu"], r["dG_pure_kJ"],
+                     r["dG_corrected_pO2_1atm_kJ"])
                     for r in out_rows if abs(r["T_K"] - 1800) < 1]
-    results_1800.sort(key=lambda x: x[2])
+    results_1800.sort(key=lambda x: x[3])
 
-    print("%-4s %-14s %10s %12s %10s" % (
-        "Rank", "Product", "dG_pure", "dG_corrected", "Status"))
-    print("-" * 55)
-    for i, (product, dG_pure, dG_corr) in enumerate(results_1800, 1):
-        status = "OK" if dG_corr < 0 else "LOST"
-        print("%-4d %-14s %10.1f %12.1f %10s" % (
-            i, product, dG_pure, dG_corr, status))
+    print("%-4s %-14s %4s %10s %12s %10s" % (
+        "Rank", "Product", "nCu", "dG_pure", "dG_corrected", "Status"))
+    print("-" * 60)
+    for i, (product, n_cu, dG_pure, dG_corr) in enumerate(results_1800, 1):
+        if dG_corr < -10:
+            status = "ROBUST"
+        elif dG_corr < 0:
+            status = "MARGINAL"
+        elif dG_corr < 15:
+            status = "UNCERTAIN"
+        else:
+            status = "UNFAVORABLE"
+        print("%-4d %-14s %4d %10.1f %12.1f %10s" % (
+            i, product, n_cu, dG_pure, dG_corr, status))
 
-    n_surviving = sum(1 for _, _, dG in results_1800 if dG < 0)
+    n_favorable = sum(1 for _, _, _, dG in results_1800 if dG < 0)
+    n_uncertain = sum(1 for _, _, _, dG in results_1800 if 0 <= dG < 15)
+    n_unfavorable = sum(1 for _, _, _, dG in results_1800 if dG >= 15)
     print()
-    print("%d of %d reactions remain favorable after correction." % (
-        n_surviving, len(results_1800)))
-    print("=" * 70)
+    print("%d favorable, %d uncertain (within gamma_Cu error), %d unfavorable" % (
+        n_favorable, n_uncertain, n_unfavorable))
+
+    # V2O5 comparison: which product is preferred?
+    print()
+    print("=" * 75)
+    print("V2O5 PRODUCTS: Cu3V2O8 vs CuV2O6")
+    print("=" * 75)
+    for product in ["Cu3V2O8", "CuV2O6"]:
+        for r in out_rows:
+            if r["product"] == product and abs(r["T_K"] - 1800) < 1:
+                print("  %-14s: n_Cu=%d, dG_pure=%+.1f, correction=%+.1f, dG_eff=%+.1f kJ" % (
+                    product, r["n_Cu"], r["dG_pure_kJ"],
+                    r["Cu_correction_kJ"], r["dG_corrected_pO2_1atm_kJ"]))
+    print("  Under dilute Cu, CuV2O6 (1 Cu) is preferred over Cu3V2O8 (3 Cu)")
+    print("  At Bureau of Mines conditions (~1 wt%% Cu, a_Cu~0.13):")
+    for product in ["Cu3V2O8", "CuV2O6"]:
+        if product in dG_pure_1800:
+            n_cu = CU_ATOMS[product]
+            a_cu_bom = 8.5 * 0.015  # ~1 wt% Cu
+            corr = -n_cu * R * 1800 * math.log(a_cu_bom) / 1000.0
+            dG_eff_bom = dG_pure_1800[product] + corr
+            print("    %-14s: dG_eff = %+.1f kJ (a_Cu=%.3f) -> %s" % (
+                product, dG_eff_bom, a_cu_bom,
+                "FAVORABLE" if dG_eff_bom < 0 else "UNFAVORABLE"))
+
+    print("=" * 75)
 
 
 if __name__ == "__main__":

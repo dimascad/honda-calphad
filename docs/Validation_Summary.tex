@@ -522,14 +522,18 @@ The ZnAl$_2$O$_4$ result is particularly relevant: it demonstrates that spinel-b
 
 \subsection{DICTRA / Kinetics Assessment}
 
-A literature and database survey confirms:
+A literature survey initially concluded that no oxide mobility database existed. However, VM probing (March 13) revealed:
 
 \begin{itemize}[leftmargin=*]
-    \item \textbf{No oxide mobility database (MOBOX) exists} in Thermo-Calc. DICTRA diffusion simulations within oxide/slag/spinel phases are therefore not currently possible.
+    \item \textbf{MOBOX1 and MOBOX2 are installed} on the OSU VM, contrary to initial literature findings. These are oxide-phase mobility databases that could potentially enable DICTRA diffusion modeling within slag/spinel phases.
 
-    \item \textbf{MOBFE} (steel mobility) covers Cu diffusion in metallic Fe-based phases. This could model Cu transport on the steel side of a steel-slag interface, but not within the oxide.
+    \item \textbf{MOBFE5--9 are installed} (steel mobility), covering Cu diffusion in metallic Fe-based phases. However, the DICTRA API (\texttt{select\_thermodynamic\_and\_kinetic\_databases\_with\_elements}) could not locate MOBFE9 via the kinetic database discovery method, despite its presence as a standalone database.
 
-    \item \textbf{Process Metallurgy Module} offers simplified slag-metal kinetic modeling (composition evolution vs.\ time) but uses empirical mass-transfer coefficients rather than rigorous diffusion calculations.
+    \item \textbf{TCFE+TCOX combined loading fails} due to incompatible CORUNDUM phase descriptions (see Limitation~5). This prevents modeling the full steel-slag interface even if DICTRA could connect.
+
+    \item \textbf{No Process Metallurgy Module} is available on the OSU VM.
+
+    \item \textbf{Unexplored path:} Loading MOBOX directly with TCOX (without TCFE) may enable oxide-phase diffusion modeling. This has not yet been tested.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -537,23 +541,65 @@ A literature and database survey confirms:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions and Next Steps}
 
+\subsection{Activity-Corrected $\Delta G$ Under Steelmaking Conditions}
+
+The pure-component $\Delta G$ values overstate the driving force because Cu is dilute in steel. Under steelmaking conditions ($X_{\text{Cu}} = 0.003$, $\gamma_{\text{Cu}} = 8.5$, $a_{\text{Cu}} = 0.0255$), each Cu atom consumed adds $+RT\ln(1/a_{\text{Cu}}) = +54.9$~kJ at \SI{1800}{\kelvin} to the reaction free energy. Reactions consuming multiple Cu atoms per formula unit are penalized most heavily.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{dG_corrected_comparison.png}
+    \caption{Comparison of $\Delta G_{\text{rxn}}$ under pure reference states (left) vs.\ steelmaking conditions (right, $a_{\text{Cu}} = 0.0255$). Only CuFe$_2$O$_4$ and CuMn$_2$O$_4$ remain below zero at steelmaking temperatures. Cu$_3$V$_2$O$_8$ crosses zero because its 3-Cu stoichiometry incurs a $3\times$ activity penalty.}
+    \label{fig:dG_corrected}
+\end{figure}
+
+\begin{table}[H]
+\caption{Activity-Corrected $\Delta G$ at \SI{1800}{\kelvin} ($a_{\text{Cu}} = 0.0255$)}
+\label{tab:corrected}
+\centering
+\renewcommand{\arraystretch}{1.3}
+\setlength{\arrayrulewidth}{0.8pt}
+\begin{tabular}{|>{\centering\arraybackslash}p{0.3in}|>{\raggedright\arraybackslash}p{1.3in}|>{\centering\arraybackslash}p{0.5in}|>{\centering\arraybackslash}p{0.8in}|>{\centering\arraybackslash}p{0.8in}|>{\centering\arraybackslash}p{1.0in}|>{\centering\arraybackslash}p{0.8in}|}
+\hline
+\rowcolor{headercolor}
+\textcolor{white}{\textbf{\#}} & \textcolor{white}{\textbf{Product}} & \textcolor{white}{\textbf{$n_{\text{Cu}}$}} & \textcolor{white}{\textbf{$\Delta G^\circ$ (kJ)}} & \textcolor{white}{\textbf{Corr. (kJ)}} & \textcolor{white}{\textbf{$\Delta G_{\text{eff}}$ (kJ)}} & \textcolor{white}{\textbf{Verdict}} \\
+\hline
+1 & CuFe$_2$O$_4$ & 1 & $-111.9$ & $+54.9$ & $-57.0$ & Favorable \\
+\hline
+\rowcolor{altrow}
+2 & CuMn$_2$O$_4$ & 1 & $-64.4$ & $+54.9$ & $-9.5$ & Marginal \\
+\hline
+3 & CuB$_2$O$_4$ & 1 & $-47.7$ & $+54.9$ & $+7.2$ & Unfavorable \\
+\hline
+\rowcolor{altrow}
+4 & CuAl$_2$O$_4$ & 1 & $-32.3$ & $+54.9$ & $+22.6$ & Unfavorable \\
+\hline
+5 & Cu$_3$V$_2$O$_8$ & 3 & $-109.2$ & $+164.7$ & $+55.6$ & Unfavorable \\
+\hline
+\rowcolor{altrow}
+6 & Cu$_2$SiO$_4$ & 2 & $-52.2$ & $+109.8$ & $+57.6$ & Unfavorable \\
+\hline
+\end{tabular}
+\end{table}
+
 \subsection{Summary of Findings}
 
 \begin{enumerate}[leftmargin=*]
-    \item \textbf{FeO is the strongest Cu-capture oxide} ($\Delta G = -112$~kJ at \SI{1527}{\celsius}), with 41\% of the driving force coming from Cu affinity alone.
+    \item \textbf{FeO is the only robust Cu-capture oxide} under steelmaking conditions ($\Delta G_{\text{eff}} = -57.0$~kJ). Its single-Cu stoichiometry and strong driving force make it resilient to the dilute-Cu activity penalty.
 
-    \item \textbf{V$_2$O$_5$ is a close second} ($\Delta G = -109$~kJ) and forms liquid slag at \SI{1800}{\kelvin}, enabling good contact with molten steel. V$_2$O$_5$ also has historical experimental support (Bureau of Mines, 40--60\% Cu removal via copper vanadate).
+    \item \textbf{MnO is marginally favorable} ($\Delta G_{\text{eff}} = -9.5$~kJ, $\sim$0.6 $kT$ at \SI{1800}{\kelvin}). It remains a candidate because of basicity-tunability and compatibility with slag chemistry, but kinetic barriers may prevent the reaction from proceeding at this weak driving force.
 
-    \item \textbf{MnO is the best compromise} ($\Delta G = -64$~kJ): favorable thermodynamics, basicity-tunable, low cost, non-toxic, and compatible with existing steelmaking slag chemistry.
+    \item \textbf{V$_2$O$_5$ fails under real conditions} despite appearing second-best in pure-component analysis. Its 3-Cu stoichiometry (Cu$_3$V$_2$O$_8$) incurs a $3\times$ activity penalty. The Bureau of Mines experiments used much higher Cu concentrations than 0.3\%, which would reduce this penalty.
 
-    \item \textbf{No solid ternary phase survives at \SI{1800}{\kelvin}.} Cu capture at steelmaking temperatures is a slag dissolution process. This is potentially advantageous: liquid slag can coat filter media for maximum contact area.
+    \item \textbf{No solid ternary phase survives at \SI{1800}{\kelvin}.} Cu capture at steelmaking temperatures is a slag dissolution process.
 
     \item \textbf{Slag basicity is a design lever} for MnO-based systems: increasing MnO:SiO$_2$ ratio decreases $a_{\text{Cu}}$ by 17\%.
+
+    \item \textbf{TCFE+TCOX databases are incompatible} on the OSU VM due to conflicting CORUNDUM phase definitions. Modeling Cu partitioning between metallic steel and oxide slag is not currently possible.
 \end{enumerate}
 
 \subsection{Recommended Candidates for Experimental Validation}
 
-Based on combined thermodynamic, practical, and safety considerations:
+Based on activity-corrected thermodynamics, practical, and safety considerations:
 
 \begin{table}[H]
 \caption{Recommended Candidates for Fontana Lab Experiments}
@@ -564,17 +610,14 @@ Based on combined thermodynamic, practical, and safety considerations:
 \begin{tabular}{|>{\centering\arraybackslash}p{0.4in}|>{\raggedright\arraybackslash}p{1.3in}|>{\centering\arraybackslash}p{1.0in}|>{\raggedright\arraybackslash}p{2.5in}|}
 \hline
 \rowcolor{headercolor}
-\textcolor{white}{\textbf{Tier}} & \textcolor{white}{\textbf{Oxide}} & \textcolor{white}{\textbf{$\Delta G$ (kJ)}} & \textcolor{white}{\textbf{Rationale}} \\
+\textcolor{white}{\textbf{Tier}} & \textcolor{white}{\textbf{Oxide}} & \textcolor{white}{\textbf{$\Delta G_{\text{eff}}$ (kJ)}} & \textcolor{white}{\textbf{Rationale}} \\
 \hline
-1 & FeO & $-112$ & Strongest driving force; liquid at \SI{1800}{\kelvin}; cheap \\
-\hline
-\rowcolor{altrow}
-1 & V$_2$O$_5$ & $-109$ & Near-equal driving force; historical data supports 40--60\% removal \\
-\hline
-2 & MnO & $-64$ & Compatible with slag chemistry; basicity-tunable \\
+1 & FeO & $-57.0$ & Only oxide with strong corrected driving force; liquid at \SI{1800}{\kelvin}; cheap; 41\% of energy is Cu-capture (not just Fe-oxidation) \\
 \hline
 \rowcolor{altrow}
-3 & Al$_2$O$_3$ & $-32$ & Tested last year (spinel mechanism); baseline comparison \\
+2 & MnO & $-9.5$ & Marginal but tunable via slag basicity; low cost; non-toxic; compatible with steelmaking slag \\
+\hline
+3 & Al$_2$O$_3$ & $+22.6$ & Unfavorable under dilute Cu, but tested last year (spinel mechanism); serves as baseline comparison \\
 \hline
 \end{tabular}
 \end{table}
@@ -584,19 +627,15 @@ Based on combined thermodynamic, practical, and safety considerations:
 These limitations should be stated explicitly in the final report and Zhang presentation:
 
 \begin{enumerate}[leftmargin=*]
-    \item \textbf{Pure-component reference states.} Our $\Delta G$ assumes pure Cu, pure O$_2$, and pure MO$_x$ as reactants. In a real steel melt, Cu is dilute ($\sim$0.3\%, $a_{\text{Cu}} \ll 1$) and oxygen activity is set by the deoxidation practice. The effective driving force is:
-    \begin{equation}
-        \Delta G_{\text{eff}} = \Delta G^\circ + RT\ln\frac{a_{\text{products}}}{a_{\text{Cu}} \cdot a_{\text{O}_2}^{n}}
-    \end{equation}
-    This correction makes all reactions \textit{less} negative (weaker driving force) but preserves the ranking. Computing activity-corrected $\Delta G$ at $X_{\text{Cu}} = 0.003$ is a feasible next step.
+    \item \textbf{Pure-component reference states --- now corrected.} Our original $\Delta G$ assumed pure Cu as the reactant. Under steelmaking conditions ($X_{\text{Cu}} = 0.003$, $\gamma_{\text{Cu}} \approx 8.5$, $a_{\text{Cu}} = 0.0255$), the correction is $+n_{\text{Cu}} \cdot RT\ln(1/a_{\text{Cu}})$ per reaction. At \SI{1800}{\kelvin} this adds $+54.9$~kJ per Cu atom consumed. \textbf{Only CuFe$_2$O$_4$ ($-57.0$~kJ) and CuMn$_2$O$_4$ ($-9.5$~kJ) remain favorable.} Cu$_3$V$_2$O$_8$ becomes unfavorable ($+55.6$~kJ) because it consumes 3~Cu atoms ($3 \times 54.9 = +164.7$~kJ correction). See Figure~\ref{fig:dG_corrected} and Table~\ref{tab:corrected}.
 
-    \item \textbf{No kinetics.} Thermodynamics predicts whether a reaction \textit{can} occur, not how fast. A reaction with $\Delta G = -112$~kJ may be slower than one at $-64$~kJ if slag viscosity is higher or the Cu diffusion path is longer. A literature survey confirms that \textbf{no oxide mobility database (MOBOX) exists} in Thermo-Calc, so DICTRA diffusion simulations within slag/spinel phases are not possible. Cu diffusion in the steel phase could be modeled with MOBFE if available on the VM.
+    \item \textbf{No kinetics.} Thermodynamics predicts whether a reaction \textit{can} occur, not how fast. VM probing confirmed that \textbf{MOBOX1 and MOBOX2 are installed} on the OSU VM (contrary to initial literature survey). However, DICTRA requires compatible thermodynamic + mobility database pairs, and the API could not establish a working TCFE+MOBFE connection. MOBFE9 is installed but not recognized by the diffusion calculation API. Further investigation is needed to determine if MOBOX can be loaded with TCOX for oxide-phase diffusion modeling.
 
     \item \textbf{Database extrapolation at high temperature.} TCOX14 is assessed primarily from experimental data below $\sim$\SI{1600}{\kelvin}. At steelmaking temperatures (\SIrange{1773}{1923}{\kelvin}), the Gibbs energy models are extrapolated. Cu-containing ternary compounds (CuFe$_2$O$_4$, Cu$_3$V$_2$O$_8$, etc.) have especially sparse high-temperature data. Values at \SIrange{1000}{1400}{\kelvin} are more reliable than those at \SI{1800}{\kelvin}.
 
     \item \textbf{Missing phases.} TC-Python only finds phases that are assessed in the database. If a Cu-M-O compound exists but was not modeled in TCOX14, it will not appear. The ``always liquid'' result for Cu$_3$V$_2$O$_8$ may mean the solid vanadate phase was never assessed, not that it truly does not exist.
 
-    \item \textbf{TCOX14 has no metallic iron phase.} Script~2 (Cu activity) could not model Cu partitioning between metallic steel and oxide slag because TCOX14 lacks FCC\_A1 (austenite) and BCC\_A2 (ferrite). A combined TCFE+TCOX database would be needed to model the full steel-slag system.
+    \item \textbf{TCFE+TCOX databases are incompatible.} Script~2 (Cu activity) could not model Cu partitioning between metallic steel and oxide slag because TCOX14 lacks FCC\_A1 (austenite). VM testing confirmed that loading TCFE13+TCOX14 together fails due to incompatible phase definitions: the CORUNDUM phase has different sublattice models in the two databases (\texttt{INCOMPATIBLE PHASE DESCRIPTION}). All three TCFE versions (13, 12, 11) exhibit this conflict. Modeling the full steel-slag system would require Thermo-Calc to release a unified database or a custom TDB file merging both descriptions.
 
     \item \textbf{Limited experimental anchors.} Published Cu-removal data includes Bureau of Mines V$_2$O$_5$ work (1960s, 40--60\% removal), ZnAl$_2$O$_4$ spinel injection (70\% removal), and FeO-SiO$_2$-CaCl$_2$ flux (41\% removal). Calorimetric data exists for CuFe$_2$O$_4$, CuAl$_2$O$_4$, and CuMn$_2$O$_4$ (Navrotsky \& Kleppa 1968; Sahu \& Navrotsky 2017), but most measurements are below 1400~K --- high-temperature validation remains sparse.
 \end{enumerate}
@@ -604,25 +643,26 @@ These limitations should be stated explicitly in the final report and Zhang pres
 \subsection{Paths to Stronger Predictions}
 
 \begin{enumerate}[leftmargin=*]
-    \item \textbf{Activity-corrected $\Delta G$:} Recompute all reactions with $a_{\text{Cu}} = 0.003$ (dilute in Fe) and realistic $p_{\text{O}_2}$ from deoxidation equilibrium. This gives the true driving force under steelmaking conditions.
+    \item \textbf{Activity-corrected $\Delta G$ --- COMPLETED.} See Section~\ref{fig:dG_corrected} and Table~\ref{tab:corrected}. The correction ($a_{\text{Cu}} = 0.0255$) eliminates 4 of 6 candidates, leaving only FeO (robust) and MnO (marginal).
 
-    \item \textbf{Kinetic modeling (DICTRA):} If the MOBOX mobility database is licensed on the OSU VM, model Cu diffusion across a steel-slag interface. This would predict not just ``will Cu transfer to the slag?'' but ``how fast?'' and ``what controls the rate --- diffusion in steel, diffusion in slag, or interfacial reaction?''
+    \item \textbf{Kinetic modeling (DICTRA):} MOBOX1 and MOBOX2 are installed on the OSU VM but have not been tested with TCOX. If MOBOX can load alongside TCOX14, oxide-phase diffusion modeling may be possible --- predicting ``how fast'' Cu transfers into slag, not just ``will it.'' The DICTRA API exists but could not connect MOBFE9 via the standard discovery method. Further investigation is needed.
 
-    \item \textbf{Combined TCFE+TCOX database:} Re-run Script~2 with both steel and oxide phases present. This would show how $a_{\text{Cu}}$ in the metallic phase changes as oxide is added --- the experimentally observable quantity.
+    \item \textbf{Combined TCFE+TCOX database --- BLOCKED.} VM testing confirmed that TCFE (all versions 11--13) and TCOX14 have incompatible CORUNDUM phase definitions. Modeling Cu partitioning between metallic steel and oxide slag would require Thermo-Calc to release a unified database or a custom TDB file merging both phase descriptions.
 
     \item \textbf{Quantitative literature comparison:} Navrotsky \& Kleppa (1968) and Sahu \& Navrotsky (2017) provide formation enthalpies for CuFe$_2$O$_4$, CuAl$_2$O$_4$, and CuMn$_2$O$_4$. The Shishin et al.\ (2013) CALPHAD assessment of Cu-Fe-O includes optimized Gibbs energy expressions for CuFe$_2$O$_4$ that should be directly compared to our TCOX14 values. Jacob \& Alcock (1975) provide EMF-measured $\Delta G_f$ for CuAl$_2$O$_4$ from 700--1100$^\circ$C. Extracting quantitative values from these papers and overlaying them on our $\Delta G$ vs.\ $T$ curves would strongly validate (or reveal discrepancies in) our TCOX14 predictions.
 
-    \item \textbf{Experimental design informed by models:} Use the phase maps and $\Delta G$ ranking to design experiments that test the key prediction: FeO-based slag should remove more Cu than Al$_2$O$_3$ at \SI{1800}{\kelvin}. Measure Cu concentration in steel before/after oxide contact (via XRF or ICP-OES) and compare the removal efficiency ranking to our computed $\Delta G$ ranking.
+    \item \textbf{Experimental design informed by models:} Use the phase maps and activity-corrected $\Delta G$ ranking to design experiments that test the key prediction: FeO-based slag should remove more Cu than Al$_2$O$_3$ at \SI{1800}{\kelvin}. Measure Cu concentration in steel before/after oxide contact (via XRF or ICP-OES) and compare the removal efficiency ranking to our computed $\Delta G_{\text{eff}}$ ranking.
 \end{enumerate}
 
-\subsection{VM Checklist for Next Session}
+\subsection{VM Capabilities Summary (March 13, 2026)}
 
 \begin{enumerate}[leftmargin=*]
-    \item Check if DICTRA module is available: \texttt{session.select\_diffusion\_calculation()}
-    \item Check if MOBOX database exists: \texttt{session.select\_database("MOBOX1")}
-    \item Check if TCFE can be loaded alongside TCOX: \texttt{session.select\_database("TCFE12")}
-    \item Re-run Script~2 with combined databases if available
-    \item Compute activity-corrected $\Delta G$ at $X_{\text{Cu}} = 0.003$
+    \item \textbf{Thermodynamic databases:} TCOX9--14, TCFE10--13, SSUB3--6, TCAL6--8, TCCU2--4 all installed
+    \item \textbf{Mobility databases:} MOBFE5--9, MOBOX1--2, MOBCU1--3, MOBNI3--5, MOBAL1--2 all installed
+    \item \textbf{TCFE+TCOX:} INCOMPATIBLE --- CORUNDUM phase conflict in all combinations tested
+    \item \textbf{DICTRA API:} Exists but cannot discover MOBFE9 via kinetic database method
+    \item \textbf{Process Metallurgy Module:} Not available
+    \item \textbf{Untested:} MOBOX+TCOX direct loading for oxide-phase diffusion
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

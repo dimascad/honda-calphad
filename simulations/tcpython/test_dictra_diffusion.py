@@ -55,7 +55,9 @@ except ImportError:
 # Thermodynamic databases (most relevant first)
 THERMO_DBS = ["TCFE13", "TCFE12", "TCFE11", "TCOX14"]
 
-# Mobility databases (most relevant first)
+# Mobility databases — test everything available
+# Prior probes confirmed: MOBFE9, MOBOX1, MOBOX2 NOT FOUND on VM
+# but we test them anyway for completeness
 MOBILITY_DBS = [
     "MOBFE8", "MOBFE7", "MOBFE6", "MOBFE5",
     "MOBFE9",
@@ -121,6 +123,10 @@ working_pairs = []  # (tdb, mob, elems, label, phases)
 with TCPython() as session:
     print("Connected to Thermo-Calc engine\n")
 
+    # First pass: probe the kinetic System object API on the first
+    # successful load so we know what methods exist
+    system_api_probed = False
+
     for tdb in THERMO_DBS:
         print("  --- %s ---" % tdb)
         for mob in MOBILITY_DBS:
@@ -132,22 +138,37 @@ with TCPython() as session:
                                   tdb, mob, elems)
                               .get_system())
 
-                    phases = system.get_phase_names()
-                    n_phases = len(phases)
+                    # The kinetic System object may NOT have get_phase_names()
+                    # (confirmed: TC-Python 2025b raises AttributeError).
+                    # Probe all available methods on first success.
+                    if not system_api_probed:
+                        system_api_probed = True
+                        sys_methods = sorted([
+                            m for m in dir(system)
+                            if not m.startswith('_')])
+                        print()
+                        print("  ** Kinetic System API probe (first success) **")
+                        print("  Type: %s" % type(system).__name__)
+                        print("  Methods/attrs (%d):" % len(sys_methods))
+                        for m in sys_methods:
+                            print("    .%s" % m)
+                        print()
+                        log("P1", "System API probe", "INFO",
+                            "type=%s methods=%d" % (
+                                type(system).__name__, len(sys_methods)))
 
-                    # Categorize phases
-                    fcc = [p for p in phases if "FCC" in p]
-                    bcc = [p for p in phases if "BCC" in p]
-                    ionic = [p for p in phases if "IONIC" in p]
-                    liquid = [p for p in phases if "LIQUID" in p]
-                    spinel = [p for p in phases if "SPINEL" in p]
-
-                    tags = []
-                    if fcc: tags.append("FCC(%d)" % len(fcc))
-                    if bcc: tags.append("BCC(%d)" % len(bcc))
-                    if ionic: tags.append("IONIC(%d)" % len(ionic))
-                    if liquid: tags.append("LIQ(%d)" % len(liquid))
-                    if spinel: tags.append("SPINEL(%d)" % len(spinel))
+                    # Try to get phases (multiple possible API names)
+                    phases = []
+                    for phase_method in ["get_phase_names",
+                                         "get_phases",
+                                         "get_phase_list"]:
+                        fn = getattr(system, phase_method, None)
+                        if fn is not None and callable(fn):
+                            try:
+                                phases = fn()
+                                break
+                            except Exception:
+                                pass
 
                     # Check diffusion API
                     has_iso = hasattr(system, 'with_isothermal_diffusion_calculation')
@@ -155,12 +176,28 @@ with TCPython() as session:
 
                     if has_iso:
                         status = "OK"
-                        detail = "%d phases [%s] iso=%s noniso=%s" % (
-                            n_phases, " ".join(tags), has_iso, has_noniso)
+                        if phases:
+                            # Categorize phases
+                            tags = []
+                            fcc = [p for p in phases if "FCC" in p]
+                            bcc = [p for p in phases if "BCC" in p]
+                            ionic = [p for p in phases if "IONIC" in p]
+                            liquid = [p for p in phases if "LIQUID" in p]
+                            spinel = [p for p in phases if "SPINEL" in p]
+                            if fcc: tags.append("FCC(%d)" % len(fcc))
+                            if bcc: tags.append("BCC(%d)" % len(bcc))
+                            if ionic: tags.append("IONIC(%d)" % len(ionic))
+                            if liquid: tags.append("LIQ(%d)" % len(liquid))
+                            if spinel: tags.append("SPINEL(%d)" % len(spinel))
+                            detail = "%d phases [%s]" % (
+                                len(phases), " ".join(tags))
+                        else:
+                            detail = "loaded (phases not queryable)"
+                        detail += " iso=%s noniso=%s" % (has_iso, has_noniso)
                         working_pairs.append((tdb, mob, elems, elem_label, phases))
                     else:
                         status = "WARN"
-                        detail = "%d phases but NO diffusion API" % n_phases
+                        detail = "loaded but NO diffusion API"
 
                     log("P1", label, status, detail)
 
@@ -228,13 +265,31 @@ with TCPython() as session:
                               tdb, mob, elems)
                           .get_system())
 
-                # List ALL phases
-                all_phases = system.get_phase_names()
-                print("  All phases (%d):" % len(all_phases))
-                for p in sorted(all_phases):
-                    print("    %s" % p)
-                log("P2", "%s phases" % pair_name, "INFO",
-                    "%d: %s" % (len(all_phases), ", ".join(sorted(all_phases))))
+                # List ALL phases (try multiple API methods)
+                all_phases = []
+                for phase_method in ["get_phase_names", "get_phases",
+                                     "get_phase_list"]:
+                    fn = getattr(system, phase_method, None)
+                    if fn is not None and callable(fn):
+                        try:
+                            all_phases = fn()
+                            print("  Phases via .%s() (%d):" % (
+                                phase_method, len(all_phases)))
+                            break
+                        except Exception as ex:
+                            print("  .%s() failed: %s" % (
+                                phase_method, str(ex)[:60]))
+
+                if not all_phases:
+                    print("  Could not enumerate phases (API differs)")
+                    log("P2", "%s phases" % pair_name, "WARN",
+                        "phase enumeration not available")
+                else:
+                    for p in sorted(all_phases):
+                        print("    %s" % p)
+                    log("P2", "%s phases" % pair_name, "INFO",
+                        "%d: %s" % (len(all_phases),
+                                    ", ".join(sorted(all_phases))))
 
                 # Create diffusion calc and inspect its methods
                 diff_calc = system.with_isothermal_diffusion_calculation()
@@ -315,15 +370,33 @@ with TCPython() as session:
                           tdb, mob, elems)
                       .get_system())
 
-            # Identify FCC phase name
-            fcc_phase = None
-            for p in phases:
-                if "FCC" in p and "A1" in p:
-                    fcc_phase = p
-                    break
-            if fcc_phase is None:
-                fcc_phase = [p for p in phases if "FCC" in p][0]
-            print("  FCC phase: %s" % fcc_phase)
+            # Identify FCC phase name — try to get phases from system
+            # If phases list is empty (API doesn't support enumeration),
+            # just assume standard TC naming conventions
+            if not phases:
+                # Re-probe using the fresh system object
+                for phase_method in ["get_phase_names", "get_phases"]:
+                    fn = getattr(system, phase_method, None)
+                    if fn and callable(fn):
+                        try:
+                            phases = fn()
+                            break
+                        except Exception:
+                            pass
+
+            fcc_phase = "FCC_A1"  # default assumption
+            if phases:
+                for p in phases:
+                    if "FCC" in p and "A1" in p:
+                        fcc_phase = p
+                        break
+                if fcc_phase == "FCC_A1" and phases:
+                    fcc_candidates = [p for p in phases if "FCC" in p]
+                    if fcc_candidates:
+                        fcc_phase = fcc_candidates[0]
+            print("  FCC phase: %s (from %s)" % (
+                fcc_phase,
+                "enumeration" if phases else "assumed standard name"))
 
             # --- Try MULTIPLE API patterns for region setup ---
             # The API may vary between TC-Python versions.
@@ -683,32 +756,42 @@ with TCPython() as session:
                       .get_system())
 
             # Identify metallic and oxide phases
-            metal_phase = None
-            oxide_phase = None
-            for p in phases:
-                if "FCC" in p and "A1" in p:
-                    metal_phase = p
-                if "IONIC" in p and "LIQ" in p:
-                    oxide_phase = p
+            # Re-probe phases if empty
+            if not phases:
+                for phase_method in ["get_phase_names", "get_phases"]:
+                    fn = getattr(system, phase_method, None)
+                    if fn and callable(fn):
+                        try:
+                            phases = fn()
+                            break
+                        except Exception:
+                            pass
 
-            if metal_phase:
-                print("  Metal phase: %s" % metal_phase)
-            else:
-                print("  No FCC_A1 found, trying LIQUID or BCC")
+            metal_phase = "FCC_A1"   # default assumptions
+            oxide_phase = "IONIC_LIQ"
+            if phases:
+                metal_phase = None
+                oxide_phase = None
                 for p in phases:
-                    if "LIQUID" in p:
+                    if "FCC" in p and "A1" in p:
                         metal_phase = p
-                        break
-                    if "BCC" in p:
-                        metal_phase = p
-                        break
-                if metal_phase:
-                    print("  Using: %s" % metal_phase)
+                    if "IONIC" in p and "LIQ" in p:
+                        oxide_phase = p
+                if metal_phase is None:
+                    for p in phases:
+                        if "LIQUID" in p:
+                            metal_phase = p
+                            break
+                        if "BCC" in p:
+                            metal_phase = p
+                            break
 
-            if oxide_phase:
-                print("  Oxide phase: %s" % oxide_phase)
-            else:
-                print("  No IONIC_LIQ found")
+            print("  Metal phase: %s%s" % (
+                metal_phase or "NONE",
+                " (assumed)" if not phases else ""))
+            print("  Oxide phase: %s%s" % (
+                oxide_phase or "NONE",
+                " (assumed)" if not phases else ""))
 
             # Test A: Two regions, same phase (simpler)
             print()

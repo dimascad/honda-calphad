@@ -130,6 +130,9 @@ def main():
     # =================================================================
     fig, ax = plt.subplots(figsize=(10, 6))
 
+    # Store line data for inline labels
+    line_data = {}
+
     for product in PRODUCT_ORDER:
         T_arr, dG_arr, phases = extract_dG_vs_T(rows, product)
         if len(T_arr) == 0:
@@ -149,16 +152,17 @@ def main():
                 marker=MARKERS[product],
                 markersize=4,
                 markevery=3,  # don't crowd markers at 25K steps
-                linewidth=1.8,
-                label=PRODUCT_LABELS[product])
+                linewidth=1.8)
+
+        line_data[product] = (T_C, dG_arr)
 
     # dG = 0 reference line
     ax.axhline(y=0, color='black', linewidth=0.8, linestyle='-', alpha=0.5)
 
-    # Steelmaking temperature reference
-    ax.axvline(x=1527, color='gray', linewidth=0.8, linestyle='--', alpha=0.5)
-    ax.text(1530, ax.get_ylim()[0] * 0.05, "1527 C\n(steelmaking)",
-            fontsize=8, color='gray', ha='left', va='bottom')
+    # Steelmaking temperature band (EAF range ~1500-1650C)
+    ax.axvspan(1500, 1650, color='#CCCCCC', alpha=0.25, zorder=0)
+    ax.text(1575, 5, "Steelmaking\nrange", fontsize=8, color='#777777',
+            ha='center', va='bottom', style='italic')
 
     ax.set_xlabel("Temperature (C)", fontsize=12)
     ax.set_ylabel(r"$\Delta G_{rxn}$ (kJ/mol)", fontsize=12)
@@ -173,8 +177,6 @@ def main():
     # Remove outer box
     for spine in ax.spines.values():
         spine.set_visible(False)
-
-    ax.legend(loc='upper left', fontsize=9, framealpha=0.9)
 
     plt.tight_layout()
 

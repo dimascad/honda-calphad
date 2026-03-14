@@ -68,8 +68,9 @@ def main():
         return
 
     # Plot
-    fig, ax = plt.subplots(figsize=(8, 5.5))
+    fig, ax = plt.subplots(figsize=(9, 5.5))
 
+    line_ends = {}
     for sys_name in ["Cu-Mn-Si-O", "Cu-Al-Si-O"]:
         if sys_name not in systems:
             continue
@@ -81,14 +82,15 @@ def main():
         ratio = ratio[order]
         a_Cu = a_Cu[order]
 
-        label = f"{sys_name} ({data['ratio_label']})"
         ax.plot(ratio, a_Cu,
                 color=COLORS.get(sys_name, "#333333"),
                 linestyle=LINE_STYLES.get(sys_name, "-"),
                 marker=MARKERS.get(sys_name, "o"),
                 markersize=6,
-                linewidth=1.8,
-                label=label)
+                linewidth=1.8)
+
+        # Store for inline labels
+        line_ends[sys_name] = (ratio[-1], a_Cu[-1], data['ratio_label'])
 
     ax.set_xlabel("Basicity ratio (basic oxide : SiO$_2$)", fontsize=12)
     ax.set_ylabel("Cu activity (a$_{Cu}$)", fontsize=12)
@@ -104,7 +106,20 @@ def main():
     for spine in ax.spines.values():
         spine.set_visible(False)
 
-    ax.legend(loc='best', fontsize=10, framealpha=0.9)
+    # Inline labels at right end of each line
+    for sys_name, (x_end, y_end, ratio_label) in line_ends.items():
+        label_text = f"{sys_name}\n({ratio_label})"
+        ax.annotate(
+            label_text,
+            xy=(x_end, y_end),
+            xytext=(8, 0),
+            textcoords='offset points',
+            fontsize=8.5,
+            fontweight='bold',
+            color=COLORS.get(sys_name, "#333333"),
+            ha='left',
+            va='center',
+        )
 
     plt.tight_layout()
 

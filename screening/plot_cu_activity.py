@@ -74,8 +74,9 @@ def main():
         return
 
     # Plot
-    fig, ax = plt.subplots(figsize=(8, 5.5))
+    fig, ax = plt.subplots(figsize=(9, 5.5))
 
+    line_data = {}
     for sys_name in ["Cu-Al-O", "Cu-Mn-O", "Cu-Fe-O", "Cu-V-O"]:
         if sys_name not in systems:
             continue
@@ -91,20 +92,20 @@ def main():
         X_oxide = X_oxide[order]
         a_Cu = a_Cu[order]
 
-        label = f"{sys_name} ({data['oxide']})"
         ax.plot(X_oxide, a_Cu,
                 color=COLORS[sys_name],
                 linestyle=LINE_STYLES[sys_name],
                 marker=MARKERS[sys_name],
                 markersize=5,
-                linewidth=1.8,
-                label=label)
+                linewidth=1.8)
+
+        line_data[sys_name] = (X_oxide, a_Cu, data['oxide'])
 
     ax.set_xlabel("Oxide mole fraction (1 - X$_{Cu}$)", fontsize=12)
     ax.set_ylabel("Cu activity (a$_{Cu}$)", fontsize=12)
     ax.set_title("Cu Activity vs. Oxide Addition at 1800 K", fontsize=13)
 
-    ax.set_xlim(0, 1.0)
+    ax.set_xlim(0, 1.05)
     ax.set_ylim(bottom=0)
 
     # Gridlines per CLAUDE.md
@@ -117,7 +118,31 @@ def main():
         spine.set_visible(False)
     ax.tick_params(which='both', direction='in')
 
-    ax.legend(loc='upper right', fontsize=10, framealpha=0.9)
+    # Inline labels — place at the left side (~X_oxide = 0.15) where lines
+    # are most separated, with y-offsets to avoid overlap
+    LABEL_CONFIG = {
+        "Cu-Al-O":  (0.15, 10),   # (x_pos_idx, y_offset_pts)
+        "Cu-Mn-O":  (0.15, -14),
+        "Cu-Fe-O":  (0.35, -12),
+        "Cu-V-O":   (0.15, -14),
+    }
+    for sys_name, (x_target, y_off) in LABEL_CONFIG.items():
+        if sys_name not in line_data:
+            continue
+        X_oxide, a_Cu, oxide = line_data[sys_name]
+        idx = int(np.argmin(np.abs(X_oxide - x_target)))
+        label_text = f"{sys_name} ({oxide})"
+        ax.annotate(
+            label_text,
+            xy=(X_oxide[idx], a_Cu[idx]),
+            xytext=(0, y_off),
+            textcoords='offset points',
+            fontsize=8.5,
+            fontweight='bold',
+            color=COLORS[sys_name],
+            ha='center',
+            va='center',
+        )
 
     plt.tight_layout()
 

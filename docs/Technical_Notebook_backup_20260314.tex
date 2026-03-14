@@ -31,7 +31,6 @@
 \usepackage{multicol}
 \usepackage{siunitx}
 \usepackage{listings}
-\usepackage{url}
 
 % OSU colors
 \definecolor{scarlett}{RGB}{187,0,0}
@@ -69,7 +68,7 @@
 \fancyhf{}
 \fancyhead[L]{\raisebox{-0.3cm}{\includegraphics[height=0.75cm]{../../assignments/OSU Logo.jpg}}}
 \fancyhead[R]{%
-  \begin{minipage}[c]{3.8in}
+  \begin{minipage}[c]{3.2in}
     \raggedleft
     {\footnotesize \textbf{\textcolor{darkgray}{COLLEGE OF ENGINEERING}}}\\
     {\footnotesize \textbf{\textcolor{scarlett}{DEPT.\ OF MATERIALS SCIENCE \& ENGINEERING}}}
@@ -157,13 +156,13 @@ Living document, updated as new results come in.}
 
 \subsection{Why This Matters}
 
-Recycled steel picks up copper from wiring, motors, and electronics in automotive scrap. Typical Cu levels run 0.25--0.3 wt\% and keep rising as vehicles get more electronic. The problem starts above about 0.1 wt\%: Cu segregates to grain boundaries during hot working and causes \textbf{``hot shortness''}, surface cracking that ruins the steel for body panels~\cite{Daehn2019}.
+Recycled steel contains copper from wiring, electric motors, and electronic components that end up in automotive scrap. Typical Cu levels in recycled steel range from 0.25--0.3 wt\% and are rising as vehicles incorporate more electronics. The critical threshold is approximately 0.1 wt\% Cu; above this, Cu segregates to grain boundaries during hot working and causes \textbf{``hot shortness''}: surface cracking that makes the steel unusable for body panels.
 
-Nobody has a good industrial-scale fix. The standard workaround is diluting with virgin iron or DRI, which is expensive and defeats the purpose of recycling~\cite{Daehn2019}. Honda uses a lot of sheet steel, so they have a direct stake in solving this.
+There is currently no satisfactory industrial-scale Cu removal method. The standard workaround is dilution with virgin iron or direct reduced iron (DRI), which is expensive and defeats the purpose of recycling. Honda, as a major consumer of sheet steel, has a direct interest in solving this.
 
 \subsection{Our Approach: CALPHAD Screening}
 
-CALPHAD (Calculation of Phase Diagrams) uses thermodynamic databases to predict which phases are stable at a given temperature and composition~\cite{Lukas2007}. Our strategy:
+The CALPHAD (Calculation of Phase Diagrams) method uses thermodynamic databases to predict phase stability and chemical equilibria computationally. Our strategy:
 
 \begin{enumerate}[leftmargin=*]
     \item Identify oxide materials that might \textit{capture} Cu from molten steel
@@ -172,14 +171,14 @@ CALPHAD (Calculation of Phase Diagrams) uses thermodynamic databases to predict 
     \item Validate top candidates experimentally in Fontana Lab
 \end{enumerate}
 
-The key tool is TC-Python~\cite{Andersson2002, Sundman1985}, the Python API for Thermo-Calc, using the TCOX14 oxide database~\cite{TCOX14} and TCFE13 steel database.
+The key tool is TC-Python, the Python API for Thermo-Calc software, using the TCOX14 (oxide) and TCFE13 (steel) thermodynamic databases.
 
 \subsection{Project History}
 
 This is \textbf{Year 3} of Honda's decopperization project at OSU:
 \begin{itemize}[leftmargin=*]
     \item \textbf{Year 1} (Ken Kushner): Initial scoping
-    \item \textbf{Year 2} (Andrew's group): Experimental tests with Al$_2$O$_3$. Some Cu reduction was observed, but Na$_2$S salt flux was more effective (95\% removal per Dr.\ Zhang, Feb 12 meeting). Na$_2$S produces toxic H$_2$S gas, motivating the oxide approach.
+    \item \textbf{Year 2} (Andrew's group): Experimental tests with Al$_2$O$_3$. Some Cu reduction was observed, but Na$_2$S salt flux was more effective (95\% removal). Na$_2$S produces toxic H$_2$S gas, motivating the oxide approach.
     \item \textbf{Year 3} (our team): Systematic CALPHAD screening of oxide candidates
 \end{itemize}
 
@@ -191,18 +190,18 @@ This is \textbf{Year 3} of Honda's decopperization project at OSU:
 
 \subsection{How CALPHAD Works}
 
-CALPHAD models the Gibbs energy of every phase as a function of temperature and composition~\cite{Lukas2007, Hillert2007}. For a phase $\phi$:
+CALPHAD models the Gibbs energy of every phase in a system as a function of temperature, pressure, and composition. For a phase $\phi$:
 \begin{equation}
     G_m^\phi(T, \mathbf{x}) = \sum_i x_i \,{}^0G_i^\phi(T) + RT \sum_i x_i \ln x_i + G^{\text{xs}}(T, \mathbf{x})
     \label{eq:calphad}
 \end{equation}
-Three terms: (1) reference energy from pure components, (2) ideal mixing entropy (the $RT\ln x$ term you see in every thermo textbook~\cite{Gaskell2024}), and (3) excess Gibbs energy for non-ideal interactions. The third term is where all the real work goes; it gets fitted to experimental data and DFT calculations~\cite{Lukas2007}.
+where the three terms are: (1) the reference energy from pure components, (2) ideal mixing entropy, and (3) the excess Gibbs energy capturing non-ideal interactions. The excess term is where the science lives; it is fitted to experimental data and first-principles calculations.
 
-At equilibrium, the system minimizes total $G$ by distributing components across phases. TC-Python~\cite{Andersson2002} does this numerically for systems with dozens of phases.
+At equilibrium, the system minimizes total $G$ by distributing components across phases. TC-Python does this numerically for systems with dozens of phases and many components.
 
 \subsection{Key Quantity: GM (Gibbs Energy per Mole of Atoms)}
 
-TC-Python returns \texttt{GM}, the Gibbs energy per mole of \textit{atoms}, not per mole of formula units~\cite{Andersson2002}. This tripped us up early:
+TC-Python returns \texttt{GM}, the Gibbs energy per mole of \textit{atoms}, not per mole of formula units. This is a critical distinction:
 
 \begin{insight}[GM Normalization]
 For a compound with $N$ atoms per formula unit (e.g., CuFe$_2$O$_4$ has $N = 7$):
@@ -241,7 +240,7 @@ Can metallic Cu directly reduce a ceramic oxide? For example:
     \text{Cu} + \text{MgO} \to \text{Cu}_2\text{O} + \text{Mg} \quad \text{(does this happen?)}
 \]
 
-You answer this by comparing standard Gibbs energies of oxide formation on an Ellingham diagram~\cite{Gaskell2024, Brown2026CALPHAD}. If Cu$_2$O is \textit{less stable} than the target oxide, Cu cannot reduce it.
+This is answered by comparing the standard Gibbs energies of oxide formation on an Ellingham diagram. If Cu$_2$O is \textit{less stable} than the target oxide, Cu cannot reduce it.
 
 \subsection{Results}
 
@@ -251,7 +250,7 @@ Cu$_2$O is the \textbf{least stable oxide} in our study, with a formation energy
 Cu \textbf{cannot reduce any useful ceramic oxide}. All $\Delta G_{\text{rxn}} > 0$ for the binary exchange reaction. This rules out the simplest Cu removal mechanism.
 \end{insight}
 
-We extracted formation energies for 18 oxides (11 from TCOX14~\cite{TCOX14}, 2 from SSUB3~\cite{SSUB3}, 7 ``moonshot'' literature values) over 500--2000 K in 50 K steps. Every one confirms: Cu cannot reduce any of them at steelmaking temperatures.
+We extracted formation energies for 18 oxides (11 from TCOX14, 2 from SSUB3 fallback, 7 ``moonshot'' literature values) over 500--2000 K in 50 K steps. Every oxide confirms: direct Cu reduction is thermodynamically impossible at steelmaking temperatures.
 
 \begin{figure}[H]
     \centering
@@ -271,7 +270,7 @@ The reaction is not Cu $+$ Al$_2$O$_3 \to$ products, but rather:
 \[
     \text{Cu} + \text{Al}_2\text{O}_3 + \tfrac{1}{2}\text{O}_2 \to \text{CuAl}_2\text{O}_4 \quad (\text{spinel})
 \]
-That is a completely different thermodynamic question.
+This is a fundamentally different thermodynamic question.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -286,7 +285,7 @@ For each candidate oxide MO$_x$, we compute:
     n_{\text{Cu}} \cdot \text{Cu} + a \cdot \text{MO}_x + \tfrac{b}{2}\,\text{O}_2 \to \text{Cu}_{n}\text{M}_c\text{O}_d
     \label{eq:ternary}
 \end{equation}
-where the stoichiometry comes from the known ternary compound. The standard free energy of reaction~\cite{Gaskell2024}:
+where the stoichiometry is determined by the known ternary compound. The free energy of reaction:
 \begin{equation}
     \Delta G_{\text{rxn}} = G_{\text{product}} - \left[ n_{\text{Cu}} \cdot G_{\text{Cu}} + a \cdot G_{\text{MO}_x} + \tfrac{b}{2} \cdot G_{\text{O}_2} \right]
     \label{eq:dG_ternary}
@@ -355,7 +354,7 @@ He was talking about the \textbf{binary} reaction (Cu reducing FeO), which is co
 
 \subsection{The Problem with Pure $\Delta G$}
 
-The $\Delta G$ values in Table~\ref{tab:ternary_ranking} assume \textbf{pure Cu} ($a_{\text{Cu}} = 1$). In recycled steel, Cu is dilute: $x_{\text{Cu}} \approx 0.003$ (0.3 wt\%). Dilute Cu has lower chemical potential~\cite{Gaskell2024}, so it is harder to capture.
+The ternary $\Delta G$ values in Table~\ref{tab:ternary_ranking} assume \textbf{pure Cu} as the reactant ($a_{\text{Cu}} = 1$). In real recycled steel, Cu is dilute: $x_{\text{Cu}} \approx 0.003$ (0.3 wt\%). Dilute Cu has reduced chemical potential, which makes it \textit{harder} to capture.
 
 \subsection{The Penalty Term}
 
@@ -365,7 +364,7 @@ For each Cu atom consumed, there is an activity correction:
     \label{eq:penalty}
 \end{equation}
 
-Using $\gamma_{\text{Cu}} = 8.5$ (Raoultian activity coefficient for Cu in liquid Fe at \SI{1800}{\kelvin}, from Hino \& Ito~\cite{Hino2010}; Sigworth \& Elliott~\cite{Sigworth1974} give $\sim$10) and $x_{\text{Cu}} = 0.003$:
+Using $\gamma_{\text{Cu}} = 8.5$ (Raoultian activity coefficient for Cu in liquid Fe at \SI{1800}{\kelvin}) and $x_{\text{Cu}} = 0.003$:
 \[
     a_{\text{Cu}} = 8.5 \times 0.003 = 0.0255
 \]
@@ -384,7 +383,7 @@ The total correction scales with the number of Cu atoms in the product:
 \begin{insight}[Activity Correction Reshuffles Everything]
 Products with multiple Cu atoms per formula unit get penalized heavily:
 \begin{itemize}
-    \item CuFe$_2$O$_4$ ($n_{\text{Cu}} = 1$): $-111.9 + 54.9 = \mathbf{-57.0}$ kJ (still strongly favorable)
+    \item CuFe$_2$O$_4$ ($n_{\text{Cu}} = 1$): $-111.9 + 54.9 = \mathbf{-57.0}$ kJ (still robust)
     \item CuMn$_2$O$_4$ ($n_{\text{Cu}} = 1$): $-64.4 + 54.9 = -9.5$ kJ (marginal)
     \item Cu$_3$V$_2$O$_8$ ($n_{\text{Cu}} = 3$): $-109.2 + 3 \times 54.9 = +55.6$ kJ (\textbf{unfavorable!})
 \end{itemize}
@@ -400,10 +399,10 @@ The pure-$\Delta G$ \#2 candidate (Cu$_3$V$_2$O$_8$) becomes unfavorable once di
 
 \subsection{$\gamma_{\text{Cu}}$ Sensitivity}
 
-The literature range for $\gamma_{\text{Cu}}$ is roughly 5--13~\cite{Hino2010, Sigworth1974}. This shifts the penalty by about $\pm 10$ kJ:
+The literature range for $\gamma_{\text{Cu}}$ in liquid Fe at steelmaking temperatures is approximately 5--13. This shifts the penalty by $\pm 10$ kJ:
 
 \begin{itemize}[leftmargin=*]
-    \item CuFe$_2$O$_4$ is \textbf{favorable} across all $\gamma_{\text{Cu}}$ values (always $< -40$ kJ)
+    \item CuFe$_2$O$_4$ is \textbf{robust} across all $\gamma_{\text{Cu}}$ values (always $< -40$ kJ)
     \item CuMn$_2$O$_4$ crosses zero at $\gamma_{\text{Cu}} \approx 5$ (marginal)
     \item CuB$_2$O$_4$ and CuV$_2$O$_6$ hover near zero (uncertain)
     \item Everything with $n_{\text{Cu}} \geq 2$ is unfavorable under steelmaking dilution
@@ -412,7 +411,7 @@ The literature range for $\gamma_{\text{Cu}}$ is roughly 5--13~\cite{Hino2010, S
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{dG_sensitivity_gamma_Cu.png}
-    \caption{Sensitivity of $\Delta G_{\text{eff}}$ to the Cu activity coefficient $\gamma_{\text{Cu}}$ (range 5--13). CuFe$_2$O$_4$ stays favorable across the entire range. CuMn$_2$O$_4$ is marginal. Script: \texttt{screening/compute\_activity\_corrected\_dG.py}.}
+    \caption{Sensitivity of $\Delta G_{\text{eff}}$ to the Cu activity coefficient $\gamma_{\text{Cu}}$ (range 5--13). CuFe$_2$O$_4$ remains robustly favorable across the entire range. CuMn$_2$O$_4$ is marginal. Script: \texttt{screening/compute\_activity\_corrected\_dG.py}.}
     \label{fig:gamma_sensitivity}
 \end{figure}
 
@@ -435,27 +434,39 @@ A critical finding: while the ternary reactions are thermodynamically favorable,
 \end{itemize}
 
 \begin{insight}[Cu Capture = Slag Dissolution]
-At steelmaking temperatures, copper is not captured into a crystalline compound~\cite{Porter2021}. Instead, it \textbf{dissolves into the oxide slag} (ionic liquid). The negative $\Delta G$ values still represent a real thermodynamic driving force; they describe the energy released when Cu enters the slag phase. The mechanism is dissolution, not precipitation.
+At steelmaking temperatures, copper is not captured into a crystalline compound. Instead, it \textbf{dissolves into the oxide slag} (ionic liquid). The negative $\Delta G$ values still represent a real thermodynamic driving force; they describe the energy released when Cu enters the slag phase. The mechanism is dissolution, not precipitation.
 
 This may actually be advantageous for experiments: a liquid slag has much better contact with molten steel than a solid particle would.
 \end{insight}
 
 \subsection{The Ionic Liquid Model in TCOX14}
 
-TCOX14~\cite{TCOX14} models oxide melts using the \textbf{IONIC\_LIQ} phase, a two-sublattice model developed by Hillert et al.~\cite{Hillert2007}: one sublattice holds cations (Cu$^{1+}$, Cu$^{2+}$, Fe$^{2+}$, Fe$^{3+}$, Al$^{3+}$, etc.) and the other holds anions (O$^{2-}$, vacancies, neutral species like SiO$_2$). The excess Gibbs energy captures pairwise interactions between ions on each sublattice. This is how TC-Python knows that Cu prefers certain anion arrangements (like a spinel-like local environment) even when the bulk phase is liquid.
+TCOX14 models oxide melts using the \textbf{IONIC\_LIQ} phase with a two-sublattice model:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Cation sublattice}: Cu$^{1+}$, Cu$^{2+}$, Fe$^{2+}$, Fe$^{3+}$, Mn$^{2+}$, Al$^{3+}$, etc.
+    \item \textbf{Anion sublattice}: O$^{2-}$, vacancies, neutral species (SiO$_2$, etc.)
+\end{itemize}
+
+The excess Gibbs energy captures pairwise interactions between ions on each sublattice. This is how TC-Python ``knows'' that Cu prefers to associate with certain anion configurations (e.g., in a spinel-like local environment) even when the bulk phase is liquid.
 
 \subsection{Slag Basicity: The Oxide ``Ionic Atmosphere''}
 \label{sec:ionic_atmosphere}
 
-If you have done any aqueous solution chemistry, this will feel familiar.
+This concept bridges aqueous solution chemistry and high-temperature slag metallurgy.
 
 \subsubsection{The Aqueous Analogy}
 
-In aqueous solutions (e.g., OLI simulations with CaCl$_2$, NaCl, KCl), the ions around a dissolved species modify its effective activity~\cite{Gaskell2024}. Adding more salt increases ionic strength, which changes what dissolves and what precipitates. Debye-H\"uckel theory describes this. Order of addition can matter too, because local supersaturation at the mixing point can nucleate different solids before the system reaches equilibrium.
+In wet chemistry (e.g., OLI simulations with CaCl$_2$, NaCl, KCl solutions), the \textbf{ionic atmosphere} around each ion modifies its effective activity. Adding more salts increases ionic strength, which can suppress or enhance the solubility of other species. This is described by Debye-H\"uckel theory and its extensions. The order of addition can matter because local supersaturation at the point of mixing can nucleate different solid phases before the system reaches global equilibrium.
 
 \subsubsection{The Slag Equivalent}
 
-In molten oxide slags, the analogous variable is \textbf{slag basicity}: the ratio of basic oxides (CaO, MnO, FeO, Na$_2$O) to acidic oxides (SiO$_2$, Al$_2$O$_3$)~\cite{Seetharaman2005}. Basicity modifies the activity coefficients of everything in the melt, including Cu. Adding CaO (a strong base) to a silicate slag can shift $\gamma_{\text{CuO}_{0.5}}$ significantly, making Cu easier or harder to dissolve. The surrounding Ca$^{2+}$, Fe$^{2+}$, O$^{2-}$ ions modify the effective chemical potential of Cu in the slag, just like ionic strength modifies solute activity in water. Dr.\ Zhang's suggestion of adding Na$_2$S flux is exactly this idea: change the ``ionic atmosphere'' of the slag to improve Cu capture.
+In molten oxide slags, the analogous variable is \textbf{slag basicity}: the ratio of basic oxides (CaO, MnO, FeO, Na$_2$O) to acidic oxides (SiO$_2$, Al$_2$O$_3$). Basicity modifies the activity coefficients of all dissolved species, including Cu:
+
+\begin{itemize}[leftmargin=*]
+    \item Adding CaO (strong base) to a silicate slag can dramatically change $\gamma_{\text{CuO}_{0.5}}$, making it easier or harder for Cu to dissolve
+    \item The surrounding ``ionic atmosphere'' of Ca$^{2+}$, Fe$^{2+}$, O$^{2-}$ modifies the effective chemical potential of Cu ions in the melt
+    \item Dr.\ Zhang's suggestion of adding Na$_2$S flux is exactly this: modifying the slag ``ionic atmosphere'' to improve Cu capture
+\end{itemize}
 
 \subsubsection{Modeling Approaches Compared}
 
@@ -489,19 +500,24 @@ Competing approach & Pitzer model & Modified Quasichemical Model (FactSage) \\
 \end{tabular}
 \end{table}
 
-The physics is the same in both cases: excess Gibbs energy from pairwise ion interactions determines activity coefficients. The only differences are the solvent (water vs.\ oxide melt) and the temperature range.
+The conceptual framework is identical: both compute excess Gibbs energy from pairwise ion interactions to predict activity coefficients. The difference is the solvent (water vs.\ oxide melt) and the temperature regime.
 
-FactSage uses the Modified Quasichemical Model (MQM) instead of the two-sublattice approach. Some slag chemists prefer MQM because it handles short-range ordering in silicate melts better~\cite{Seetharaman2005}. In practice, both are fitted to the same experimental data and give similar results for most systems.
+FactSage uses the Modified Quasichemical Model (MQM), which some slag chemists prefer over the two-sublattice model because MQM better captures short-range ordering in silicate melts. However, both approaches are fitted to the same experimental data and give similar results for most systems.
 
 \subsubsection{Thermodynamics vs.\ Kinetics of Mixing}
 
-\textbf{Thermodynamically}, the final slag composition determines equilibrium regardless of mixing order. Gibbs energy reaches the same minimum either way~\cite{Gaskell2024}.
+\textbf{Thermodynamically}, the final slag composition determines the equilibrium, regardless of the order in which oxides are added. The Gibbs energy minimum is path-independent.
 
-\textbf{Kinetically}, order matters. If you dump MnO into a silicate slag, local supersaturation at the addition point can nucleate MnSiO$_3$ crystals before the system mixes. Those metastable precipitates might trap or release Cu differently than the equilibrium slag would. Modeling these transient gradients is a \textbf{DICTRA problem}~\cite{Andersson2002}: you need diffusion simulation, not just equilibrium thermo.
+\textbf{Kinetically}, however, order matters. If you dump MnO into a silicate slag, local MnO saturation at the addition point can nucleate MnSiO$_3$ crystals before the system homogenizes. These metastable precipitates may trap or release Cu differently than the equilibrium slag composition would predict. This is a \textbf{DICTRA problem}: modeling the transient composition gradients during mixing requires diffusion simulation, not just equilibrium thermodynamics.
 
 \subsection{Slag Basicity Results}
 
-Script~5 (\texttt{slag\_composition\_effects.py}) tested two quaternary systems at \SI{1800}{\kelvin}. In Cu-Mn-Si-O, increasing the MnO:SiO$_2$ ratio \textit{decreases} $a_{\text{Cu}}$ by 17\%, meaning a more basic slag captures Cu more effectively. That is a tunable parameter for experiments. In Cu-Al-Si-O, varying Al$_2$O$_3$:SiO$_2$ has almost no effect on $a_{\text{Cu}}$; the alumina is essentially inert as far as Cu activity goes.
+Our Script~5 (\texttt{slag\_composition\_effects.py}) tested two quaternary systems at \SI{1800}{\kelvin}:
+
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Cu-Mn-Si-O}: Increasing MnO:SiO$_2$ ratio \textit{decreases} $a_{\text{Cu}}$ by 17\%. More basic slag captures Cu more effectively. This is a tunable parameter for experiments.
+    \item \textbf{Cu-Al-Si-O}: Varying Al$_2$O$_3$:SiO$_2$ ratio has negligible effect on $a_{\text{Cu}}$. The Al$_2$O$_3$ is ``inert'' as far as Cu activity is concerned.
+\end{itemize}
 
 A real steelmaking slag is CaO-SiO$_2$-Al$_2$O$_3$-FeO-MnO-MgO. Future work should explore quinary and higher-order systems (e.g., Cu-Fe-Mn-Ca-Si-O) to map how basicity affects Cu capture in realistic compositions.
 
@@ -524,7 +540,7 @@ Script~2 (\texttt{cu\_activity\_vs\_oxide.py}) swept Cu mole fraction from 0.90 
 
 \subsection{Explanation: Gibbs Phase Rule}
 
-This is not a code bug. It follows directly from the \textbf{Gibbs Phase Rule}~\cite{Gaskell2024, Brown2026TC1}:
+This is not a code bug. It is a direct consequence of the \textbf{Gibbs Phase Rule}:
 \[
     F = C - P + 2
 \]
@@ -689,14 +705,14 @@ diff_calc = system.with_isothermal_diffusion_calculation()
 
 \subsection{Why It Matters for Cu Removal}
 
-Thermodynamics tells us \textit{whether} Cu capture is favorable. DICTRA~\cite{Andersson2002} tells us \textit{how fast}:
+Thermodynamics tells us \textit{whether} Cu capture is favorable. DICTRA tells us \textit{how fast}:
 \begin{itemize}[leftmargin=*]
     \item How quickly does Cu diffuse from bulk steel to the steel/slag interface?
     \item How long must the slag contact the melt to achieve meaningful Cu removal?
     \item Does the geometry matter (flat interface vs.\ spherical oxide particles)?
 \end{itemize}
 
-If Cu diffusion in liquid Fe is fast (D $\sim 10^{-9}$ m$^2$/s at \SI{1800}{\kelvin}~\cite{Hino2010}), then a 10-minute furnace hold might remove Cu from a 1-cm-thick steel layer. If it is slow, we might need stirring, smaller particles, or longer treatment times.
+If Cu diffusion in liquid Fe is fast (D $\sim 10^{-9}$ m$^2$/s at \SI{1800}{\kelvin}), then a 10-minute furnace hold might remove Cu from a 1-cm-thick steel layer. If it is slow, we might need stirring, smaller particles, or longer treatment times.
 
 \subsection{TC-Python Diffusion API}
 
@@ -714,7 +730,7 @@ The activity-based boundary condition is particularly relevant: it allows us to 
 
 \subsection{DICTRA Capability Test Results (March 14, 2026)}
 
-A 6-phase DICTRA test script ran on the OSU VM ($\sim$1 hour runtime). Results split into two categories: API discovery (Phases 1--2, succeeded) and actual diffusion calculations (Phases 3--6, failed due to fixable script bugs).
+A comprehensive 6-phase DICTRA test script ran on the OSU VM ($\sim$1 hour runtime). Results split into two categories: API discovery (Phases 1--2, succeeded) and actual diffusion calculations (Phases 3--6, failed due to fixable script bugs).
 
 \subsubsection{Phase 1--2: Database Compatibility \& API Discovery}
 
@@ -734,7 +750,7 @@ Of 312 thermo $\times$ mobility combinations tested, \textbf{232 loaded successf
 
 The initial run (March 14 AM) failed in Phases 3--6 due to three script bugs: wrong phase enumeration methods, empty phases list preventing pair selection, and an undefined \texttt{calc\_succeeded} variable. All three were fixed, and LIQUID phase support at \SI{1800}{\kelvin} was added.
 
-\subsubsection{Re-Run Results (March 14 PM: Fixed Script)}
+\subsubsection{Re-Run Results (March 14 PM --- Fixed Script)}
 
 After fixing the script bugs, Phases 1--2 reproduced identically. Phase 3 reached the actual diffusion calculation but failed with a \textbf{new error}: the \texttt{Region} object does not specify which thermodynamic phase is the diffusion matrix.
 
@@ -776,7 +792,7 @@ In this reaction, Fe is \textit{already} at the $+3$ state, so any $\Delta G$ is
     \item \textbf{Cu-capture alone is independently favorable}
 \end{itemize}
 
-Even without the Fe oxidation bonus, Cu incorporation into the spinel is thermodynamically driven. After activity correction ($n_{\text{Cu}} = 1$, penalty $= +54.9$ kJ), the Cu-capture component becomes $-45.7 + 54.9 = +9.2$ kJ, which is marginal. But the full reaction still sits at $-57.0$ kJ because the Fe oxidation energy is ``free'' (Fe is already being oxidized in the steelmaking slag).
+Even without the Fe oxidation bonus, Cu incorporation into the spinel is thermodynamically driven. After activity correction ($n_{\text{Cu}} = 1$, penalty $= +54.9$ kJ), the Cu-capture component becomes $-45.7 + 54.9 = +9.2$ kJ, which is marginal. But the full reaction remains robust at $-57.0$ kJ because the Fe oxidation energy is ``free'' (Fe is already being oxidized in the steelmaking slag).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -815,7 +831,7 @@ Based on the activity-corrected analysis:
 
     \item \textbf{MnO} (forming CuMn$_2$O$_4$ spinel): $\Delta G_{\text{eff}} = -9.5$ kJ. Marginal but favorable. Also present in steelmaking slag. Slag basicity (MnO:SiO$_2$ ratio) can be tuned.
 
-    \item \textbf{V$_2$O$_5$} (forming CuV$_2$O$_6$): $\Delta G_{\text{eff}} = +10$ kJ (uncertain). Bureau of Mines tested V$_2$O$_5$ injection (more effective than Al$_2$O$_3$/MnO$_2$ but still far below viable~\cite{911metallurgist}). Worth testing at higher Cu levels where activity penalty is smaller.
+    \item \textbf{V$_2$O$_5$} (forming CuV$_2$O$_6$): $\Delta G_{\text{eff}} = +10$ kJ (uncertain). Bureau of Mines tested V$_2$O$_5$ injection (more effective than Al$_2$O$_3$/MnO$_2$ but results still far below viable). Worth testing at higher Cu levels where activity penalty is smaller.
 \end{enumerate}
 
 \subsection{Experiment Plan}
@@ -844,7 +860,7 @@ Fontana Lab induction furnace with graphite crucible inside Al$_2$O$_3$ containm
 
     \item \textbf{Empty element list = file existence check only.} Does not verify the database can load or has the needed elements/phases.
 
-    \item \textbf{Kinetic System API $\neq$ thermodynamic System API.} The object from the kinetic database selector has different methods (\texttt{get\_phases\_in\_system()} not \texttt{get\_phase\_names()}).
+    \item \textbf{Kinetic System API $\neq$ thermodynamic System API.} The object from \texttt{select\_thermodynamic\_and\_kinetic\_databases\_with\_elements()} has different methods (\texttt{get\_phases\_in\_system()} not \texttt{get\_phase\_names()}).
 
     \item \textbf{Citrix clipboard corrupts binary files.} Always transfer via ZIP download from GitHub, never copy-paste.
 
@@ -922,7 +938,7 @@ Successfully extracted $\Delta G_f$ for 7 oxides $\times$ 31 temperatures. Creat
 Key outcomes:
 \begin{itemize}[leftmargin=*]
     \item Dr.\ Zhang \textbf{confirmed} Ellingham results are correct: Cu$_2$O is least stable
-    \item Al$_2$O$_3$ tested experimentally last year: some Cu reduction but Na$_2$S salt was better (95\%, per Zhang)
+    \item Al$_2$O$_3$ tested experimentally last year: some Cu reduction but Na$_2$S salt was better (95\%)
     \item \textbf{New direction}: Model ternary compound formation (Cu + MO$_x$ + O$_2 \to$ CuMO$_y$), not binary exchange
     \item Screening table required: oxide name, density, toxicity, reaction $\Delta G$, cost
     \item Timeline: 2 weeks for calculations $\to$ meet end of March $\to$ Honda call after
@@ -932,19 +948,26 @@ Also submitted HW2 Project Charter (Feb 11).
 
 \subsection{March 12, 2026: Screening Pipeline Complete}
 
-\textbf{Full-day session.} Expanded from 7 to 18 oxides. Completed the screening table with all 10 candidate oxides having computed $\Delta G_{\text{rxn}}$ values, then ran the 18-oxide TCOX14 extraction on the VM (15 direct, 2 from SSUB3 fallback for PbO and CeO$_2$, plus partial B$_2$O$_3$). Built \texttt{Oxide\_Screening\_Complete.xlsx} with 5 sheets and cell formulas tracing the full GM $\to$ kJ/mol\,O$_2$ normalization pipeline.
+\textbf{Full-day session.} Expanded from 7 to 18 oxides. Key work:
 
-Swept the entire periodic table: 47 oxides evaluated, 7 ``moonshots'' selected (NiO, CoO, PbO, B$_2$O$_3$, V$_2$O$_5$, La$_2$O$_3$, CeO$_2$). PbO turned out to be an interesting edge case: $\Delta G_{\text{rxn}} = -34.7$ kJ at \SI{727}{\celsius} (Cu CAN reduce it at low $T$) but $+136.2$ kJ at \SI{1527}{\celsius}. SSUB3 reliability was mixed: B$_2$O$_3$ was 145\% off literature values (rejected), CeO$_2$ was 19\% off (accepted with caveat).
+\begin{itemize}[leftmargin=*]
+    \item Completed screening table: all 10 candidate oxides have computed $\Delta G_{\text{rxn}}$ values
+    \item Ran 18-oxide TCOX14 extraction on VM: 15 direct + 2 SSUB3 fallback (PbO, CeO$_2$) + B$_2$O$_3$ partial
+    \item Built comprehensive Excel (\texttt{Oxide\_Screening\_Complete.xlsx}): 5 sheets with cell formulas showing GM $\to$ kJ/mol O$_2$ normalization pipeline
+    \item Exhaustive periodic table sweep: evaluated 47 oxides, selected 7 ``moonshots'' (NiO, CoO, PbO, B$_2$O$_3$, V$_2$O$_5$, La$_2$O$_3$, CeO$_2$)
+    \item PbO interesting edge case: $\Delta G_{\text{rxn}} = -34.7$ kJ at \SI{727}{\celsius} (Cu CAN reduce at low $T$) but $+136.2$ kJ at \SI{1527}{\celsius}
+    \item SSUB3 reliability issues: B$_2$O$_3$ was 145\% off literature. CeO$_2$ was 19\% off (accepted with caveat).
+\end{itemize}
 
 \subsection{March 13, 2026: Ternary Breakthrough}
 
-\textbf{Dr.\ Zhang meeting (11 AM):} presented 18-oxide screening. Dr.\ Zhang said ``good work'' and directed the ternary modeling effort.
+\textbf{Dr.\ Zhang meeting (11 AM)} --- presented 18-oxide screening. Dr.\ Zhang said ``good work'' and directed the ternary modeling effort.
 
-\textbf{Morning:} Created \texttt{extract\_ternary\_reactions.py} and \texttt{compute\_ternary\_dG.py}. Pushed to GitHub.
+\textbf{Morning}: Created \texttt{extract\_ternary\_reactions.py} and \texttt{compute\_ternary\_dG.py}. Pushed to GitHub.
 
-\textbf{Evening, VM extraction:} Ran ternary extraction on OSU VM. \textbf{ALL 16 REACTIONS FAVORABLE.} Every Cu + MO$_x$ + O$_2 \to$ CuMO$_y$ reaction has $\Delta G < 0$ at \SI{1800}{\kelvin}. Top 3: CuFe$_2$O$_4$ ($-112$ kJ), Cu$_3$V$_2$O$_8$ ($-109$ kJ), CuMn$_2$O$_4$ ($-64$ kJ).
+\textbf{Evening --- VM extraction}: Ran ternary extraction on OSU VM. \textbf{ALL 16 REACTIONS FAVORABLE.} Every Cu + MO$_x$ + O$_2 \to$ CuMO$_y$ reaction has $\Delta G < 0$ at \SI{1800}{\kelvin}. Top 3: CuFe$_2$O$_4$ ($-112$ kJ), Cu$_3$V$_2$O$_8$ ($-109$ kJ), CuMn$_2$O$_4$ ($-64$ kJ).
 
-\textbf{Late evening, validation suite:} Ran all 5 VM scripts (CuFe$_2$O$_4$ decomposition, Cu activity, $\Delta G$ vs.\ $T$, slag basicity, phase maps) and all 6 local post-processing scripts. Verification: 136 overlapping $\Delta G$ points matched to 0.00 kJ.
+\textbf{Late evening --- Validation suite}: Ran all 5 VM scripts (CuFe$_2$O$_4$ decomposition, Cu activity, $\Delta G$ vs.\ $T$, slag basicity, phase maps) and all 6 local post-processing scripts. Verification: 136 overlapping $\Delta G$ points matched to 0.00 kJ.
 
 Key discoveries:
 \begin{itemize}[leftmargin=*]
@@ -958,7 +981,7 @@ Key discoveries:
 
 Pivoted from thermodynamics (``does it react?'') to kinetics (``how fast?'').
 
-\textbf{DICTRA test script} (\texttt{test\_dictra\_diffusion.py}): 6-phase script probing the TC-Python diffusion API on the OSU VM:
+\textbf{DICTRA test script} (\texttt{test\_dictra\_diffusion.py}): Comprehensive 6-phase script probing the TC-Python diffusion API on the OSU VM:
 \begin{enumerate}[leftmargin=*]
     \item Database compatibility matrix: 312 combinations (4 thermo $\times$ 13 mobility $\times$ 6 element sets)
     \item System API exploration: discovered \texttt{get\_phases\_in\_system()} (not \texttt{get\_phase\_names()})
@@ -979,9 +1002,28 @@ Results ($\sim$1 hour runtime, 150 KB log):
 
 Script fixed and ready for re-run. Added LIQUID phase support at \SI{1800}{\kelvin}.
 
-\subsection{March 14, 2026: Unified Workbook}
+\subsection{March 14, 2026: Unified Workbook Build}
 
-Compiled all screening and validation data into \texttt{Cu\_Removal\_Unified.xlsx} (15 tabs). Analysis tabs use Excel cell formulas that reference the raw data tabs, so every number is traceable: click any cell to see where it came from. Tabs are color-coded: blue for analysis, green for derived results, gray for raw TC-Python output.
+Built the master deliverable: \texttt{Cu\_Removal\_Unified.xlsx} (15 tabs, 3-tier color coding).
+
+\textbf{Structure:}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Blue (Analysis):} Dashboard, Screening\_Summary, CuFe2O4\_DeepDive, Activity\_and\_Slag, Normalization: formula-driven tabs with traceable cell references
+    \item \textbf{Green (Results):} Screening\_Table, Ternary\_Verdicts, Activity\_Corrected: derived CSVs
+    \item \textbf{Gray (Raw):} 7 tabs of raw TC-Python CSV output (the ``receipt'')
+\end{itemize}
+
+\textbf{Script:} \texttt{screening/build\_unified\_xlsx.py} ($\sim$1600 lines). Uses openpyxl with IEEE formatting (dark header, alternating gray rows, thick border hierarchy).
+
+\textbf{Key design principle:} Every number in a blue analysis tab traces back to a gray raw tab via Excel formulas (e.g., \texttt{=Ternary\_Rxns!N42}). Click any cell to see where the data came from.
+
+\textbf{Bugs found and fixed:}
+\begin{enumerate}[leftmargin=*]
+    \item Cell D7 in Activity\_and\_Slag started with ``='' causing \texttt{\#NAME?} error (Excel interpreted Unicode $\times$ and $\gamma$ as functions)
+    \item $\Delta G_{\text{pure}}$ values hardcoded as floats instead of cross-tab formula references
+    \item Sensitivity sweep baked literal numbers into formula strings instead of referencing Section~2 cells
+    \item Activity\_Corrected tab had binary verdict logic; upgraded to 4-tier (ROBUST/MARGINAL/UNCERTAIN/UNFAVORABLE) via \texttt{IF} formula on column H
+\end{enumerate}
 
 \textbf{Excel charts added} (live, update with data changes):
 \begin{itemize}[leftmargin=*]
@@ -1041,7 +1083,7 @@ These run on the OSU ETS virtual machine where Thermo-Calc and TC-Python are ins
 \rowcolor{altrow}
 \texttt{ternary\_phase\_map\_1800K.py} & 20$\times$20 composition grid phase mapping at \SI{1800}{\kelvin}. \\
 \hline
-\texttt{test\_dictra\_diffusion.py} & DICTRA capability test: database matrix, diffusion API, boundary conditions. \\
+\texttt{test\_dictra\_diffusion.py} & Comprehensive DICTRA capability test: database matrix, diffusion API, boundary conditions. \\
 \hline
 \rowcolor{altrow}
 \texttt{check\_databases.py} & Probe which TC databases are installed on the VM. \\
@@ -1099,9 +1141,21 @@ These run locally on the Mac after copying CSVs from the VM.
 \rowcolor{altrow}
 \texttt{plot\_slag\_effects.py} & Figure: $a_{\text{Cu}}$ vs.\ slag basicity ratio. \\
 \hline
+\texttt{build\_validation\_xlsx.py} & Compile validation results into Excel workbook. \\
+\hline
+\rowcolor{altrow}
+\texttt{build\_combined\_screening.py} & Unified 7-tab Excel: binary + ternary merged. \\
+\hline
+\texttt{build\_screening\_xlsx.py} & Binary screening Excel (superseded by combined). \\
+\hline
+\rowcolor{altrow}
+\texttt{build\_ternary\_xlsx.py} & Ternary-only Excel (superseded by combined). \\
+\hline
 \texttt{update\_screening\_table.py} & Update screening CSV with computed values. \\
 \hline
 \rowcolor{altrow}
+\texttt{build\_unified\_xlsx.py} & Master 15-tab workbook: 5 analysis + 3 results + 7 raw data tabs with traceable formulas. \\
+\hline
 \texttt{compute\_activity\_corrected\_dG.py} & Activity-corrected $\Delta G$ for dilute Cu ($X_{\text{Cu}}=0.003$, $\gamma_{\text{Cu}}=8.5$). \\
 \hline
 \end{tabular}
@@ -1184,219 +1238,9 @@ All raw data is stored in \texttt{data/tcpython/raw/}. Each CSV is produced by o
 All figures are stored in \texttt{figures/} as both PNG (for this document) and PDF (for vector-quality printing). Every figure has a corresponding script in the ``Source Script'' column of Table~\ref{tab:local_scripts}.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% APPENDIX D: SELECTED SCRIPTS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\section{Selected Scripts}
-\label{sec:scripts}
-
-This appendix includes the scripts needed to reproduce the key results in this notebook. Only scripts that generate primary data or perform critical analysis are included; plotting scripts and Excel builders are omitted (they are in the GitHub repository). Scripts are printed in order of the analysis pipeline: data extraction first, then post-processing.
-
-Each script has a brief introduction explaining what it does, what database it uses, where it runs, and which section of the notebook uses its output.
-
-% Smaller font for code to keep page count reasonable
-% literate handles Unicode chars that appear in our Python scripts
-\lstset{
-    basicstyle=\ttfamily\scriptsize,
-    numbers=left,
-    numberstyle=\tiny\color{darkgray},
-    numbersep=5pt,
-    extendedchars=true,
-    literate={°}{{$^\circ$}}1 {→}{{$\rightarrow$}}1 {—}{{---}}1 {₂}{{$_2$}}1 {₃}{{$_3$}}1 {₄}{{$_4$}}1
-}
-
-% ---- Script 1 ----
-\subsection{extract\_oxide\_gibbs.py}
-\label{script:extract_oxide_gibbs}
-
-\textbf{Runs on:} OSU ETS VM (requires TC-Python + TCOX14~\cite{TCOX14})\\
-\textbf{Runtime:} $\sim$5 minutes\\
-\textbf{Output:} \texttt{data/tcpython/raw/oxide\_gibbs\_energies.csv}\\
-\textbf{Used in:} Section~\ref{fig:ellingham} (Ellingham diagram), Normalization tab of unified workbook
-
-Extracts Gibbs energy of formation ($\Delta G_f$) for 18 binary oxides from TCOX14 over 500--2000\,K in 50\,K steps. For each oxide, it computes: (1) $G$ of the oxide phase at its stoichiometric composition, (2) $G$ of the pure metal reference, and (3) $G$ of O$_2$ gas. The formation energy is $\Delta G_f = G_{\text{oxide}} - n\,G_{\text{metal}} - m\,G_{\text{O}_2}$, normalized per mole O$_2$ for the Ellingham diagram. This is the foundation of the entire screening pipeline.
-
-\lstinputlisting[language=Python]{../simulations/tcpython/extract_oxide_gibbs.py}
-
-% ---- Script 2 ----
-\cleardoublepage
-\subsection{extract\_ternary\_reactions.py}
-\label{script:extract_ternary}
-
-\textbf{Runs on:} OSU ETS VM (requires TC-Python + TCOX14~\cite{TCOX14})\\
-\textbf{Runtime:} $\sim$10 minutes\\
-\textbf{Output:} \texttt{data/tcpython/raw/ternary\_reaction\_energies.csv} (414 rows)\\
-\textbf{Used in:} Section~4 (Ternary Reaction Modeling), Table~\ref{tab:ternary_ranking}
-
-The most important script in the project. For each of 15 Cu-M-O ternary systems, it sets the composition to the known ternary compound stoichiometry (e.g., $x_{\text{Cu}}=1/7$, $x_{\text{Fe}}=2/7$, $x_{\text{O}}=4/7$ for CuFe$_2$O$_4$) and computes the system Gibbs energy via TC-Python equilibrium. The reaction $\Delta G$ is the difference between product and reactant system energies. A negative value means the oxide captures copper.
-
-\lstinputlisting[language=Python]{../simulations/tcpython/extract_ternary_reactions.py}
-
-% ---- Script 3 ----
-\cleardoublepage
-\subsection{cufe2o4\_alternative\_reaction.py}
-\label{script:cufe2o4_alt}
-
-\textbf{Runs on:} OSU ETS VM (requires TC-Python + TCOX14~\cite{TCOX14})\\
-\textbf{Runtime:} $\sim$3 minutes\\
-\textbf{Output:} \texttt{data/tcpython/raw/cufe2o4\_alternative\_reaction.csv}\\
-\textbf{Used in:} Section~10 (CuFe$_2$O$_4$ Deep Dive)
-
-CuFe$_2$O$_4$ has the strongest driving force ($-112$ kJ), but how much of that comes from Cu capture vs.\ Fe$^{2+} \to$ Fe$^{3+}$ oxidation? This script computes the alternative reaction using Fe$_2$O$_3$ (Fe already at $+3$) instead of FeO. The difference isolates the Fe-oxidation bonus. Result: Cu capture alone contributes $-46$ kJ (41\%), confirming the reaction is not just riding on iron oxidation.
-
-\lstinputlisting[language=Python]{../simulations/tcpython/cufe2o4_alternative_reaction.py}
-
-% ---- Script 4 ----
-\cleardoublepage
-\subsection{cu\_activity\_vs\_oxide.py}
-\label{script:cu_activity}
-
-\textbf{Runs on:} OSU ETS VM (requires TC-Python + TCOX14~\cite{TCOX14})\\
-\textbf{Runtime:} $\sim$5 minutes\\
-\textbf{Output:} \texttt{data/tcpython/raw/cu\_activity\_vs\_oxide.csv}\\
-\textbf{Used in:} Section~7 (Cu Activity and the Gibbs Phase Rule), Fig.~\ref{fig:cu_activity}
-
-Sweeps Cu mole fraction from 0.90 to 0.05 in four Cu-M-O systems at 1800\,K, recording $a_{\text{Cu}}$ via \texttt{AC(CU)}. The result was initially puzzling: activity is flat across the entire sweep. This turned out to be a textbook Gibbs Phase Rule consequence (Section~7), not a bug.
-
-\lstinputlisting[language=Python]{../simulations/tcpython/cu_activity_vs_oxide.py}
-
-% ---- Script 5 ----
-\cleardoublepage
-\subsection{slag\_composition\_effects.py}
-\label{script:slag_effects}
-
-\textbf{Runs on:} OSU ETS VM (requires TC-Python + TCOX14~\cite{TCOX14})\\
-\textbf{Runtime:} $\sim$5 minutes\\
-\textbf{Output:} \texttt{data/tcpython/raw/slag\_composition\_effects.csv}\\
-\textbf{Used in:} Section~6.4 (Slag Basicity Results), Fig.~\ref{fig:slag_basicity}
-
-Tests whether slag basicity affects Cu capture. Fixes $x_{\text{Cu}} = 0.003$ (steelmaking level) and varies the basic-to-acidic oxide ratio in two quaternary systems: Cu-Mn-Si-O and Cu-Al-Si-O. If $a_{\text{Cu}}$ decreases with increasing basicity, a more basic slag promotes Cu capture. Result: MnO:SiO$_2$ ratio is a tunable knob ($-17$\% $a_{\text{Cu}}$); Al$_2$O$_3$:SiO$_2$ has no effect.
-
-\lstinputlisting[language=Python]{../simulations/tcpython/slag_composition_effects.py}
-
-% ---- Script 6 ----
-\cleardoublepage
-\subsection{compute\_ternary\_dG.py}
-\label{script:compute_ternary}
-
-\textbf{Runs on:} Local (post-processing, no TC-Python needed)\\
-\textbf{Runtime:} $<$1 second\\
-\textbf{Input:} \texttt{data/tcpython/raw/ternary\_reaction\_energies.csv}\\
-\textbf{Output:} \texttt{screening/ternary\_screening\_results.csv}\\
-\textbf{Used in:} Section~4, Ternary\_Verdicts tab of unified workbook
-
-Reads the raw ternary reaction energies from Script~2 and produces the ranked summary table: product name, parent oxide, $\Delta G$ at three key temperatures (727, 1227, 1527\,$^\circ$C), stable phases, and a FAVORABLE/UNFAVORABLE verdict. This is the script that confirmed all 16 reactions are favorable.
-
-\lstinputlisting[language=Python]{../screening/compute_ternary_dG.py}
-
-% ---- Script 7 ----
-\cleardoublepage
-\subsection{compute\_activity\_corrected\_dG.py}
-\label{script:activity_corrected}
-
-\textbf{Runs on:} Local (post-processing, no TC-Python needed)\\
-\textbf{Runtime:} $\sim$2 seconds\\
-\textbf{Input:} \texttt{data/tcpython/raw/ternary\_reaction\_energies.csv}\\
-\textbf{Output:} \texttt{data/tcpython/processed/activity\_corrected\_dG.csv}, sensitivity figures\\
-\textbf{Used in:} Section~\ref{sec:activity_correction} (Activity Correction), Figs.~\ref{fig:dG_corrected},~\ref{fig:gamma_sensitivity}
-
-The script that reshuffled everything. Takes the pure-Cu $\Delta G$ values and applies the dilute-Cu activity penalty: $\Delta G_{\text{eff}} = \Delta G_{\text{pure}} + n_{\text{Cu}} \cdot RT\ln(a_{\text{Cu}})$. Uses $\gamma_{\text{Cu}} = 8.5$~\cite{Hino2010} and $x_{\text{Cu}} = 0.003$. Also runs a sensitivity sweep over $\gamma_{\text{Cu}} = 3$--15 to test sensitivity. This is where Cu$_3$V$_2$O$_8$ (ranked \#2 by pure $\Delta G$) gets eliminated and CuFe$_2$O$_4$ emerges as the clear winner.
-
-\lstinputlisting[language=Python]{../screening/compute_activity_corrected_dG.py}
-
-
 \vfill
 \begin{center}
 \textit{Last updated: \today}
 \end{center}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% REFERENCES
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\begin{thebibliography}{99}
-
-\bibitem{Daehn2019}
-K.~E. Daehn, A.~Cabrera Serrenho, and J.~M. Allwood,
-``Finding the most efficient way to remove residual copper from steel scrap,''
-\textit{Metall.\ Mater.\ Trans.\ B}, vol.~50, pp.~1225--1240, 2019.
-doi:~10.1007/s11663-019-01537-9
-
-\bibitem{Lukas2007}
-H.~L. Lukas, S.~G. Fries, and B.~Sundman,
-\textit{Computational Thermodynamics: The Calphad Method}.
-Cambridge University Press, 2007.
-
-\bibitem{Andersson2002}
-J.-O. Andersson, T.~Helander, L.~H\"{o}glund, P.~Shi, and B.~Sundman,
-``Thermo-Calc \& DICTRA, computational tools for materials science,''
-\textit{Calphad}, vol.~26, no.~2, pp.~273--312, 2002.
-doi:~10.1016/S0364-5916(02)00037-8
-
-\bibitem{TCOX14}
-Thermo-Calc Software,
-``TCS Metal Oxide Solutions Database (TCOX14),''
-\url{https://thermocalc.com/products/databases/metal-oxide-solutions/}, accessed Mar.\ 2026.
-
-\bibitem{SSUB3}
-Thermo-Calc Software,
-``SGTE Substances Database (SSUB3),''
-\url{https://thermocalc.com/products/databases/}, accessed Mar.\ 2026.
-
-\bibitem{Gaskell2024}
-D.~R. Gaskell and D.~E. Laughlin,
-\textit{Introduction to the Thermodynamics of Materials}, 7th~ed.
-CRC Press, 2024.
-
-\bibitem{Hillert2007}
-M.~Hillert,
-\textit{Phase Equilibria, Phase Diagrams and Phase Transformations: Their Thermodynamic Basis}, 2nd~ed.
-Cambridge University Press, 2007.
-
-\bibitem{Porter2021}
-D.~A. Porter, K.~E. Easterling, and M.~Y. Sherif,
-\textit{Phase Transformations in Metals and Alloys}, 4th~ed.
-CRC Press, 2021.
-
-\bibitem{Hino2010}
-M.~Hino and K.~Ito, Eds.,
-\textit{Thermodynamic Data for Steelmaking}.
-Tohoku University Press, 2010.
-
-\bibitem{Sigworth1974}
-G.~K. Sigworth and J.~F. Elliott,
-``The thermodynamics of liquid dilute iron alloys,''
-\textit{Metal Science}, vol.~8, pp.~298--310, 1974.
-doi:~10.1179/msc.1974.8.1.298
-
-\bibitem{Seetharaman2005}
-S.~Seetharaman, Ed.,
-\textit{Fundamentals of Metallurgy}.
-Woodhead Publishing, 2005.
-
-\bibitem{911metallurgist}
-911~Metallurgist,
-``Removing copper from molten steel scrap,''
-\url{https://www.911metallurgist.com/blog/removing-copper-molten-steel-scrap}, 2017.
-Summarizes Bureau of Mines oxide injection experiments.
-
-\bibitem{Brown2026CALPHAD}
-J.~Brown,
-``CALPHAD introduction,''
-MSE 3321 Lecture, The Ohio State University, 2026.
-
-\bibitem{Brown2026TC1}
-J.~Brown and Y.~Ji,
-``Equilibrium calculations (TC1),''
-MSE 3321 Lab Handout, The Ohio State University, 2026.
-
-\bibitem{Sundman1985}
-B.~Sundman, B.~Jansson, and J.-O. Andersson,
-``The Thermo-Calc databank system,''
-\textit{Calphad}, vol.~9, no.~2, pp.~153--190, 1985.
-doi:~10.1016/0364-5916(85)90021-5
-
-\end{thebibliography}
 
 \end{document}

@@ -713,15 +713,32 @@ with TCPython() as session:
 
             d_cu_data = []
 
+            # Determine phase for each temperature:
+            # Below ~1700K -> FCC_A1 (austenite), above -> LIQUID
+            def pick_phase_for_T(T, phases):
+                if T >= 1700:
+                    for p in (phases or []):
+                        if "LIQUID" in p:
+                            return p
+                    return "LIQUID"
+                else:
+                    for p in (phases or []):
+                        if "FCC" in p and "A1" in p:
+                            return p
+                    return "FCC_A1"
+
             for T in TEMPERATURES:
                 try:
                     diff_d = system.with_isothermal_diffusion_calculation()
                     diff_d.set_temperature(T)
                     diff_d.set_simulation_time(1.0)  # 1 second
 
+                    phase_T = pick_phase_for_T(T, phases)
+
                     # Step profile: Cu jumps from 0.5 to 0.0 at midpoint
-                    region_d = (Region("test_D")
-                                .set_width(1e-4)  # 100 um
+                    region_d = Region("test_D").set_width(1e-4)  # 100 um
+                    region_d.add_phase(phase_T)
+                    region_d = (region_d
                                 .with_grid(CalculatedGrid.linear()
                                            .set_no_of_points(30))
                                 .with_composition_profile(
@@ -871,8 +888,14 @@ with TCPython() as session:
                 " (assumed)" if not phases else ""))
 
             # Test A: Two regions, same phase (simpler)
+            # At 1800K steel is liquid, use LIQUID phase
+            couple_phase = "LIQUID"
+            for p in (phases or []):
+                if "LIQUID" in p:
+                    couple_phase = p
+                    break
             print()
-            print("  --- Test A: Two FCC regions (diffusion couple) ---")
+            print("  --- Test A: Two LIQUID regions (diffusion couple) ---")
             if metal_phase:
                 try:
                     diff_5a = system.with_isothermal_diffusion_calculation()
@@ -880,23 +903,48 @@ with TCPython() as session:
                     diff_5a.set_simulation_time(3600)
 
                     # Left region: Cu-rich steel
-                    region_left = (Region("cu_rich")
-                                   .set_width(5e-4)  # 500 um
-                                   .with_grid(
-                                       CalculatedGrid.double_geometric()
-                                       .set_no_of_points(25)
-                                       .set_geometrical_factor(0.9))
+                    region_left = Region("cu_rich").set_width(5e-4)  # 500 um
+                    region_left.add_phase(couple_phase)
+                    # Probe grid API to find correct method name
+                    dg_grid = CalculatedGrid.double_geometric()
+                    dg_methods = [m for m in dir(dg_grid)
+                                  if 'factor' in m.lower()
+                                  and not m.startswith('_')]
+                    if dg_methods:
+                        print("  DoubleGeometric factor methods: %s"
+                              % dg_methods)
+                    # Try multiple method names for geometric factor
+                    grid_ok = False
+                    for factor_method in ['set_geometric_factor',
+                                          'set_geometrical_factor',
+                                          'set_factor']:
+                        fn = getattr(dg_grid, factor_method, None)
+                        if fn and callable(fn):
+                            try:
+                                dg_grid = CalculatedGrid.double_geometric()
+                                dg_grid = dg_grid.set_no_of_points(25)
+                                dg_grid = getattr(dg_grid, factor_method)(0.9)
+                                grid_ok = True
+                                print("  Grid factor method: .%s()" % factor_method)
+                                break
+                            except Exception as ge:
+                                print("  .%s() failed: %s" % (
+                                    factor_method, str(ge)[:80]))
+                    if not grid_ok:
+                        print("  Falling back to linear grid")
+                        dg_grid = CalculatedGrid.linear().set_no_of_points(25)
+                    region_left = (region_left
+                                   .with_grid(dg_grid)
                                    .with_composition_profile(
                                        CompositionProfile(Unit.MASS_PERCENT)
                                        .add("CU", ElementProfile.constant(0.5))))
 
                     # Right region: pure Fe
-                    region_right = (Region("pure_fe")
-                                    .set_width(5e-4)
-                                    .with_grid(
-                                        CalculatedGrid.double_geometric()
-                                        .set_no_of_points(25)
-                                        .set_geometrical_factor(1.1))
+                    region_right = Region("pure_fe").set_width(5e-4)
+                    region_right.add_phase(couple_phase)
+                    region_right = (region_right
+                                    .with_grid(CalculatedGrid.linear()
+                                               .set_no_of_points(25))
                                     .with_composition_profile(
                                         CompositionProfile(Unit.MASS_PERCENT)
                                         .add("CU", ElementProfile.constant(0.0))))
@@ -957,8 +1005,9 @@ with TCPython() as session:
                     diff_5b.set_simulation_time(3600)
 
                     # Left: steel with Cu contamination
-                    region_metal = (Region("steel")
-                                    .set_width(5e-4)
+                    region_metal = Region("steel").set_width(5e-4)
+                    region_metal.add_phase(metal_phase)
+                    region_metal = (region_metal
                                     .with_grid(CalculatedGrid.linear()
                                                .set_no_of_points(25))
                                     .with_composition_profile(
@@ -967,8 +1016,9 @@ with TCPython() as session:
                                         .add("O", ElementProfile.constant(0.001))))
 
                     # Right: oxide slag
-                    region_oxide = (Region("slag")
-                                    .set_width(5e-4)
+                    region_oxide = Region("slag").set_width(5e-4)
+                    region_oxide.add_phase(oxide_phase)
+                    region_oxide = (region_oxide
                                     .with_grid(CalculatedGrid.linear()
                                                .set_no_of_points(25))
                                     .with_composition_profile(
@@ -1033,6 +1083,21 @@ with TCPython() as session:
                           tdb, mob, elems)
                       .get_system())
 
+            # At 1800K steel is liquid — determine the right phase
+            p6_phase = "LIQUID"
+            for p in (phases or []):
+                if "LIQUID" in p:
+                    p6_phase = p
+                    break
+            # Fallback to FCC_A1 if no LIQUID found
+            if p6_phase == "LIQUID" and phases:
+                for p in phases:
+                    if "FCC" in p and "A1" in p:
+                        p6_phase = p
+                        break
+            print("  Diffusion phase for Phase 6: %s" % p6_phase)
+            print()
+
             # Test A: Fixed composition boundary (Cu source at left)
             print("  --- Test A: Fixed Cu composition at left boundary ---")
             try:
@@ -1040,11 +1105,11 @@ with TCPython() as session:
                 diff_6a.set_temperature(1800)
                 diff_6a.set_simulation_time(3600)
 
-                region_6a = (Region("steel_6a")
-                             .set_width(1e-3)
-                             .with_grid(CalculatedGrid.geometric()
-                                        .set_no_of_points(40)
-                                        .set_geometrical_factor(1.05))
+                region_6a = Region("steel_6a").set_width(1e-3)
+                region_6a.add_phase(p6_phase)
+                region_6a = (region_6a
+                             .with_grid(CalculatedGrid.linear()
+                                        .set_no_of_points(40))
                              .with_composition_profile(
                                  CompositionProfile(Unit.MASS_PERCENT)
                                  .add("CU", ElementProfile.constant(0.1))))
@@ -1088,8 +1153,9 @@ with TCPython() as session:
                 diff_6b.set_temperature(1800)
                 diff_6b.set_simulation_time(3600)
 
-                region_6b = (Region("steel_6b")
-                             .set_width(1e-3)
+                region_6b = Region("steel_6b").set_width(1e-3)
+                region_6b.add_phase(p6_phase)
+                region_6b = (region_6b
                              .with_grid(CalculatedGrid.linear()
                                         .set_no_of_points(30))
                              .with_composition_profile(
@@ -1145,8 +1211,9 @@ with TCPython() as session:
                 diff_6c.set_temperature(1800)
                 diff_6c.set_simulation_time(600)
 
-                region_6c = (Region("cylinder")
-                             .set_width(5e-5)  # 50 um radius
+                region_6c = Region("cylinder").set_width(5e-5)  # 50 um radius
+                region_6c.add_phase(p6_phase)
+                region_6c = (region_6c
                              .with_grid(CalculatedGrid.linear()
                                         .set_no_of_points(20))
                              .with_composition_profile(
@@ -1197,8 +1264,9 @@ with TCPython() as session:
                 diff_6d.set_temperature(1800)
                 diff_6d.set_simulation_time(600)
 
-                region_6d = (Region("sphere")
-                             .set_width(5e-5)
+                region_6d = Region("sphere").set_width(5e-5)
+                region_6d.add_phase(p6_phase)
+                region_6d = (region_6d
                              .with_grid(CalculatedGrid.linear()
                                         .set_no_of_points(20))
                              .with_composition_profile(

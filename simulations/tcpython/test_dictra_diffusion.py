@@ -78,7 +78,7 @@ ELEMENT_SETS = [
 ]
 
 # Temperatures of interest (K)
-TEMPERATURES = [1073, 1273, 1473, 1573, 1673, 1773, 1800, 1873]
+TEMPERATURES = [1073, 1273, 1473, 1573, 1623, 1673, 1723, 1773, 1800, 1873]
 
 # Cu compositions for steelmaking
 CU_LEVELS = {
@@ -731,20 +731,43 @@ with TCPython() as session:
                 try:
                     diff_d = system.with_isothermal_diffusion_calculation()
                     diff_d.set_temperature(T)
-                    diff_d.set_simulation_time(1.0)  # 1 second
 
                     phase_T = pick_phase_for_T(T, phases)
 
+                    # Adaptive parameters: liquid diffusion is ~10^6x faster
+                    # than solid, so domain/time/grid must match.
+                    #   LIQUID (T>=1700): D~10^-9, 100um domain, 1s, 30 pts
+                    #   FCC high-T (1400-1700): D~10^-14, 10um, 10000s, 50 pts
+                    #   FCC mid-T (1200-1400): D~10^-17, 10um, 1000000s, 50 pts
+                    #   FCC low-T (<1200): D~10^-19, 10um, 1000000s, 50 pts
+                    #   (DICTRA adaptive stepper handles long sim times
+                    #    efficiently when profiles barely move)
+                    if T >= 1700:
+                        domain_w = 1e-4    # 100 um
+                        n_pts = 30
+                        sim_time = 1.0
+                    elif T >= 1400:
+                        domain_w = 1e-5    # 10 um
+                        n_pts = 50
+                        sim_time = 1e4     # ~2.8 hours simulated
+                    else:
+                        domain_w = 1e-5    # 10 um
+                        n_pts = 50
+                        sim_time = 1e6     # ~11.6 days simulated
+
+                    diff_d.set_simulation_time(sim_time)
+                    midpoint = domain_w / 2.0
+
                     # Step profile: Cu jumps from 0.5 to 0.0 at midpoint
-                    region_d = Region("test_D").set_width(1e-4)  # 100 um
+                    region_d = Region("test_D").set_width(domain_w)
                     region_d.add_phase(phase_T)
                     region_d = (region_d
                                 .with_grid(CalculatedGrid.linear()
-                                           .set_no_of_points(30))
+                                           .set_no_of_points(n_pts))
                                 .with_composition_profile(
                                     CompositionProfile(Unit.MASS_PERCENT)
                                     .add("CU", ElementProfile.step(
-                                        0.5, 0.0, 5e-5))))
+                                        0.5, 0.0, midpoint))))
 
                     diff_d.add_region(region_d)
                     diff_d.with_left_boundary_condition(
@@ -763,6 +786,7 @@ with TCPython() as session:
                     # Estimate D from broadening of step profile
                     # For a step diffusing for time t: width ~ sqrt(4*D*t)
                     # Measure width of transition zone
+                    grid_spacing = domain_w / n_pts
                     c_max = max(comp1)
                     c_min = min(comp1)
                     c_range = c_max - c_min
@@ -778,19 +802,34 @@ with TCPython() as session:
                                 x_10 = dist1[i]
                         if x_10 is not None and x_90 is not None:
                             delta_x = abs(x_10 - x_90)
-                            # For error function profile:
-                            # erf(x / 2*sqrt(D*t)) -> delta_x ~ 2*erfinv(0.8)*2*sqrt(D*t)
-                            # Simplified: D ~ (delta_x)^2 / (4*t)
-                            D_est = (delta_x ** 2) / (4.0 * 1.0)
-                            d_cu_data.append((T, D_est, delta_x, len(dist1)))
-                            log("P4", "D_Cu at %dK" % T, "OK",
-                                "D ~ %.2e m2/s (dx=%.2e m)" % (D_est, delta_x))
+                            if delta_x < 2 * grid_spacing:
+                                # Displacement smaller than 2 grid spacings:
+                                # below resolution, report upper bound
+                                D_upper = (2 * grid_spacing) ** 2 / (4.0 * sim_time)
+                                d_cu_data.append((T, D_upper, delta_x,
+                                                  len(dist1), sim_time, True))
+                                log("P4", "D_Cu at %dK" % T, "OK",
+                                    "D < %.2e m2/s (below grid resolution, "
+                                    "dx=%.2e m, t=%.0es)" % (
+                                        D_upper, delta_x, sim_time))
+                            else:
+                                # For error function profile:
+                                # Simplified: D ~ (delta_x)^2 / (4*t)
+                                D_est = (delta_x ** 2) / (4.0 * sim_time)
+                                d_cu_data.append((T, D_est, delta_x,
+                                                  len(dist1), sim_time, False))
+                                log("P4", "D_Cu at %dK" % T, "OK",
+                                    "D ~ %.2e m2/s (dx=%.2e m, t=%.0es)" % (
+                                        D_est, delta_x, sim_time))
                         else:
                             log("P4", "D_Cu at %dK" % T, "WARN",
-                                "Could not measure transition zone")
+                                "Could not measure transition zone "
+                                "(t=%.0es, domain=%.1eum)" % (
+                                    sim_time, domain_w * 1e6))
                     else:
                         log("P4", "D_Cu at %dK" % T, "WARN",
-                            "No Cu gradient (fully homogenized?)")
+                            "No Cu gradient (fully homogenized in %.0es "
+                            "on %.1eum domain)" % (sim_time, domain_w * 1e6))
 
                 except Exception as e:
                     log("P4", "D_Cu at %dK" % T, "FAIL", str(e)[:100])
@@ -798,10 +837,13 @@ with TCPython() as session:
             if d_cu_data:
                 print()
                 print("  D_Cu vs Temperature:")
-                print("  %-8s  %-12s  %-12s" % ("T (K)", "D (m2/s)", "dx (m)"))
-                print("  " + "-" * 36)
-                for T, D, dx, npts in d_cu_data:
-                    print("  %-8d  %.3e  %.3e" % (T, D, dx))
+                print("  %-8s  %-12s  %-12s  %-10s  %s" % (
+                    "T (K)", "D (m2/s)", "dx (m)", "t_sim (s)", "Note"))
+                print("  " + "-" * 65)
+                for T, D, dx, npts, t_sim, is_upper in d_cu_data:
+                    note = "<upper bound" if is_upper else ""
+                    print("  %-8d  %.3e  %.3e  %-10.0f  %s" % (
+                        T, D, dx, t_sim, note))
                 log("P4", "D_Cu summary", "OK",
                     "%d temperatures measured" % len(d_cu_data))
 
@@ -903,6 +945,9 @@ with TCPython() as session:
                     diff_5a.set_simulation_time(3600)
 
                     # Left region: Cu-rich steel
+                    # IMPORTANT: In a ternary system (Cu-Fe-O), must specify
+                    # ALL non-dependent elements. Fe is dependent (balance).
+                    # Only specify Cu and O; Fe fills the remainder.
                     region_left = Region("cu_rich").set_width(5e-4)  # 500 um
                     region_left.add_phase(couple_phase)
                     # Probe grid API to find correct method name
@@ -917,7 +962,8 @@ with TCPython() as session:
                     grid_ok = False
                     for factor_method in ['set_geometric_factor',
                                           'set_geometrical_factor',
-                                          'set_factor']:
+                                          'set_factor',
+                                          'set_lower_geometrical_factor']:
                         fn = getattr(dg_grid, factor_method, None)
                         if fn and callable(fn):
                             try:
@@ -933,11 +979,27 @@ with TCPython() as session:
                     if not grid_ok:
                         print("  Falling back to linear grid")
                         dg_grid = CalculatedGrid.linear().set_no_of_points(25)
+
+                    # Determine which elements to specify in profile.
+                    # In Cu-Fe-O: specify Cu + O, leave Fe as dependent.
+                    # In Cu-Fe (no O): specify Cu only, leave Fe as dependent.
+                    elem_set = set(e.upper() for e in elems)
+                    left_profile = (CompositionProfile(Unit.MASS_PERCENT)
+                                    .add("CU", ElementProfile.constant(0.5)))
+                    right_profile = (CompositionProfile(Unit.MASS_PERCENT)
+                                     .add("CU", ElementProfile.constant(0.0)))
+                    if "O" in elem_set:
+                        left_profile = left_profile.add(
+                            "O", ElementProfile.constant(0.001))
+                        right_profile = right_profile.add(
+                            "O", ElementProfile.constant(0.001))
+                        print("  Elements in profile: CU, O (Fe=dependent)")
+                    else:
+                        print("  Elements in profile: CU (Fe=dependent)")
+
                     region_left = (region_left
                                    .with_grid(dg_grid)
-                                   .with_composition_profile(
-                                       CompositionProfile(Unit.MASS_PERCENT)
-                                       .add("CU", ElementProfile.constant(0.5))))
+                                   .with_composition_profile(left_profile))
 
                     # Right region: pure Fe
                     region_right = Region("pure_fe").set_width(5e-4)
@@ -945,9 +1007,7 @@ with TCPython() as session:
                     region_right = (region_right
                                     .with_grid(CalculatedGrid.linear()
                                                .set_no_of_points(25))
-                                    .with_composition_profile(
-                                        CompositionProfile(Unit.MASS_PERCENT)
-                                        .add("CU", ElementProfile.constant(0.0))))
+                                    .with_composition_profile(right_profile))
 
                     diff_5a.add_region(region_left)
                     diff_5a.add_region(region_right)

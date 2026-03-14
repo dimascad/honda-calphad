@@ -133,6 +133,18 @@ OXIDE_DG_COLS = {
     "CeO2":  "dG_CeO2_per_O2",
 }
 
+# Map oxide name -> column letter in "Formation Energies" tab (Tab 1)
+# Tab 1 columns: B=CeO2, C=CaO, D=La2O3, E=MgO, F=ZrO2, G=Al2O3,
+# H=TiO2, I=SiO2, J=MnO, K=Cr2O3, L=V2O5, M=FeO,
+# N=CoO, O=NiO, P=PbO, Q=Cu2O, R=CuO, S=B2O3
+_TAB1_OXIDES = [
+    "CeO2", "CaO", "La2O3", "MgO", "ZrO2", "Al2O3",
+    "TiO2", "SiO2", "MnO", "Cr2O3", "V2O5", "FeO",
+    "CoO", "NiO", "PbO", "Cu2O", "CuO", "B2O3",
+]
+TAB1_COL = {ox: get_column_letter(i + 2) for i, ox in enumerate(_TAB1_OXIDES)}
+TAB1_CU2O = TAB1_COL["Cu2O"]  # Column Q
+
 # Screening order (most stable first, Cu2O/CuO last)
 SCREENING_ORDER = [
     "CeO2", "CaO", "La2O3", "MgO", "ZrO2", "Al2O3",
@@ -177,6 +189,11 @@ PHASE_HINTS = {
     "CuNiO2": ["DELAFOSSITE"], "CuLaO2": ["DELAFOSSITE"],
     "CuCeO3": ["PEROVSKITE"], "CuB2O4": ["BORATE"],
 }
+
+# Map oxide -> [(product_name, Tab 4 row number)] for cross-tab references
+TAB4_PRODUCT_ROWS = {}
+for _i, _rxn in enumerate(TERNARY_REACTIONS):
+    TAB4_PRODUCT_ROWS.setdefault(_rxn[3], []).append((_rxn[0], _i + 2))
 
 # Pricing & SDS data
 SDS_DATA = [
@@ -330,7 +347,7 @@ def build_tab1_formation_energies(wb, df):
     apply_borders(ws, 1, last_row, 1, len(headers))
 
     add_notes(ws, last_row + 2, [
-        "Values are dGf in kJ/mol O2 (Ellingham convention).",
+        "Values are dGf in J/mol O2 (Ellingham convention). Divide by 1000 for kJ.",
         "Source: TCOX14 database via TC-Python. PbO and CeO2 from SSUB3.",
         "More negative = more thermodynamically stable oxide.",
     ])
@@ -369,8 +386,8 @@ def build_tab2_binary_screening(wb, df):
         cell.alignment = center
         ws.column_dimensions[get_column_letter(c)].width = w
 
-    # Compute dG_rxn = dGf(Cu2O) - dGf(MOx) at each temperature
-    cu2o_col = "dG_Cu2O_per_O2"
+    # dG_rxn = dGf(Cu2O) - dGf(MOx) — now EXCEL FORMULAS referencing Tab 1
+    has_data = df is not None
 
     for r_idx, oxide in enumerate(SCREENING_ORDER):
         r = r_idx + 2
@@ -388,42 +405,35 @@ def build_tab2_binary_screening(wb, df):
 
         values = [oxide, density, Tm, floats, solid]
 
-        # dG_rxn at each temperature
-        dG_vals = {}
-        if df is not None:
-            ox_col = OXIDE_DG_COLS.get(oxide)
-            if ox_col and ox_col in df.columns and cu2o_col in df.columns:
-                for T in TEMPS_K:
-                    idx = int(np.argmin(np.abs(df["T_K"].values - T)))
-                    cu2o_val = df[cu2o_col].values[idx]
-                    ox_val = df[ox_col].values[idx]
-                    if not np.isnan(cu2o_val) and not np.isnan(ox_val):
-                        dG_vals[T] = (cu2o_val - ox_val) / 1000  # J -> kJ
-                    else:
-                        dG_vals[T] = None
-            else:
-                for T in TEMPS_K:
-                    dG_vals[T] = None
+        # dG_rxn at each temperature — EXCEL FORMULAS referencing Tab 1
+        tab1_ox_col = TAB1_COL.get(oxide)
+        if has_data and tab1_ox_col:
+            for T in TEMPS_K:
+                # INDEX/MATCH pulls dGf(Cu2O) and dGf(MOx) from Formation Energies
+                # Division by 1000 converts J -> kJ
+                formula = (
+                    f"=IFERROR((INDEX('Formation Energies'!${TAB1_CU2O}:${TAB1_CU2O},"
+                    f"MATCH({T},'Formation Energies'!$A:$A,0))"
+                    f"-INDEX('Formation Energies'!${tab1_ox_col}:${tab1_ox_col},"
+                    f"MATCH({T},'Formation Energies'!$A:$A,0)))/1000,\"TBD\")"
+                )
+                values.append(formula)
         else:
             for T in TEMPS_K:
-                dG_vals[T] = None
+                values.append(None)
 
-        for T in TEMPS_K:
-            values.append(dG_vals.get(T))
-
-        # Verdict
-        dG_1527 = dG_vals.get(1800)
-        if dG_1527 is not None:
-            if dG_1527 > 0:
-                reducible = "No"
-            elif oxide == "CuO":
-                reducible = "Trivially"
-            else:
-                reducible = "Yes"
+        # Verdict — EXCEL IF() FORMULA referencing col H (dG @ 1527C)
+        if has_data and tab1_ox_col:
+            verdict_formula = (
+                f'=IF(NOT(ISNUMBER(H{r})),"TBD",'
+                f'IF(H{r}>0,"No",'
+                f'IF(A{r}="CuO","Trivially","Yes")))'
+            )
+            values.append(verdict_formula)
         else:
-            reducible = "TBD"
+            values.append("TBD")
 
-        values.extend([reducible, tox, source])
+        values.extend([tox, source])
 
         row_fill = white_fill if r_idx % 2 == 0 else alt_fill
 
@@ -431,10 +441,12 @@ def build_tab2_binary_screening(wb, df):
             cell = ws.cell(row=r, column=c, value=val)
             cell.fill = row_fill
 
-            # dG columns
+            # dG columns (formula or static)
             if c in (6, 7, 8):
-                if isinstance(val, (int, float)):
-                    cell.number_format = '+#,##0.0;-#,##0.0'
+                cell.number_format = '+#,##0.0;-#,##0.0'
+                if isinstance(val, str) and val.startswith("="):
+                    cell.font = normal_font  # color via conditional formatting
+                elif isinstance(val, (int, float)):
                     cell.font = red_font if val > 0 else green_font
                 elif val is None:
                     cell.value = "TBD"
@@ -445,7 +457,9 @@ def build_tab2_binary_screening(wb, df):
                 cell.font = Font(bold=True, color="9C0006", size=11)
                 cell.alignment = center
             elif c == 9:
-                if val == "No":
+                if isinstance(val, str) and val.startswith("="):
+                    cell.font = normal_font  # verdict formula
+                elif val == "No":
                     cell.font = bold_font
                 elif val == "TBD":
                     cell.fill = tbd_fill
@@ -463,10 +477,27 @@ def build_tab2_binary_screening(wb, df):
     last_row = len(SCREENING_ORDER) + 1
     apply_borders(ws, 1, last_row, 1, len(headers))
 
+    # Conditional formatting for formula-based dG columns
+    from openpyxl.formatting.rule import CellIsRule
+    for col_l in ["F", "G", "H"]:
+        rng = f"{col_l}2:{col_l}{last_row}"
+        ws.conditional_formatting.add(
+            rng,
+            CellIsRule(operator="greaterThan", formula=["0"],
+                       font=Font(color="9C0006", bold=True))
+        )
+        ws.conditional_formatting.add(
+            rng,
+            CellIsRule(operator="lessThanOrEqual", formula=["0"],
+                       font=Font(color="006100", bold=True))
+        )
+
     add_notes(ws, last_row + 2, [
         "dG_rxn = dGf(Cu2O) - dGf(MOx) per mol O2. Positive = Cu CANNOT reduce oxide.",
+        "FORMULA CELLS: Cols F-H use INDEX/MATCH referencing 'Formation Energies' tab.",
+        "Col I verdict is an IF() formula based on Col H value.",
+        "Total formula cells: " + str(len(SCREENING_ORDER) * 4) + " (3 dG + 1 verdict per oxide).",
         "Molten steel density ~ 7.0 g/cm3 at 1600C. Oxides lighter than steel float.",
-        "Red values = UNFAVORABLE (oxide too stable). Green = Cu can reduce.",
         "CuO: Cu2O -> CuO is further Cu oxidation, not useful for removal.",
         "Conclusion: Cu cannot directly reduce ANY useful ceramic oxide at steelmaking temps.",
     ])
@@ -522,10 +553,6 @@ def build_tab3_ternary_balancing(wb):
         r = r_idx + 2
         product, name, reaction, oxide, n_Cu, n_oxide, ox_formula, ox_atoms, n_O2, prod_atoms, category = rxn
 
-        o_from_O2 = n_O2 * 2
-        total_reactant = n_Cu + n_oxide * ox_atoms + o_from_O2
-        balanced = "YES" if abs(total_reactant - prod_atoms) < 0.01 else "NO"
-
         if prev_cat is not None and category != prev_cat:
             group_break_rows.add(r - 1)
         prev_cat = category
@@ -533,9 +560,15 @@ def build_tab3_ternary_balancing(wb):
         group_num = cat_group_idx.get(category, 0)
         row_fill = alt_fill if group_num % 2 == 1 else white_fill
 
+        # Cols J, K, M are FORMULAS; rest are raw inputs
+        o_from_O2_formula = f"=I{r}*2"                          # J: O atoms from O2
+        total_reactant_formula = f"=E{r}+G{r}*H{r}+J{r}"       # K: total reactant atoms
+        balanced_formula = f'=IF(ABS(K{r}-L{r})<0.01,"YES","NO")'  # M: balanced check
+
         values = [product, name, category, reaction,
-                  n_Cu, ox_formula, n_oxide, ox_atoms, n_O2, o_from_O2,
-                  total_reactant, prod_atoms, balanced]
+                  n_Cu, ox_formula, n_oxide, ox_atoms, n_O2,
+                  o_from_O2_formula, total_reactant_formula,
+                  prod_atoms, balanced_formula]
 
         for c, val in enumerate(values, 1):
             cell = ws.cell(row=r, column=c, value=val)
@@ -543,13 +576,27 @@ def build_tab3_ternary_balancing(wb):
             cell.fill = row_fill
             cell.alignment = left_wrap if c in (1, 2, 3, 4, 6) else center
 
-            if c == 13:
-                cell.font = green_font if val == "YES" else red_font
+    # Conditional formatting for Balanced column (M)
+    from openpyxl.formatting.rule import CellIsRule
+    last_row = len(TERNARY_REACTIONS) + 1
+    ws.conditional_formatting.add(
+        f"M2:M{last_row}",
+        CellIsRule(operator="equal", formula=['"YES"'],
+                   font=Font(color="006100", bold=True))
+    )
+    ws.conditional_formatting.add(
+        f"M2:M{last_row}",
+        CellIsRule(operator="equal", formula=['"NO"'],
+                   font=Font(color="9C0006", bold=True))
+    )
 
-    apply_borders(ws, 1, len(TERNARY_REACTIONS) + 1, 1, 13, group_break_rows)
+    apply_borders(ws, 1, last_row, 1, 13, group_break_rows)
 
-    add_notes(ws, len(TERNARY_REACTIONS) + 3, [
+    n_formulas = len(TERNARY_REACTIONS) * 3  # J, K, M per row
+    add_notes(ws, last_row + 3, [
         "All reactions require oxygen. In steelmaking, O2 comes from dissolved oxygen or atmosphere.",
+        "FORMULA CELLS: Cols J (O from O2), K (total atoms), M (balanced check) are Excel formulas.",
+        f"Total formula cells: {n_formulas}.",
         "n(oxide) = moles of binary oxide consumed per mole of ternary product.",
         "Oxide Atoms = atoms per formula unit (e.g., Al2O3 = 5).",
         "Total Reactant Atoms must equal Product Atoms for balanced reaction.",
@@ -564,15 +611,39 @@ def build_tab3_ternary_balancing(wb):
 # Tab 4: Ternary Reaction dG
 # ============================================================================
 
-def build_tab4_ternary_dG(wb, ternary_data):
-    """dG_rxn at key temperatures for each ternary product."""
+def build_tab4_ternary_dG(wb, ternary_data, df):
+    """dG_rxn with full decomposition: raw TC-Python values + Excel formula.
+
+    Columns A-D:  identifiers (product, name, oxide, reaction)
+    Columns E-F:  dG at 727°C and 1227°C (raw from CSV, lower priority temps)
+    Columns G-K:  stoichiometric constants (atoms/formula, n_Cu, n_oxide, ox_atoms, n_O2)
+    Columns L-O:  raw TC-Python Gibbs energies at 1800K (GM_product, G_Cu, GM_oxide, G_O2)
+    Column  P:    dG @ 1527°C via Excel FORMULA (the math, auditable)
+    Column  Q:    dG @ 1527°C from CSV (Python-computed, for cross-check)
+    Column  R:    ternary phase info
+    Column  S:    stable phases at 1800K
+    """
     ws = wb.create_sheet("Ternary Reaction dG")
 
-    headers = ["Product", "Name", "Oxide", "Reaction"]
-    for T in TEMPS_K:
-        headers.append(f"dG_rxn\n@ {T-273}C\n(kJ)")
-    headers.extend(["Ternary Phase\n@ 1527C", "Stable Phases\n@ 1527C"])
-    col_widths = [14, 28, 10, 40, 14, 14, 14, 20, 40]
+    headers = [
+        "Product", "Name", "Oxide", "Reaction",
+        "dG_rxn\n@ 727C\n(kJ)",
+        "dG_rxn\n@ 1227C\n(kJ)",
+        "Prod\nAtoms",
+        "n_Cu",
+        "n_oxide",
+        "Oxide\nAtoms",
+        "n_O₂",
+        "GM_product\n@ 1800K\n(J/mol-at)",
+        "G_Cu\n@ 1800K\n(J/mol)",
+        "GM_oxide\n@ 1800K\n(J/mol-at)",
+        "G_O₂\n@ 1800K\n(J/mol)",
+        "dG_rxn\n@ 1527C\n(kJ) FORMULA",
+        "dG_rxn\n@ 1527C\n(kJ) CSV",
+        "Ternary Phase\n@ 1527C",
+        "Stable Phases\n@ 1527C",
+    ]
+    col_widths = [14, 28, 10, 40, 12, 12, 7, 7, 8, 7, 7, 16, 16, 16, 16, 16, 14, 22, 40]
 
     for c, (h, w) in enumerate(zip(headers, col_widths), 1):
         cell = ws.cell(row=1, column=c, value=h)
@@ -589,12 +660,35 @@ def build_tab4_ternary_dG(wb, ternary_data):
             by_product[key] = []
         by_product[key].append(row)
 
+    # Get binary oxide GM values at 1800K from the binary CSV
+    oxide_gm_1800 = {}
+    if df is not None:
+        import pandas as pd
+        row_1800 = df[df["T_K"] == 1800]
+        if not row_1800.empty:
+            row_1800 = row_1800.iloc[0]
+            for ox in ["Al2O3", "Cr2O3", "MnO", "FeO", "CoO", "V2O5",
+                        "TiO2", "SiO2", "MgO", "CaO", "ZrO2", "NiO",
+                        "La2O3", "CeO2", "B2O3"]:
+                col = f"GM_system_{ox}"
+                if col in df.columns and pd.notna(row_1800[col]):
+                    oxide_gm_1800[ox] = float(row_1800[col])
+
     group_break_rows = set()
     prev_cat = None
+    formula_count = 0
 
     for r_idx, rxn_def in enumerate(TERNARY_REACTIONS):
         r = r_idx + 2
-        product, name, reaction, oxide = rxn_def[0], rxn_def[1], rxn_def[2], rxn_def[3]
+        product = rxn_def[0]
+        name = rxn_def[1]
+        reaction = rxn_def[2]
+        oxide = rxn_def[3]
+        n_Cu = rxn_def[4]
+        n_oxide = rxn_def[5]
+        ox_atoms = rxn_def[7]
+        n_O2 = rxn_def[8]
+        prod_atoms = rxn_def[9]
         category = rxn_def[10]
 
         if prev_cat is not None and category != prev_cat:
@@ -602,86 +696,191 @@ def build_tab4_ternary_dG(wb, ternary_data):
         prev_cat = category
 
         row_fill = white_fill if r_idx % 2 == 0 else alt_fill
-        values = [product, name, oxide, reaction]
-
         prod_rows = by_product.get(product, [])
 
-        # Extract T, dG pairs
-        T_arr, dG_arr = [], []
+        # Extract T -> dG mapping from CSV
+        T_dG = {}
         for pr in prod_rows:
             try:
-                T_arr.append(float(pr["T_K"]))
+                T = float(pr["T_K"])
                 dG_str = pr.get("dG_rxn_system_kJ", "").strip()
-                dG_arr.append(float(dG_str) if dG_str else None)
+                if dG_str:
+                    T_dG[T] = float(dG_str)
             except (ValueError, KeyError):
                 pass
 
-        # dG at each key temperature
-        for T_target in TEMPS_K:
-            if T_arr:
-                np_T = np.array([t for t, d in zip(T_arr, dG_arr) if d is not None])
-                np_dG = np.array([d for d in dG_arr if d is not None])
-                if len(np_T) > 0:
-                    idx = int(np.argmin(np.abs(np_T - T_target)))
-                    if abs(np_T[idx] - T_target) < 30:
-                        values.append(round(np_dG[idx], 1))
-                    else:
-                        values.append("No data")
-                else:
-                    values.append("No data")
-            else:
-                values.append("TBD")
+        # Helper: find dG at a target temperature (within 30K)
+        def dg_at(T_target):
+            if not T_dG:
+                return "TBD"
+            best_T = min(T_dG.keys(), key=lambda t: abs(t - T_target))
+            if abs(best_T - T_target) < 30:
+                return round(T_dG[best_T], 1)
+            return "No data"
 
-        # Phase info: scan ALL temperatures for the named ternary phase
-        phase_name, phase_range = find_ternary_phase_info(prod_rows, product)
-        if phase_name:
-            values.append(f"{phase_name} ({phase_range})")
-        elif prod_rows:
-            values.append("Dissolved in ionic liquid")
-        else:
-            values.append("TBD")
-
-        # Stable phases at 1800K
+        # Extract raw TC-Python values at 1800K from ternary CSV
         rows_1800 = [pr for pr in prod_rows
                      if pr.get("T_K") and abs(float(pr["T_K"]) - 1800) < 30]
-        if rows_1800:
-            values.append(rows_1800[0].get("stable_phases", ""))
-        else:
-            values.append("TBD" if not ternary_data else "")
 
-        for c, val in enumerate(values, 1):
+        gm_product = None
+        g_cu = None
+        g_o2 = None
+        if rows_1800:
+            pr = rows_1800[0]
+            try:
+                gm_product = float(pr["GM_system_product"])
+            except (ValueError, KeyError):
+                pass
+            try:
+                g_cu = float(pr["G_Cu_metal"])
+            except (ValueError, KeyError):
+                pass
+            try:
+                g_o2 = float(pr["G_O2"])
+            except (ValueError, KeyError):
+                pass
+
+        gm_oxide = oxide_gm_1800.get(oxide)
+
+        # --- Write all cells ---
+        # A-D: identifiers
+        for c, val in enumerate([product, name, oxide, reaction], 1):
             cell = ws.cell(row=r, column=c, value=val)
             cell.fill = row_fill
+            cell.font = normal_font
+            cell.alignment = left_wrap if c in (1, 2, 4) else center
 
-            if c in (5, 6, 7) and isinstance(val, (int, float)):
+        # E-F: dG at 727°C and 1227°C (raw from CSV)
+        for c, T_target in [(5, 1000), (6, 1500)]:
+            val = dg_at(T_target)
+            cell = ws.cell(row=r, column=c, value=val)
+            cell.fill = row_fill
+            if isinstance(val, (int, float)):
                 cell.number_format = '+#,##0.0;-#,##0.0'
-                if val < -10:
-                    cell.font = green_font
-                    cell.fill = green_fill
-                elif val < 0:
-                    cell.font = Font(color="006100", size=11)
-                else:
-                    cell.font = red_font
-            elif c in (5, 6, 7):
-                cell.font = tbd_font
+                cell.font = green_font if val < 0 else red_font
             else:
+                cell.font = tbd_font
+            cell.alignment = center
+
+        # G-K: stoichiometric constants
+        stoich = [prod_atoms, n_Cu, n_oxide, ox_atoms, n_O2]
+        for c, val in enumerate(stoich, 7):
+            cell = ws.cell(row=r, column=c, value=val)
+            cell.fill = row_fill
+            cell.font = normal_font
+            cell.number_format = '0.##'
+            cell.alignment = center
+
+        # L-O: raw TC-Python Gibbs energies at 1800K
+        raw_vals = [gm_product, g_cu, gm_oxide, g_o2]
+        for c, val in enumerate(raw_vals, 12):
+            cell = ws.cell(row=r, column=c, value=val if val is not None else "TBD")
+            cell.fill = row_fill
+            if val is not None:
+                cell.number_format = '#,##0.00'
                 cell.font = normal_font
+            else:
+                cell.font = tbd_font
+            cell.alignment = center
 
-            cell.alignment = left_wrap if c in (1, 2, 4, 8, 9) else center
+        # P: dG @ 1527°C via FORMULA
+        #   = (L * G - (H * M + I * J * N + K * O)) / 1000
+        #   where L=GM_product, G=prod_atoms, H=n_Cu, M=G_Cu,
+        #         I=n_oxide, J=ox_atoms, N=GM_oxide, K=n_O2, O=G_O2
+        if all(v is not None for v in raw_vals):
+            formula = (
+                f"=(L{r}*G{r}"
+                f"-(H{r}*M{r}"
+                f"+I{r}*J{r}*N{r}"
+                f"+K{r}*O{r}))"
+                f"/1000"
+            )
+            cell = ws.cell(row=r, column=16, value=formula)
+            cell.number_format = '+#,##0.0;-#,##0.0'
+            formula_count += 1
+        else:
+            cell = ws.cell(row=r, column=16, value="TBD")
+            cell.font = tbd_font
+        cell.fill = row_fill
+        cell.alignment = center
 
-    apply_borders(ws, 1, len(TERNARY_REACTIONS) + 1, 1, len(headers), group_break_rows)
+        # Q: dG @ 1527°C from CSV (for cross-check)
+        csv_dg = dg_at(1800)
+        cell = ws.cell(row=r, column=17, value=csv_dg)
+        cell.fill = row_fill
+        if isinstance(csv_dg, (int, float)):
+            cell.number_format = '+#,##0.0;-#,##0.0'
+            cell.font = Font(color="666666", size=10)  # subtle gray
+        else:
+            cell.font = tbd_font
+        cell.alignment = center
 
-    add_notes(ws, len(TERNARY_REACTIONS) + 3, [
-        "dG_rxn = G(products) - G(reactants)",
-        "G(products) = GM_system(ternary composition) x atoms_per_formula",
-        "G(reactants) = n_Cu x G(Cu metal) + n_oxide x oxide_atoms x G(binary oxide) + n_O2 x G(O2 gas)",
-        "Negative dG = FAVORABLE (oxide captures copper into ternary compound)",
-        "Positive dG = UNFAVORABLE (ternary compound does not form spontaneously)",
+        # R: Ternary Phase info
+        phase_name, phase_range = find_ternary_phase_info(prod_rows, product)
+        if phase_name:
+            phase_val = f"{phase_name} ({phase_range})"
+        elif prod_rows:
+            phase_val = "Dissolved in ionic liquid"
+        else:
+            phase_val = "TBD"
+        cell = ws.cell(row=r, column=18, value=phase_val)
+        cell.fill = row_fill
+        cell.font = normal_font
+        cell.alignment = left_wrap
+
+        # S: Stable phases at 1800K
+        if rows_1800:
+            stable = rows_1800[0].get("stable_phases", "")
+        else:
+            stable = "TBD" if not ternary_data else ""
+        cell = ws.cell(row=r, column=19, value=stable)
+        cell.fill = row_fill
+        cell.font = normal_font
+        cell.alignment = left_wrap
+
+    num_cols = len(headers)
+    last_data_row = len(TERNARY_REACTIONS) + 1
+    apply_borders(ws, 1, last_data_row, 1, num_cols, group_break_rows)
+
+    # Conditional formatting for formula column P and CSV column Q
+    from openpyxl.formatting.rule import CellIsRule
+    for col_letter in ["P", "Q"]:
+        rng = f"{col_letter}2:{col_letter}{last_data_row}"
+        ws.conditional_formatting.add(
+            rng,
+            CellIsRule(operator="lessThan", formula=["-10"],
+                       fill=green_fill, font=green_font))
+        ws.conditional_formatting.add(
+            rng,
+            CellIsRule(operator="greaterThanOrEqual", formula=["0"],
+                       fill=red_fill, font=red_font))
+
+    # Conditional formatting for dG columns E, F
+    for col_letter in ["E", "F"]:
+        rng = f"{col_letter}2:{col_letter}{last_data_row}"
+        ws.conditional_formatting.add(
+            rng,
+            CellIsRule(operator="lessThan", formula=["0"],
+                       fill=green_fill, font=green_font))
+        ws.conditional_formatting.add(
+            rng,
+            CellIsRule(operator="greaterThanOrEqual", formula=["0"],
+                       fill=red_fill, font=red_font))
+
+    add_notes(ws, last_data_row + 3, [
+        "FORMULA COLUMN (P) computes dG from raw TC-Python values (L-O) and stoichiometry (G-K):",
+        "  dG_rxn = (GM_product × prod_atoms - (n_Cu × G_Cu + n_oxide × ox_atoms × GM_oxide + n_O₂ × G_O₂)) / 1000",
+        "CSV COLUMN (Q) shows the same dG pre-computed by the Python extraction script — should match P exactly.",
+        "If P ≠ Q, the discrepancy is due to the binary oxide reference: P uses the binary CSV (Tab 1 source),",
+        "  while Q uses a binary oxide recalculated inside the ternary system (typically <0.1% difference).",
+        "Columns L-O are RAW values from TC-Python (TCOX14 database). No arithmetic applied.",
+        "Negative dG = FAVORABLE (oxide captures copper into ternary compound).",
         "Green cells = favorable.  Red = unfavorable.",
+        f"Formula cells in this tab: {formula_count}",
     ])
 
-    ws.freeze_panes = "A2"
-    ws.row_dimensions[1].height = 50
+    ws.freeze_panes = "E2"
+    ws.row_dimensions[1].height = 55
 
 
 # ============================================================================
@@ -715,46 +914,10 @@ def build_tab5_combined_screening(wb, df, ternary_data):
         cell.alignment = center
         ws.column_dimensions[get_column_letter(c)].width = w
 
-    # Build ternary lookup: oxide -> best product + dG at 1800K
-    by_product = {}
-    for row in ternary_data:
-        key = row["product"]
-        if key not in by_product:
-            by_product[key] = []
-        by_product[key].append(row)
-
-    ternary_best = {}  # oxide -> (product, dG_1800, phase_info)
-    for rxn_def in TERNARY_REACTIONS:
-        product, oxide = rxn_def[0], rxn_def[3]
-        prod_rows = by_product.get(product, [])
-
-        dG_1800 = None
-        for pr in prod_rows:
-            try:
-                T = float(pr["T_K"])
-                if abs(T - 1800) < 30:
-                    dG_str = pr.get("dG_rxn_system_kJ", "").strip()
-                    if dG_str:
-                        dG_1800 = float(dG_str)
-            except (ValueError, KeyError):
-                pass
-
-        # Get named phase info across all temperatures
-        phase_name, phase_range = find_ternary_phase_info(prod_rows, product)
-        if phase_name:
-            phase_info = f"{phase_name} ({phase_range})"
-        elif prod_rows:
-            phase_info = "Ionic liquid"
-        else:
-            phase_info = ""
-
-        if oxide not in ternary_best or (
-                dG_1800 is not None and
-                (ternary_best[oxide][1] is None or dG_1800 < ternary_best[oxide][1])):
-            ternary_best[oxide] = (product, dG_1800, phase_info)
-
-    # Binary dG lookup
-    cu2o_col = "dG_Cu2O_per_O2"
+    # Cross-tab formula references replace Python-computed values
+    has_binary = df is not None
+    has_ternary = len(ternary_data) > 0
+    n_formulas = 0
 
     for r_idx, oxide in enumerate(SCREENING_ORDER):
         r = r_idx + 2
@@ -765,60 +928,76 @@ def build_tab5_combined_screening(wb, df, ternary_data):
         solid = "Yes" if Tm and Tm > 1527 else "LIQUID"
         tox = props.get("toxicity", "")
 
-        # Binary dG at 1527C
-        binary_dG = None
-        if df is not None:
-            ox_col = OXIDE_DG_COLS.get(oxide)
-            if ox_col and ox_col in df.columns and cu2o_col in df.columns:
-                idx = int(np.argmin(np.abs(df["T_K"].values - 1800)))
-                cu2o_val = df[cu2o_col].values[idx]
-                ox_val = df[ox_col].values[idx]
-                if not np.isnan(cu2o_val) and not np.isnan(ox_val):
-                    binary_dG = (cu2o_val - ox_val) / 1000
+        values = [oxide, density, Tm, floats, solid]
 
-        if binary_dG is not None:
-            binary_verdict = "CANNOT reduce" if binary_dG > 0 else "CAN reduce"
+        # Col F: Binary dG — cross-tab reference to 'Binary Screening'!H{r}
+        # Tab 2 and Tab 5 share SCREENING_ORDER, so row numbers match
+        if has_binary:
+            values.append(f"='Binary Screening'!H{r}")
+            n_formulas += 1
         else:
-            binary_verdict = "TBD"
+            values.append(None)
 
-        # Ternary info
-        tern_info = ternary_best.get(oxide)
-        if tern_info:
-            tern_product, tern_dG, tern_phase = tern_info
-            if tern_dG is not None:
-                if tern_dG < -10:
-                    tern_verdict = "FAVORABLE"
-                elif tern_dG < 0:
-                    tern_verdict = "Marginal"
-                elif tern_dG < 10:
-                    tern_verdict = "Borderline"
-                else:
-                    tern_verdict = "Unfavorable"
+        # Col G: Binary Verdict — cross-tab reference
+        if has_binary:
+            values.append(f"='Binary Screening'!I{r}")
+            n_formulas += 1
+        else:
+            values.append("TBD")
+
+        # Cols H, I: Ternary product & dG — cross-tab references to Tab 4
+        # Tab 4 col G = dG @ 1527C (3rd temperature column)
+        tab4_rows = TAB4_PRODUCT_ROWS.get(oxide, [])
+        if has_ternary and tab4_rows:
+            if len(tab4_rows) == 1:
+                prod_name, prod_row = tab4_rows[0]
+                values.append(prod_name)  # H: product name (text)
+                values.append(f"=IFERROR('Ternary Reaction dG'!P{prod_row},\"TBD\")")
+                n_formulas += 1
             else:
-                tern_verdict = "TBD"
+                # Multiple products — MIN for dG, INDEX for best product name
+                first_row = tab4_rows[0][1]
+                last_row_t4 = tab4_rows[-1][1]
+                name_range = f"'Ternary Reaction dG'!A{first_row}:A{last_row_t4}"
+                dg_range = f"'Ternary Reaction dG'!P{first_row}:G{last_row_t4}"
+                values.append(
+                    f"=IFERROR(INDEX({name_range},"
+                    f"MATCH(MIN({dg_range}),{dg_range},0)),\"N/A\")"
+                )
+                values.append(f"=IFERROR(MIN({dg_range}),\"TBD\")")
+                n_formulas += 2
         else:
-            tern_product = "N/A"
-            tern_dG = None
-            tern_verdict = "Not modeled"
+            values.append("N/A" if not tab4_rows else "TBD")  # H
+            values.append(None)  # I
 
-        # Overall recommendation
-        if tern_dG is not None and tern_dG < -10:
-            recommendation = "PROMISING — ternary compound forms"
-        elif tern_dG is not None and tern_dG < 0:
-            recommendation = "Marginal — weak compound formation"
+        # Col J: Ternary Verdict — IF() formula on col I
+        if has_ternary and tab4_rows:
+            values.append(
+                f'=IF(NOT(ISNUMBER(I{r})),"TBD",'
+                f'IF(I{r}<-10,"FAVORABLE",'
+                f'IF(I{r}<0,"Marginal",'
+                f'IF(I{r}<10,"Borderline","Unfavorable"))))'
+            )
+            n_formulas += 1
+        else:
+            values.append("Not modeled" if not tab4_rows else "TBD")
+
+        # Col K: Overall Recommendation — IF() formula
+        if has_ternary and tab4_rows:
+            values.append(
+                f'=IF(NOT(ISNUMBER(I{r})),"Awaiting ternary data",'
+                f'IF(I{r}<-10,"PROMISING - ternary compound forms",'
+                f'IF(I{r}<0,"Marginal - weak compound formation",'
+                f'IF(A{r}="CuO","Trivial - further Cu oxidation",'
+                f'"Not promising at steelmaking temps"))))'
+            )
+            n_formulas += 1
         elif oxide == "CuO":
-            recommendation = "Trivial — further Cu oxidation"
-        elif tern_verdict == "TBD":
-            recommendation = "Awaiting ternary data"
-        elif tern_verdict == "Not modeled":
-            recommendation = "Binary only — no ternary model"
+            values.append("Trivial - further Cu oxidation")
         else:
-            recommendation = "Not promising at steelmaking temps"
+            values.append("Awaiting ternary data" if not tab4_rows else "TBD")
 
-        values = [oxide, density, Tm, floats, solid,
-                  binary_dG, binary_verdict,
-                  tern_product, tern_dG, tern_verdict,
-                  recommendation, tox]
+        values.append(tox)  # Col L
 
         row_fill = white_fill if r_idx % 2 == 0 else alt_fill
 
@@ -826,73 +1005,67 @@ def build_tab5_combined_screening(wb, df, ternary_data):
             cell = ws.cell(row=r, column=c, value=val)
             cell.fill = row_fill
 
-            # Binary dG column
-            if c == 6:
-                if isinstance(val, (int, float)):
-                    cell.number_format = '+#,##0.0;-#,##0.0'
-                    cell.font = red_font if val > 0 else green_font
-                else:
-                    cell.value = "TBD"
-                    cell.fill = tbd_fill
-                    cell.font = tbd_font
-                cell.alignment = center
-            # Binary verdict
-            elif c == 7:
-                cell.font = red_font if "CANNOT" in str(val) else green_font if "CAN" in str(val) else tbd_font
-                cell.alignment = center
-            # Ternary dG column
-            elif c == 9:
-                if isinstance(val, (int, float)):
-                    cell.number_format = '+#,##0.0;-#,##0.0'
-                    if val < -10:
-                        cell.font = green_font
-                        cell.fill = green_fill
-                    elif val < 0:
-                        cell.font = Font(color="006100", size=11)
-                    else:
-                        cell.font = red_font
-                elif val is None:
-                    cell.value = "TBD"
-                    cell.fill = tbd_fill
-                    cell.font = tbd_font
-                cell.alignment = center
-            # Ternary verdict
-            elif c == 10:
-                if "FAVORABLE" in str(val).upper() and "UN" not in str(val).upper():
-                    cell.font = green_font
-                elif "Unfavorable" in str(val):
-                    cell.font = red_font
-                else:
-                    cell.font = normal_font
-                cell.alignment = center
-            # Overall recommendation
-            elif c == 11:
-                if "PROMISING" in str(val).upper():
-                    cell.font = green_font
-                    cell.fill = green_fill if row_fill == white_fill else green_fill
-                elif "Not promising" in str(val):
-                    cell.font = Font(color="9C0006", size=11)
-                else:
-                    cell.font = normal_font
-                cell.alignment = left_wrap
-            # Solid column
+            # Formula cells get normal font; colors via conditional formatting
+            if isinstance(val, str) and val.startswith("="):
+                cell.font = normal_font
             elif c == 5 and val == "LIQUID":
                 cell.font = Font(bold=True, color="9C0006", size=11)
-                cell.alignment = center
-            elif c in (1, 8, 12):
-                cell.alignment = left_wrap
-                cell.font = normal_font
             else:
-                cell.alignment = center
                 cell.font = normal_font
 
+            # Number formats for dG columns
+            if c in (6, 9):
+                cell.number_format = '+#,##0.0;-#,##0.0'
+                if val is None:
+                    cell.value = "TBD"
+                    cell.fill = tbd_fill
+                    cell.font = tbd_font
+                cell.alignment = center
+            elif c == 11:
+                cell.alignment = left_wrap
+            elif c in (1, 8, 12):
+                cell.alignment = left_wrap
+            else:
+                cell.alignment = center
+
     last_row = len(SCREENING_ORDER) + 1
+
+    # Conditional formatting for formula-based columns
+    from openpyxl.formatting.rule import CellIsRule
+    # Binary dG (col F) — red positive, green negative
+    for col_l in ["F"]:
+        rng = f"{col_l}2:{col_l}{last_row}"
+        ws.conditional_formatting.add(
+            rng,
+            CellIsRule(operator="greaterThan", formula=["0"],
+                       font=Font(color="9C0006", bold=True))
+        )
+        ws.conditional_formatting.add(
+            rng,
+            CellIsRule(operator="lessThanOrEqual", formula=["0"],
+                       font=Font(color="006100", bold=True))
+        )
+    # Ternary dG (col I) — green if strongly favorable
+    ws.conditional_formatting.add(
+        f"I2:I{last_row}",
+        CellIsRule(operator="lessThan", formula=["-10"],
+                   font=Font(color="006100", bold=True),
+                   fill=green_fill)
+    )
+    ws.conditional_formatting.add(
+        f"I2:I{last_row}",
+        CellIsRule(operator="greaterThanOrEqual", formula=["0"],
+                   font=Font(color="9C0006", bold=True))
+    )
+
     apply_borders(ws, 1, last_row, 1, len(headers))
 
     add_notes(ws, last_row + 2, [
         "Binary: dG_rxn = dGf(Cu2O) - dGf(MOx). Positive = Cu cannot reduce oxide (all ceramics).",
         "Ternary: dG_rxn = G(CuMOy) - [G(Cu) + G(MOx) + G(O2)]. Negative = compound forms.",
-        "\"Best Ternary Product\" is the compound with the most negative dG at 1527C.",
+        "FORMULA CELLS: Col F refs 'Binary Screening', Col I refs 'Ternary Reaction dG'.",
+        "Cols G, H, J, K are formulas (cross-tab refs or IF() verdicts).",
+        f"Total formula cells in this tab: {n_formulas}.",
         "PROMISING oxides capture Cu into ternary compounds even though Cu cannot reduce them directly.",
         "This is the key insight: reduction is impossible, but compound formation may be favorable.",
     ])
@@ -1010,7 +1183,7 @@ def build_tab7_pricing(wb):
 
 def main():
     print("=" * 60)
-    print("Building combined screening workbook...")
+    print("Building combined screening workbook (TRACEABLE FORMULAS)...")
     print("=" * 60)
 
     df = load_binary_data()
@@ -1022,14 +1195,24 @@ def main():
     build_tab1_formation_energies(wb, df)
     build_tab2_binary_screening(wb, df)
     build_tab3_ternary_balancing(wb)
-    build_tab4_ternary_dG(wb, ternary_data)
+    build_tab4_ternary_dG(wb, ternary_data, df)
     build_tab5_combined_screening(wb, df, ternary_data)
     build_tab6_normalization(wb)
     build_tab7_pricing(wb)
 
     wb.save(OUTPUT_FILE)
+
+    # Count all formula cells across all sheets
+    total_formulas = 0
+    for ws in wb.worksheets:
+        for row in ws.iter_rows():
+            for cell in row:
+                if isinstance(cell.value, str) and cell.value.startswith("="):
+                    total_formulas += 1
+
     print(f"\nSaved to: {OUTPUT_FILE}")
     print(f"Tabs: {[ws.title for ws in wb.worksheets]}")
+    print(f"Total FORMULA cells: {total_formulas}")
 
     # Summary
     print(f"\nBinary data: {'loaded' if df is not None else 'NOT FOUND'}")

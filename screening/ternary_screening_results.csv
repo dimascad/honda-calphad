@@ -1,19 +1,19 @@
 Product,Name,Oxide,Reaction,dG_rxn @ 727°C (kJ),dG_rxn @ 1227°C (kJ),dG_rxn @ 1527°C (kJ),Ternary Phase Found,Stable Phases @ 1527°C,Verdict
-CuAl2O4,copper aluminate spinel,Al2O3,Cu + Al2O3 + 0.5 O2 -> CuAl2O4,-72.7,-38.8,-32.3,,CORUNDUM#1; GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
-CuAlO2,delafossite,Al2O3,Cu + 0.5 Al2O3 + 0.25 O2 -> CuAlO2,-52.5,-35.0,-30.1,,CORUNDUM#1; IONIC_LIQ#1; IONIC_LIQ#2,FAVORABLE — Cu captured
-CuCr2O4,copper chromite spinel,Cr2O3,Cu + Cr2O3 + 0.5 O2 -> CuCr2O4,-82.3,-43.7,-30.0,,CORUNDUM#1; DELAFOSSITE#1; GAS#1,FAVORABLE — Cu captured
-CuMn2O4,copper manganite spinel,MnO,Cu + 2MnO + O2 -> CuMn2O4,-161.8,-79.2,-64.4,,GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
-CuFe2O4,copper ferrite spinel,FeO,Cu + 2FeO + O2 -> CuFe2O4,-235.7,-149.6,-111.9,,GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
-CuV2O6,copper vanadate,V2O5,Cu + V2O5 + 0.5 O2 -> CuV2O6,-66.7,-49.5,-45.0,,GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
-Cu3V2O8,copper orthovanadate,V2O5,3Cu + V2O5 + 1.5 O2 -> Cu3V2O8,-198.7,-127.1,-109.2,,GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
-CuTiO3,copper titanate,TiO2,Cu + TiO2 + 0.5 O2 -> CuTiO3,-66.2,-37.3,-36.8,,GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
-CuSiO3,copper metasilicate,SiO2,Cu + SiO2 + 0.5 O2 -> CuSiO3,-66.2,-32.9,-26.2,,CRISTOBALITE#1; GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
-Cu2SiO4,copper orthosilicate,SiO2,2Cu + SiO2 + O2 -> Cu2SiO4,-132.2,-65.7,-52.2,,CRISTOBALITE#1; GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
-CuMgO2,copper magnesioxide (hypothetical),MgO,Cu + MgO + 0.5 O2 -> CuMgO2,-67.9,-33.9,-26.1,,GAS#1; HALITE#1; IONIC_LIQ#2,FAVORABLE — Cu captured
-CuCaO2,copper calcioxide (hypothetical),CaO,Cu + CaO + 0.5 O2 -> CuCaO2,-67.3,-36.6,-30.7,,GAS#1; HALITE#1; IONIC_LIQ#2,FAVORABLE — Cu captured
-CuZrO3,copper zirconate (hypothetical),ZrO2,Cu + ZrO2 + 0.5 O2 -> CuZrO3,-66.3,-32.2,-25.3,,GAS#1; IONIC_LIQ#2; ZRO2_TETR#1,FAVORABLE — Cu captured
-CuNiO2,copper nickelate,NiO,Cu + NiO + 0.5 O2 -> CuNiO2,-70.6,-35.4,-27.3,,GAS#1; HALITE#1; IONIC_LIQ#2,FAVORABLE — Cu captured
-CuCo2O4,copper cobaltite spinel,CoO,Cu + 2CoO + O2 -> CuCo2O4,-91.4,-40.8,-35.8,,GAS#1; HALITE#1; IONIC_LIQ#2,FAVORABLE — Cu captured
-CuLaO2,copper lanthanum oxide,La2O3,Cu + 0.5 La2O3 + 0.25 O2 -> CuLaO2,-50.9,-31.1,-27.8,,IONIC_LIQ#1; IONIC_LIQ#2; M2O3A#1,FAVORABLE — Cu captured
-CuCeO3,copper cerate (hypothetical),CeO2,Cu + CeO2 + 0.5 O2 -> CuCeO3,No data,No data,No data,,"ERROR: Thermo-Calc calculation error: se.thermocalc.core.CalculationEngineException: The element CE is not in the database, it contains only the following elements: [/-, AL, AR, B, BA, C, CA, CO, CR, CU, F, FE, GD, H, HF, K, LA, LI, MG, MN, MO, N, NA, NB, NI, O, P, S, SI, TI, V, VA, W, Y, YB, ZR]",No data
-CuB2O4,copper borate,B2O3,Cu + B2O3 + 0.5 O2 -> CuB2O4,-79.7,-51.3,-47.7,,GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+CuAl2O4,copper aluminate spinel,Al2O3,Cu + Al2O3 + 0.5 O2 -> CuAl2O4,-72.7,-38.8,-32.3,SPINEL#1 (to 1550 K),CORUNDUM#1; GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+CuAlO2,delafossite,Al2O3,Cu + 0.5 Al2O3 + 0.25 O2 -> CuAlO2,-52.5,-35.0,-30.1,SPINEL#1 (to 1550 K),CORUNDUM#1; IONIC_LIQ#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+CuCr2O4,copper chromite spinel,Cr2O3,Cu + Cr2O3 + 0.5 O2 -> CuCr2O4,-82.3,-43.7,-30.0,ALPHA_SPINEL#1 (to 1900 K),CORUNDUM#1; DELAFOSSITE#1; GAS#1,FAVORABLE — Cu captured
+CuMn2O4,copper manganite spinel,MnO,Cu + 2MnO + O2 -> CuMn2O4,-161.8,-79.2,-64.4,SPINEL#1 (to 1700 K),GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+CuFe2O4,copper ferrite spinel,FeO,Cu + 2FeO + O2 -> CuFe2O4,-235.7,-149.6,-111.9,SPINEL#1 (to 1700 K),GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+CuV2O6,copper vanadate,V2O5,Cu + V2O5 + 0.5 O2 -> CuV2O6,-66.7,-49.5,-45.0,none (liquid at all T),GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+Cu3V2O8,copper orthovanadate,V2O5,3Cu + V2O5 + 1.5 O2 -> Cu3V2O8,-198.7,-127.1,-109.2,none (liquid at all T),GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+CuTiO3,copper titanate,TiO2,Cu + TiO2 + 0.5 O2 -> CuTiO3,-66.2,-37.3,-36.8,none (liquid at all T),GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+CuSiO3,copper metasilicate,SiO2,Cu + SiO2 + 0.5 O2 -> CuSiO3,-66.2,-32.9,-26.2,none (liquid at all T),CRISTOBALITE#1; GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+Cu2SiO4,copper orthosilicate,SiO2,2Cu + SiO2 + O2 -> Cu2SiO4,-132.2,-65.7,-52.2,none (liquid at all T),CRISTOBALITE#1; GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+CuMgO2,copper magnesioxide (hypothetical),MgO,Cu + MgO + 0.5 O2 -> CuMgO2,-67.9,-33.9,-26.1,GUGGENITE#1 (to 1350 K),GAS#1; HALITE#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+CuCaO2,copper calcioxide (hypothetical),CaO,Cu + CaO + 0.5 O2 -> CuCaO2,-67.3,-36.6,-30.7,CA2CUO3#1 (to 1300 K),GAS#1; HALITE#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+CuZrO3,copper zirconate (hypothetical),ZrO2,Cu + ZrO2 + 0.5 O2 -> CuZrO3,-66.3,-32.2,-25.3,none (liquid at all T),GAS#1; IONIC_LIQ#2; ZRO2_TETR#1,FAVORABLE — Cu captured
+CuNiO2,copper nickelate,NiO,Cu + NiO + 0.5 O2 -> CuNiO2,-70.6,-35.4,-27.3,none (liquid at all T),GAS#1; HALITE#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+CuCo2O4,copper cobaltite spinel,CoO,Cu + 2CoO + O2 -> CuCo2O4,-91.4,-40.8,-35.8,SPINEL#1 (to 1150 K),GAS#1; HALITE#1; IONIC_LIQ#2,FAVORABLE — Cu captured
+CuLaO2,copper lanthanum oxide,La2O3,Cu + 0.5 La2O3 + 0.25 O2 -> CuLaO2,-50.9,-31.1,-27.8,DELAFOSSITE#1 (to 1500 K),IONIC_LIQ#1; IONIC_LIQ#2; M2O3A#1,FAVORABLE — Cu captured
+CuCeO3,copper cerate (hypothetical),CeO2,Cu + CeO2 + 0.5 O2 -> CuCeO3,No data,No data,No data,none (liquid at all T),"ERROR: Thermo-Calc calculation error: se.thermocalc.core.CalculationEngineException: The element CE is not in the database, it contains only the following elements: [/-, AL, AR, B, BA, C, CA, CO, CR, CU, F, FE, GD, H, HF, K, LA, LI, MG, MN, MO, N, NA, NB, NI, O, P, S, SI, TI, V, VA, W, Y, YB, ZR]",No data
+CuB2O4,copper borate,B2O3,Cu + B2O3 + 0.5 O2 -> CuB2O4,-79.7,-51.3,-47.7,CUB2O4#1 (to 1300 K),GAS#1; IONIC_LIQ#2,FAVORABLE — Cu captured

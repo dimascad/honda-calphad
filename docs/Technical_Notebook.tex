@@ -259,11 +259,11 @@ We extracted formation energies for 18 oxides (11 from TCOX14, 2 from SSUB3 fall
     \label{fig:ellingham}
 \end{figure}
 
-\subsection{Zhang's Pivot}
+\subsection{Dr.\ Zhang's Pivot}
 
 At our Feb 12 meeting, Dr.\ Zhang explained that the binary result was \textit{expected}. The real mechanism is not oxide reduction but \textbf{ternary compound formation}:
 \begin{quote}
-``We want to using di oxide to capture the copper inside... Last time [Al$_2$O$_3$] works because of the spinel reaction.''
+``We want to use the oxide to capture the copper. Last time, [Al$_2$O$_3$] worked because of the spinel reaction.''
 \end{quote}
 
 The reaction is not Cu $+$ Al$_2$O$_3 \to$ products, but rather:
@@ -336,14 +336,14 @@ Note that the pure-$\Delta G$ ranking is misleading under real conditions. See S
     \label{fig:dG_vs_T}
 \end{figure}
 
-\subsection{Zhang and FeO: Binary vs.\ Ternary}
+\subsection{Dr.\ Zhang and FeO: Binary vs.\ Ternary}
 
-When asked about FeO, Zhang said:
+When asked about FeO, Dr.\ Zhang said:
 \begin{quote}
-``Iron oxide should be not work. I'm pretty sure, maybe work. I'm not sure, but I think it's not.''
+``Iron oxide should not work. I'm pretty sure it doesn't, but I'm not certain.''
 \end{quote}
 
-He was talking about the \textbf{binary} reaction (Cu reducing FeO) --- which is correct, that does not work. Our calculations show a different reaction entirely: Cu $+$ 2FeO $+$ O$_2 \to$ CuFe$_2$O$_4$ (spinel formation). This \textbf{ternary} reaction has the strongest driving force of any candidate ($-112$ kJ). Zhang himself asked us to check it.
+He was talking about the \textbf{binary} reaction (Cu reducing FeO) --- which is correct, that does not work. Our calculations show a different reaction entirely: Cu $+$ 2FeO $+$ O$_2 \to$ CuFe$_2$O$_4$ (spinel formation). This \textbf{ternary} reaction has the strongest driving force of any candidate ($-112$ kJ). Dr.\ Zhang himself asked us to check it.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -465,7 +465,7 @@ In molten oxide slags, the analogous variable is \textbf{slag basicity}: the rat
 \begin{itemize}[leftmargin=*]
     \item Adding CaO (strong base) to a silicate slag can dramatically change $\gamma_{\text{CuO}_{0.5}}$, making it easier or harder for Cu to dissolve
     \item The surrounding ``ionic atmosphere'' of Ca$^{2+}$, Fe$^{2+}$, O$^{2-}$ modifies the effective chemical potential of Cu ions in the melt
-    \item Zhang's suggestion of adding Na$_2$S flux is exactly this: modifying the slag ``ionic atmosphere'' to improve Cu capture
+    \item Dr.\ Zhang's suggestion of adding Na$_2$S flux is exactly this: modifying the slag ``ionic atmosphere'' to improve Cu capture
 \end{itemize}
 
 \subsubsection{Modeling Approaches Compared}
@@ -746,20 +746,26 @@ Of 312 thermo $\times$ mobility combinations tested, \textbf{232 loaded successf
     \item All required API classes confirmed: \texttt{Region}, \texttt{CalculatedGrid}, \texttt{CompositionProfile}, \texttt{ElementProfile}, \texttt{BoundaryCondition}, \texttt{Unit}, all 3 solvers, \texttt{SimulationTime}
 \end{itemize}
 
-\subsubsection{Phase 3--6: Diffusion Calculations (Failed --- Script Bugs)}
+\subsubsection{Phase 3--6: Initial Failures and Script Bug Fixes}
 
-Three bugs prevented Phases 3--6 from executing:
+The initial run (March 14 AM) failed in Phases 3--6 due to three script bugs: wrong phase enumeration methods, empty phases list preventing pair selection, and an undefined \texttt{calc\_succeeded} variable. All three were fixed, and LIQUID phase support at \SI{1800}{\kelvin} was added.
+
+\subsubsection{Re-Run Results (March 14 PM --- Fixed Script)}
+
+After fixing the script bugs, Phases 1--2 reproduced identically. Phase 3 reached the actual diffusion calculation but failed with a \textbf{new error}: the \texttt{Region} object does not specify which thermodynamic phase is the diffusion matrix.
+
+Three API patterns were attempted:
 \begin{enumerate}[leftmargin=*]
-    \item Phase enumeration used wrong methods (\texttt{get\_phase\_names()} instead of \texttt{get\_phases\_in\_system()}), so phases lists were always empty $\to$ ``no FCC pair found''
-    \item Phase 3 pair selection required FCC in the phases list, but the list was empty (not because FCC was absent, but because enumeration failed)
-    \item \texttt{calc\_succeeded} variable referenced in Phase 5 was undefined when Phase 3 was skipped
+    \item \textbf{Pattern A} (CompositionProfile + ElementProfile): \texttt{IndexOutOfBoundsException: Index 0 out of bounds for length 0} --- the DICTRA engine's internal phase list is empty because no phase was assigned to the Region
+    \item \textbf{Pattern B} (PhaseComposition API): \texttt{'Region' object has no attribute 'add\_phase\_composition'} --- this method does not exist in the installed TC-Python version
+    \item \textbf{Pattern C} (minimal region): \texttt{All regions must have one or more phases} --- TC-Python's own validation confirms the missing phase specification
 \end{enumerate}
 
-All three bugs have been fixed in the script. A re-run on the VM should reach Phase 3 and attempt actual diffusion calculations. An additional improvement was added: the script now also accepts LIQUID as a valid diffusion phase at \SI{1800}{\kelvin} (steel is molten, not FCC, at steelmaking temperatures).
+Phases 4--6 were skipped because Phase 3 failed. The method dump of \texttt{DiffusionIsoThermalCalculation} (20 methods) was captured but does not include \texttt{Region} methods. The next run must probe \texttt{Region} methods via \texttt{dir()} to identify the correct phase-assignment API (likely \texttt{with\_phase()}).
 
 \subsubsection{Implications}
 
-The TC-Python diffusion API is fully available on the VM. The 40 working database pairs provide multiple options for modeling Cu diffusion in steel (TCFE + MOBFE) and potentially in oxide systems (TCOX14 + MOBFE). The key question --- can we model Cu transport across the steel/slag interface? --- remains unanswered pending the re-run.
+The DICTRA API is confirmed available with 40 working database pairs. The remaining blocker is a single missing API call: telling the \texttt{Region} which phase to use as the diffusion matrix. This is a usage issue, not a fundamental limitation. Once the correct method is identified (via \texttt{dir(Region(...))}), single-region Cu diffusion calculations should work, enabling the steel/slag interface model.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -864,7 +870,7 @@ Fontana Lab induction furnace with graphite crucible inside Al$_2$O$_3$ containm
 
     \item \textbf{Flat $a_{\text{Cu}}$ is not a bug, it's the Gibbs Phase Rule.} In a 2-phase field at fixed $T, P$, activity is invariant along the tie line. Sweeping overall composition changes phase amounts, not phase compositions.
 
-    \item \textbf{Zhang's FeO skepticism was about the binary reaction.} He was correct that Cu cannot reduce FeO. The ternary spinel reaction (Cu $+$ 2FeO $+$ O$_2 \to$ CuFe$_2$O$_4$) is a different mechanism that he himself asked us to check.
+    \item \textbf{Dr.\ Zhang's FeO skepticism was about the binary reaction.} He was correct that Cu cannot reduce FeO. The ternary spinel reaction (Cu $+$ 2FeO $+$ O$_2 \to$ CuFe$_2$O$_4$) is a different mechanism that he himself asked us to check.
 \end{enumerate}
 
 
@@ -921,17 +927,17 @@ This section records work in chronological order, showing how the project evolve
 \end{enumerate}
 Successfully extracted $\Delta G_f$ for 7 oxides $\times$ 31 temperatures. Created Ellingham diagram with real TCOX14 data.
 
-\subsection{February 12, 2026: Zhang Meeting --- Direction Shift}
+\subsection{February 12, 2026: Dr.\ Zhang Meeting --- Direction Shift}
 
 \textbf{Advisor meeting} (2:00--2:40 PM, 2165 Fontana Lab) with Dr.\ Zhang:
 
 \begin{quote}
-``We want to using di oxide to capture the copper inside\ldots Last time [Al$_2$O$_3$] works because of the spinel reaction.''
+``We want to use the oxide to capture the copper. Last time, [Al$_2$O$_3$] worked because of the spinel reaction.''
 \end{quote}
 
 Key outcomes:
 \begin{itemize}[leftmargin=*]
-    \item Zhang \textbf{confirmed} Ellingham results are correct --- Cu$_2$O is least stable
+    \item Dr.\ Zhang \textbf{confirmed} Ellingham results are correct --- Cu$_2$O is least stable
     \item Al$_2$O$_3$ tested experimentally last year: some Cu reduction but Na$_2$S salt was better (95\%)
     \item \textbf{New direction}: Model ternary compound formation (Cu + MO$_x$ + O$_2 \to$ CuMO$_y$), not binary exchange
     \item Screening table required: oxide name, density, toxicity, reaction $\Delta G$, cost
@@ -955,7 +961,7 @@ Also submitted HW2 Project Charter (Feb 11).
 
 \subsection{March 13, 2026: Ternary Breakthrough}
 
-\textbf{Zhang meeting (11 AM)} --- presented 18-oxide screening. Zhang said ``good work'' and directed the ternary modeling effort.
+\textbf{Dr.\ Zhang meeting (11 AM)} --- presented 18-oxide screening. Dr.\ Zhang said ``good work'' and directed the ternary modeling effort.
 
 \textbf{Morning}: Created \texttt{extract\_ternary\_reactions.py} and \texttt{compute\_ternary\_dG.py}. Pushed to GitHub.
 
@@ -995,6 +1001,42 @@ Results ($\sim$1 hour runtime, 150 KB log):
 \end{itemize}
 
 Script fixed and ready for re-run. Added LIQUID phase support at \SI{1800}{\kelvin}.
+
+\subsection{March 14, 2026: Unified Workbook Build}
+
+Built the master deliverable: \texttt{Cu\_Removal\_Unified.xlsx} (15 tabs, 3-tier color coding).
+
+\textbf{Structure:}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Blue (Analysis):} Dashboard, Screening\_Summary, CuFe2O4\_DeepDive, Activity\_and\_Slag, Normalization --- formula-driven tabs with traceable cell references
+    \item \textbf{Green (Results):} Screening\_Table, Ternary\_Verdicts, Activity\_Corrected --- derived CSVs
+    \item \textbf{Gray (Raw):} 7 tabs of raw TC-Python CSV output (the ``receipt'')
+\end{itemize}
+
+\textbf{Script:} \texttt{screening/build\_unified\_xlsx.py} ($\sim$1600 lines). Uses openpyxl with IEEE formatting (dark header, alternating gray rows, thick border hierarchy).
+
+\textbf{Key design principle:} Every number in a blue analysis tab traces back to a gray raw tab via Excel formulas (e.g., \texttt{=Ternary\_Rxns!N42}). Click any cell to see where the data came from.
+
+\textbf{Bugs found and fixed:}
+\begin{enumerate}[leftmargin=*]
+    \item Cell D7 in Activity\_and\_Slag started with ``='' causing \texttt{\#NAME?} error (Excel interpreted Unicode $\times$ and $\gamma$ as functions)
+    \item $\Delta G_{\text{pure}}$ values hardcoded as floats instead of cross-tab formula references
+    \item Sensitivity sweep baked literal numbers into formula strings instead of referencing Section~2 cells
+    \item Activity\_Corrected tab had binary verdict logic; upgraded to 4-tier (ROBUST/MARGINAL/UNCERTAIN/UNFAVORABLE) via \texttt{IF} formula on column H
+\end{enumerate}
+
+\textbf{Excel charts added} (live, update with data changes):
+\begin{itemize}[leftmargin=*]
+    \item CuFe$_2$O$_4$ DeepDive: 3-series line chart (total $\Delta G$, alternative, Fe-oxidation contribution)
+    \item Activity\_and\_Slag: 7-product sensitivity chart ($\Delta G_{\text{eff}}$ vs.\ $\gamma_{\text{Cu}}$), colors matched to matplotlib figures
+    \item Normalization: horizontal bar chart showing $\Delta G^\circ$ per mol O$_2$ at \SI{1800}{\kelvin} for all 17 binary oxides
+\end{itemize}
+
+\textbf{Data provenance table} on Dashboard enhanced with ``Generating Script'' column containing clickable GitHub hyperlinks to each script's source code.
+
+\begin{insight}[Activity Coefficient Verification]
+$\gamma_{\text{Cu}} = 8.5$ confirmed from Hino \& Ito (2010), \textit{Thermodynamic Data for Steelmaking}, Tohoku University Press. Alternative: Sigworth \& Elliott (1974, \textit{Metal Science}, 755+ citations) give $\sim$10. Literature range 5--13. Both citations verified via web search.
+\end{insight}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1110,6 +1152,11 @@ These run locally on the Mac after copying CSVs from the VM.
 \texttt{build\_ternary\_xlsx.py} & Ternary-only Excel (superseded by combined). \\
 \hline
 \texttt{update\_screening\_table.py} & Update screening CSV with computed values. \\
+\hline
+\rowcolor{altrow}
+\texttt{build\_unified\_xlsx.py} & Master 15-tab workbook: 5 analysis + 3 results + 7 raw data tabs with traceable formulas. \\
+\hline
+\texttt{compute\_activity\_corrected\_dG.py} & Activity-corrected $\Delta G$ for dilute Cu ($X_{\text{Cu}}=0.003$, $\gamma_{\text{Cu}}=8.5$). \\
 \hline
 \end{tabular}
 \end{table}

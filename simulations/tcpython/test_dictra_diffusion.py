@@ -436,118 +436,157 @@ with TCPython() as session:
 
             # --- Try MULTIPLE API patterns for region setup ---
             # The API may vary between TC-Python versions.
-            # Pattern A: CompositionProfile + ElementProfile (2022+ API)
+            # Pattern D: with_phase() + CompositionProfile (most likely correct)
+            # Pattern A: CompositionProfile only (no explicit phase — known to fail)
             # Pattern B: PhaseComposition + set_composition (older API)
             # Pattern C: add_region with just phase name
 
             calc_succeeded = False
 
-            # PATTERN A: CompositionProfile + ElementProfile
+            # First: dump Region methods so we know what's available
             print()
-            print("  === Pattern A: CompositionProfile + ElementProfile ===")
+            print("  === Region API Probe ===")
             try:
-                diff_a = system.with_isothermal_diffusion_calculation()
-                diff_a.set_temperature(diff_temp)
-                diff_a.set_simulation_time(3600)  # 1 hour
+                probe_region = Region("_probe_")
+                region_methods = sorted([m for m in dir(probe_region)
+                                         if not m.startswith('_')])
+                print("  Region has %d public methods/attributes:" % len(region_methods))
+                for m in region_methods:
+                    obj = getattr(probe_region, m, None)
+                    if callable(obj):
+                        try:
+                            import inspect
+                            sig = str(inspect.signature(obj))
+                        except Exception:
+                            sig = "(...)"
+                        print("    .%s%s" % (m, sig))
+                    else:
+                        print("    .%s = %s" % (m, repr(obj)[:60]))
+                log("P3", "Region API probe", "OK",
+                    "%d methods: %s" % (len(region_methods),
+                                        ", ".join(region_methods[:10])))
+            except Exception as e:
+                print("  Region probe failed: %s" % str(e)[:100])
+                log("P3", "Region API probe", "FAIL", str(e)[:80])
 
-                region_a = (Region("steel_region")
-                            .set_width(1e-3)  # 1 mm
+            # PATTERN D: with_phase() + CompositionProfile (NEW — most likely)
+            print()
+            print("  === Pattern D: with_phase() + CompositionProfile ===")
+            try:
+                diff_d = system.with_isothermal_diffusion_calculation()
+                diff_d.set_temperature(diff_temp)
+                diff_d.set_simulation_time(3600)  # 1 hour
+
+                # Try building region with explicit phase
+                region_d = Region("steel_region").set_width(1e-3)
+
+                # Try multiple possible method names for setting the phase
+                phase_set = False
+                for phase_method_name in ["with_phase", "add_phase",
+                                          "set_phase", "with_matrix_phase"]:
+                    fn = getattr(region_d, phase_method_name, None)
+                    if fn and callable(fn):
+                        try:
+                            region_d = fn(diff_phase)
+                            print("  Phase set via .%s('%s')" % (
+                                phase_method_name, diff_phase))
+                            log("P3", "Phase method", "OK",
+                                ".%s('%s')" % (phase_method_name, diff_phase))
+                            phase_set = True
+                            break
+                        except Exception as e:
+                            print("  .%s('%s') failed: %s" % (
+                                phase_method_name, diff_phase, str(e)[:80]))
+
+                if not phase_set:
+                    print("  No phase-setting method found. Trying anyway...")
+
+                region_d = (region_d
                             .with_grid(CalculatedGrid.linear()
                                        .set_no_of_points(50))
                             .with_composition_profile(
                                 CompositionProfile(Unit.MASS_PERCENT)
                                 .add("CU", ElementProfile.linear(0.5, 0.0))))
 
-                diff_a.add_region(region_a)
-                log("P3", "Pattern A region", "OK",
-                    "1mm, 50pts, linear Cu 0.5->0.0 wt%%")
+                diff_d.add_region(region_d)
+                log("P3", "Pattern D region", "OK",
+                    "with_phase + CompositionProfile")
 
-                # Set boundary conditions
-                diff_a.with_left_boundary_condition(
+                diff_d.with_left_boundary_condition(
                     BoundaryCondition.closed_system())
-                diff_a.with_right_boundary_condition(
+                diff_d.with_right_boundary_condition(
                     BoundaryCondition.closed_system())
-                log("P3", "Pattern A boundaries", "OK", "closed both sides")
 
-                # Calculate
                 print("  Running simulation (%dK, 3600s, %s)..." % (
                     diff_temp, diff_phase))
-                result_a = diff_a.calculate()
-                print("  *** PATTERN A CALCULATION SUCCEEDED ***")
-                log("P3", "Pattern A calc", "SUCCESS",
+                result_d = diff_d.calculate()
+                print("  *** PATTERN D CALCULATION SUCCEEDED ***")
+                log("P3", "Pattern D calc", "SUCCESS",
                     "%dK, 3600s, Cu in %s" % (diff_temp, diff_phase))
                 calc_succeeded = True
 
-                # Extract results
+                # Extract results (same as Pattern A)
                 try:
-                    times = result_a.get_time_steps()
-                    print("  Time steps computed: %d" % len(times))
-                    print("  Time range: %.1f to %.1f s" % (
-                        min(times), max(times)))
-                    log("P3", "Time steps", "OK",
-                        "%d steps, %.0f-%.0f s" % (
-                            len(times), min(times), max(times)))
-                except Exception as e:
-                    log("P3", "Time steps", "FAIL", str(e)[:80])
-
-                # Composition profile at final time
-                try:
-                    dist, comp = result_a.get_mass_fraction_of_component_at_time(
+                    dist, comp = result_d.get_mass_fraction_of_component_at_time(
                         "CU", SimulationTime.LAST)
                     n_pts = len(dist)
                     cu_min = min(comp) * 100
                     cu_max = max(comp) * 100
                     print("  Cu profile at t_final: %d points" % n_pts)
                     print("  Cu range: %.4f - %.4f wt%%" % (cu_min, cu_max))
-                    log("P3", "Cu profile (mass frac)", "OK",
+                    log("P3", "Pattern D Cu profile", "OK",
                         "%d pts, Cu %.4f-%.4f wt%%" % (n_pts, cu_min, cu_max))
-
-                    # Print first few and last few points
-                    print("  Profile (distance_m, Cu_wt%%):")
-                    for i in range(min(5, n_pts)):
-                        print("    %.6e  %.6f" % (dist[i], comp[i] * 100))
-                    if n_pts > 10:
-                        print("    ...")
-                    for i in range(max(n_pts - 3, 5), n_pts):
-                        print("    %.6e  %.6f" % (dist[i], comp[i] * 100))
                 except Exception as e:
-                    log("P3", "Cu profile (mass frac)", "FAIL", str(e)[:100])
-
-                # Try mole fraction too
-                try:
-                    dist_m, comp_m = result_a.get_mole_fraction_of_component_at_time(
-                        "CU", SimulationTime.LAST)
-                    log("P3", "Cu profile (mole frac)", "OK",
-                        "%d pts" % len(dist_m))
-                except Exception as e:
-                    log("P3", "Cu profile (mole frac)", "FAIL", str(e)[:80])
-
-                # Phase fraction profile
-                try:
-                    dist_p, frac_p = result_a.get_mass_fraction_of_phase_at_time(
-                        diff_phase, SimulationTime.LAST)
-                    print("  %s fraction: %.4f - %.4f" % (
-                        diff_phase, min(frac_p), max(frac_p)))
-                    log("P3", "%s fraction" % diff_phase, "OK",
-                        "%.4f - %.4f" % (min(frac_p), max(frac_p)))
-                except Exception as e:
-                    log("P3", "%s fraction" % diff_phase, "FAIL", str(e)[:80])
-
-                # Region width over time
-                try:
-                    t_w, w = result_a.get_width_of_region("steel_region")
-                    print("  Region width: %.6e to %.6e m" % (
-                        w[0], w[-1]))
-                    log("P3", "Region width", "OK",
-                        "%.3e -> %.3e m" % (w[0], w[-1]))
-                except Exception as e:
-                    log("P3", "Region width", "FAIL", str(e)[:80])
+                    log("P3", "Pattern D Cu profile", "FAIL", str(e)[:100])
 
             except Exception as e:
                 tb = traceback.format_exc()
-                print("  Pattern A failed: %s" % str(e)[:200])
+                print("  Pattern D failed: %s" % str(e)[:200])
                 print("  Traceback:\n%s" % tb[-500:])
-                log("P3", "Pattern A", "FAIL", str(e)[:120])
+                log("P3", "Pattern D", "FAIL", str(e)[:120])
+
+            # PATTERN A: CompositionProfile + ElementProfile (no explicit phase)
+            # NOTE: Known to fail without explicit phase — kept for reference.
+            # If Pattern D succeeded, this is skipped.
+            if not calc_succeeded:
+                print()
+                print("  === Pattern A: CompositionProfile + ElementProfile ===")
+                try:
+                    diff_a = system.with_isothermal_diffusion_calculation()
+                    diff_a.set_temperature(diff_temp)
+                    diff_a.set_simulation_time(3600)  # 1 hour
+
+                    region_a = (Region("steel_region")
+                                .set_width(1e-3)  # 1 mm
+                                .with_grid(CalculatedGrid.linear()
+                                           .set_no_of_points(50))
+                                .with_composition_profile(
+                                    CompositionProfile(Unit.MASS_PERCENT)
+                                    .add("CU", ElementProfile.linear(0.5, 0.0))))
+
+                    diff_a.add_region(region_a)
+                    log("P3", "Pattern A region", "OK",
+                        "1mm, 50pts, linear Cu 0.5->0.0 wt%%")
+
+                    diff_a.with_left_boundary_condition(
+                        BoundaryCondition.closed_system())
+                    diff_a.with_right_boundary_condition(
+                        BoundaryCondition.closed_system())
+                    log("P3", "Pattern A boundaries", "OK", "closed both sides")
+
+                    print("  Running simulation (%dK, 3600s, %s)..." % (
+                        diff_temp, diff_phase))
+                    result_a = diff_a.calculate()
+                    print("  *** PATTERN A CALCULATION SUCCEEDED ***")
+                    log("P3", "Pattern A calc", "SUCCESS",
+                        "%dK, 3600s, Cu in %s" % (diff_temp, diff_phase))
+                    calc_succeeded = True
+
+                except Exception as e:
+                    tb = traceback.format_exc()
+                    print("  Pattern A failed: %s" % str(e)[:200])
+                    print("  Traceback:\n%s" % tb[-500:])
+                    log("P3", "Pattern A", "FAIL", str(e)[:120])
 
             # PATTERN B: PhaseComposition (older/alternative API)
             if not calc_succeeded:

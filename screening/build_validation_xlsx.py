@@ -8,10 +8,11 @@ as numbers; anything computed FROM those values is a formula string.
 Sheets:
   1. dG_vs_T         — pivoted dG data for top 6 products
   2. CuFe2O4_Decomposition — original vs alternative dG with formula columns
-  3. Candidate_Ranking — summary with cross-sheet references
-  4. Slag_Effects     — slag composition data + % change formulas
-  5. Cu_Activity      — raw activity data
-  6. Data_Sources     — provenance documentation
+  3. Activity_Correction — dilute Cu penalty with all formulas visible
+  4. Candidate_Ranking — summary with cross-sheet references
+  5. Slag_Effects     — slag composition data + % change formulas
+  6. Cu_Activity      — raw activity data
+  7. Data_Sources     — provenance documentation
 """
 
 import csv
@@ -28,12 +29,15 @@ SCRIPT_DIR = Path(__file__).parent
 DATA_DIR = SCRIPT_DIR.parent / "data" / "tcpython" / "raw"
 OUTPUT_FILE = SCRIPT_DIR / "Validation_Results.xlsx"
 
+PROC_DIR = SCRIPT_DIR.parent / "data" / "tcpython" / "processed"
+
 CSV_FILES = {
-    "dG_top6":   DATA_DIR / "dG_vs_T_top6.csv",
-    "cufe2o4":   DATA_DIR / "cufe2o4_alternative_reaction.csv",
-    "decomp":    SCRIPT_DIR / "cufe2o4_decomposition_results.csv",
-    "slag":      DATA_DIR / "slag_composition_effects.csv",
-    "activity":  DATA_DIR / "cu_activity_vs_oxide.csv",
+    "dG_top6":      DATA_DIR / "dG_vs_T_top6.csv",
+    "cufe2o4":      DATA_DIR / "cufe2o4_alternative_reaction.csv",
+    "decomp":       SCRIPT_DIR / "cufe2o4_decomposition_results.csv",
+    "slag":         DATA_DIR / "slag_composition_effects.csv",
+    "activity":     DATA_DIR / "cu_activity_vs_oxide.csv",
+    "corrected":    PROC_DIR / "activity_corrected_dG.csv",
 }
 
 # ── IEEE formatting constants (per CLAUDE.md) ─────────────────────────
@@ -313,7 +317,260 @@ def _build_decomp_from_precomputed(ws, rows):
 
 
 # =====================================================================
-# Sheet 3: Candidate_Ranking
+# Sheet 3: Activity_Correction  (ALL formulas — fully traceable)
+# =====================================================================
+def build_activity_correction(wb):
+    ws = wb.create_sheet("Activity_Correction")
+
+    # ── Section 1: Input parameters (named cells at top) ──
+    param_font = Font(bold=True, size=10)
+    note_font = Font(italic=True, size=9, color="666666")
+
+    ws.cell(row=1, column=1, value="ACTIVITY CORRECTION PARAMETERS").font = \
+        Font(bold=True, size=12)
+    ws.merge_cells("A1:G1")
+
+    ws.cell(row=2, column=1, value="Parameter").font = param_font
+    ws.cell(row=2, column=2, value="Symbol").font = param_font
+    ws.cell(row=2, column=3, value="Value").font = param_font
+    ws.cell(row=2, column=4, value="Unit / Note").font = param_font
+    style_header(ws, 2, 4)
+
+    # Row 3: X_Cu
+    ws.cell(row=3, column=1, value="Cu mole fraction in steel")
+    ws.cell(row=3, column=2, value="X_Cu")
+    ws.cell(row=3, column=3, value=0.003)
+    fmt_number(ws, 3, 3, "0.0000")
+    ws.cell(row=3, column=4, value="~0.3 wt% Cu")
+
+    # Row 4: gamma_Cu
+    ws.cell(row=4, column=1, value="Raoultian activity coefficient")
+    ws.cell(row=4, column=2, value="\u03b3_Cu")
+    ws.cell(row=4, column=3, value=8.5)
+    fmt_number(ws, 4, 3, "0.0")
+    ws.cell(row=4, column=4, value="Literature range: 5-13")
+
+    # Row 5: a_Cu = gamma * X  (FORMULA)
+    ws.cell(row=5, column=1, value="Cu activity in liquid Fe")
+    ws.cell(row=5, column=2, value="a_Cu")
+    ws.cell(row=5, column=3, value="=C3*C4")
+    fmt_number(ws, 5, 3, "0.0000")
+    ws.cell(row=5, column=4, value="X_Cu \u00d7 \u03b3_Cu")
+
+    # Row 6: T
+    ws.cell(row=6, column=1, value="Temperature")
+    ws.cell(row=6, column=2, value="T")
+    ws.cell(row=6, column=3, value=1800)
+    ws.cell(row=6, column=4, value="K (steelmaking)")
+
+    # Row 7: R
+    ws.cell(row=7, column=1, value="Gas constant")
+    ws.cell(row=7, column=2, value="R")
+    ws.cell(row=7, column=3, value=8.314)
+    fmt_number(ws, 7, 3, "0.000")
+    ws.cell(row=7, column=4, value="J/(mol\u00b7K)")
+
+    # Row 8: RT*ln(1/a_Cu) = penalty per Cu atom (FORMULA)
+    ws.cell(row=8, column=1, value="Penalty per Cu atom consumed")
+    ws.cell(row=8, column=2, value="-RT\u00b7ln(a_Cu)")
+    ws.cell(row=8, column=3, value="=-C7*C6*LN(C5)/1000")
+    fmt_number(ws, 8, 3, "+0.0;-0.0")
+    ws.cell(row=8, column=4, value="kJ/mol (positive = less favorable)")
+
+    alt_shading(ws, 3, 8, 4)
+    apply_borders(ws, 2, 8, 4)
+
+    # ── Section 2: Product-by-product correction table ──
+    TABLE_START = 10
+    ws.cell(row=TABLE_START, column=1,
+            value="ACTIVITY-CORRECTED \u0394G AT 1800 K").font = \
+        Font(bold=True, size=12)
+    ws.merge_cells(f"A{TABLE_START}:H{TABLE_START}")
+
+    hdr = TABLE_START + 1
+    col_headers = [
+        "Product",           # A
+        "Parent Oxide",      # B
+        "n_Cu",              # C  (atoms consumed)
+        "\u0394G\u00b0 (kJ)",  # D  (pure reference, raw from TC-Python)
+        "Cu Penalty (kJ)",   # E  = n_Cu * penalty_per_atom  FORMULA
+        "\u0394G_eff (kJ)",  # F  = D + E  FORMULA
+        "Verdict",           # G  =IF(F<0,"FAVORABLE","UNFAVORABLE")
+        "\u0394G per Cu (kJ)",  # H  = D / C  (efficiency metric)
+    ]
+    ncols = len(col_headers)
+    for c, h in enumerate(col_headers, 1):
+        ws.cell(row=hdr, column=c, value=h)
+    style_header(ws, hdr, ncols)
+
+    # Load corrected data at 1800K
+    _, corr_rows = load_csv(CSV_FILES["corrected"])
+    rows_1800 = [r for r in corr_rows if abs(float(r["T_K"]) - 1800) < 1]
+
+    # Sort by corrected dG
+    rows_1800.sort(key=lambda r: float(r["dG_corrected_pO2_1atm_kJ"]))
+
+    data_start = hdr + 1
+    for i, r in enumerate(rows_1800):
+        row = data_start + i
+        product = r["product"]
+        n_cu = int(r["n_Cu"])
+        dG_pure = float(r["dG_pure_kJ"])
+        parent = r.get("parent_oxide", "")
+
+        # A: Product name (text)
+        ws.cell(row=row, column=1, value=product)
+        # B: Parent oxide (text)
+        ws.cell(row=row, column=2, value=parent)
+        # C: n_Cu (integer, raw)
+        ws.cell(row=row, column=3, value=n_cu)
+        # D: dG_pure (raw TC-Python number)
+        ws.cell(row=row, column=4, value=dG_pure)
+        fmt_number(ws, row, 4, "+0.0;-0.0;0.0")
+        # E: Cu penalty = n_Cu * penalty_per_atom  FORMULA
+        #    References $C$8 (the penalty per atom from parameter section)
+        ws.cell(row=row, column=5, value=f"=C{row}*$C$8")
+        fmt_number(ws, row, 5, "+0.0;-0.0;0.0")
+        # F: dG_eff = dG_pure + penalty  FORMULA
+        ws.cell(row=row, column=6, value=f"=D{row}+E{row}")
+        fmt_number(ws, row, 6, "+0.0;-0.0;0.0")
+        # G: Verdict  FORMULA
+        ws.cell(row=row, column=7,
+                value=f'=IF(F{row}<-10,"ROBUST",'
+                      f'IF(F{row}<0,"MARGINAL",'
+                      f'IF(F{row}<15,"UNCERTAIN","UNFAVORABLE")))')
+        # H: dG per Cu atom = dG_pure / n_Cu  FORMULA
+        ws.cell(row=row, column=8, value=f"=D{row}/C{row}")
+        fmt_number(ws, row, 8, "+0.0;-0.0;0.0")
+
+    last_data = data_start + len(rows_1800) - 1
+    alt_shading(ws, data_start, last_data, ncols)
+    center_all(ws, hdr, last_data, ncols)
+    apply_borders(ws, hdr, last_data, ncols)
+
+    # ── Section 3: Sensitivity — gamma_Cu sweep ──
+    SENS_START = last_data + 2
+    ws.cell(row=SENS_START, column=1,
+            value="\u03b3_Cu SENSITIVITY ANALYSIS").font = \
+        Font(bold=True, size=12)
+    ws.merge_cells(f"A{SENS_START}:H{SENS_START}")
+
+    ws.cell(row=SENS_START + 1, column=1,
+            value="Change \u03b3_Cu in cell C4 above to see all corrections "
+                  "update automatically.").font = note_font
+    ws.merge_cells(f"A{SENS_START+1}:H{SENS_START+1}")
+
+    sens_hdr = SENS_START + 2
+    sens_cols = [
+        "\u03b3_Cu",       # A
+        "a_Cu",            # B  = gamma * X_Cu
+        "Penalty/Cu (kJ)", # C  = -R*T*LN(a_Cu)/1000
+    ]
+    # Add one column per product for dG_eff
+    product_names = [r["product"] for r in rows_1800]
+    for p in product_names:
+        sens_cols.append(f"\u0394G_eff {p}")
+    sens_ncols = len(sens_cols)
+
+    for c, h in enumerate(sens_cols, 1):
+        ws.cell(row=sens_hdr, column=c, value=h)
+    style_header(ws, sens_hdr, sens_ncols)
+
+    # Gamma values to sweep
+    gamma_values = [3, 4, 5, 6, 7, 8, 8.5, 9, 10, 11, 12, 13, 15]
+
+    for j, gv in enumerate(gamma_values):
+        row = sens_hdr + 1 + j
+        # A: gamma value (raw)
+        ws.cell(row=row, column=1, value=gv)
+        fmt_number(ws, row, 1, "0.0")
+        # B: a_Cu = gamma * X_Cu  FORMULA
+        ws.cell(row=row, column=2, value=f"=A{row}*$C$3")
+        fmt_number(ws, row, 2, "0.0000")
+        # C: penalty per Cu = -R*T*LN(a_Cu)/1000  FORMULA
+        ws.cell(row=row, column=3, value=f"=-$C$7*$C$6*LN(B{row})/1000")
+        fmt_number(ws, row, 3, "+0.0;-0.0")
+
+        # D onward: dG_eff for each product = dG_pure + n_Cu * penalty
+        for k, r in enumerate(rows_1800):
+            col = 4 + k
+            n_cu = int(r["n_Cu"])
+            dG_pure = float(r["dG_pure_kJ"])
+            # dG_eff = dG_pure + n_Cu * penalty  FORMULA
+            # dG_pure is a constant, n_Cu is a constant, penalty is in col C
+            ws.cell(row=row, column=col,
+                    value=f"={dG_pure}+{n_cu}*C{row}")
+            fmt_number(ws, row, col, "+0.0;-0.0;0.0")
+
+    sens_last = sens_hdr + len(gamma_values)
+    alt_shading(ws, sens_hdr + 1, sens_last, sens_ncols)
+    center_all(ws, sens_hdr, sens_last, sens_ncols)
+    apply_borders(ws, sens_hdr, sens_last, sens_ncols)
+
+    # Conditional formatting: highlight negative dG_eff cells in green
+    from openpyxl.formatting.rule import CellIsRule
+    green_fill = PatternFill(start_color="C6EFCE", end_color="C6EFCE",
+                             fill_type="solid")
+    red_fill = PatternFill(start_color="FFC7CE", end_color="FFC7CE",
+                           fill_type="solid")
+    for k in range(len(rows_1800)):
+        col_letter = get_column_letter(4 + k)
+        cell_range = f"{col_letter}{sens_hdr+1}:{col_letter}{sens_last}"
+        ws.conditional_formatting.add(
+            cell_range,
+            CellIsRule(operator="lessThan", formula=["0"],
+                       fill=green_fill)
+        )
+        ws.conditional_formatting.add(
+            cell_range,
+            CellIsRule(operator="greaterThanOrEqual", formula=["0"],
+                       fill=red_fill)
+        )
+
+    # Also conditionally format the main table column F
+    main_range = f"F{data_start}:F{last_data}"
+    ws.conditional_formatting.add(
+        main_range,
+        CellIsRule(operator="lessThan", formula=["0"], fill=green_fill)
+    )
+    ws.conditional_formatting.add(
+        main_range,
+        CellIsRule(operator="greaterThanOrEqual", formula=["0"],
+                   fill=red_fill)
+    )
+
+    # Column widths
+    auto_width(ws, sens_ncols)
+    # Override some columns for readability
+    ws.column_dimensions["A"].width = 32
+    ws.column_dimensions["D"].width = 12
+
+    # V2O5 note at bottom
+    note_row = sens_last + 2
+    ws.cell(row=note_row, column=1,
+            value="NOTE: V\u2082O\u2085 can form either Cu\u2083V\u2082O\u2088 "
+                  "(3 Cu, \u0394G\u00b0 = -109.2 kJ) or CuV\u2082O\u2086 "
+                  "(1 Cu, \u0394G\u00b0 = -45.0 kJ). Under dilute Cu "
+                  "conditions, CuV\u2082O\u2086 is preferred because the "
+                  "3\u00d7 penalty makes Cu\u2083V\u2082O\u2088 unfavorable."
+            ).font = note_font
+    ws.merge_cells(f"A{note_row}:H{note_row}")
+
+    note_row2 = note_row + 1
+    ws.cell(row=note_row2, column=1,
+            value="Bureau of Mines (1960s) used ~1 wt% Cu (a_Cu \u2248 0.13), "
+                  "where both V\u2082O\u2085 products are favorable. Their "
+                  "40-60% removal is consistent with our model."
+            ).font = note_font
+    ws.merge_cells(f"A{note_row2}:H{note_row2}")
+
+    print(f"  Sheet 3: Activity_Correction ({len(rows_1800)} products, "
+          f"{len(gamma_values)} gamma points, ALL formulas)")
+    return ws
+
+
+# =====================================================================
+# Sheet 4: Candidate_Ranking
 # =====================================================================
 def build_candidate_ranking(wb):
     ws = wb.create_sheet("Candidate_Ranking")
@@ -601,6 +858,7 @@ def main():
 
     build_dG_vs_T(wb)
     build_cufe2o4_decomp(wb)
+    build_activity_correction(wb)
     build_candidate_ranking(wb)
     build_slag_effects(wb)
     build_cu_activity(wb)

@@ -1,0 +1,2101 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2867
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Microsoft Windows [Version 10.0.22631.6783]\
+(c) Microsoft Corporation. All rights reserved.\
+\
+C:\\Users\\dimascio.12>U:\
+\
+U:\\>cd U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython\\\
+\
+U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython>"C:\\Program Files\\Thermo-Calc\\2025b\\python\\python.exe" test_dictra_diffusion.py\
+===========================================================================\
+DICTRA / Diffusion Comprehensive Capability Test\
+Honda CALPHAD - Cu Removal from Recycled Steel\
+Started: 2026-03-13T23:57:55.809616\
+===========================================================================\
+\
+===========================================================================\
+PHASE 1: Database Compatibility Matrix\
+  Testing 4 thermo x 13 mobility x 6 element sets = 312 combos\
+===========================================================================\
+\
+23:57:59,034 [Thread-1] INFO  CalculationEngine: Starting Thermo-Calc 2025b, Java-version: 21.0.2\
+Connected to Thermo-Calc engine\
+\
+  --- TCFE13 ---\
+23:58:01,908 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+23:58:05,964 [Thread-1] INFO  JavaWrapper: *** Invoking Gibbs Energy System v6 ***\
+\
+  ** Kinetic System API probe (first success) **\
+  Type: System\
+  Methods/attrs (26):\
+    .convert_composition\
+    .get_all_elements_in_databases\
+    .get_all_phases_in_databases\
+    .get_all_species_in_databases\
+    .get_database_names\
+    .get_element_object\
+    .get_elements_in_system\
+    .get_phase_object\
+    .get_phases_in_system\
+    .get_references\
+    .get_species_in_system\
+    .get_species_object\
+    .get_system_data\
+    .with_batch_equilibrium_calculation\
+    .with_cct_precipitation_calculation\
+    .with_isothermal_diffusion_calculation\
+    .with_isothermal_precipitation_calculation\
+    .with_material_to_material\
+    .with_non_isothermal_diffusion_calculation\
+    .with_non_isothermal_precipitation_calculation\
+    .with_phase_diagram_calculation\
+    .with_property_diagram_calculation\
+    .with_property_model_calculation\
+    .with_scheil_calculation\
+    .with_single_equilibrium_calculation\
+    .with_ttt_precipitation_calculation\
+\
+  [i] System API probe                         type=System methods=26\
+  [+] TCFE13 + MOBFE8 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+23:58:20,702 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+23:58:35,432 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+23:58:49,779 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+23:59:01,746 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+23:59:16,027 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+23:59:27,788 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE7 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+23:59:41,655 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE7 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+23:59:55,730 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE7 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:00:09,732 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE7 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:00:20,823 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE7 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:00:34,899 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE7 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:00:46,292 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE6 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:01:00,754 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE6 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:01:15,109 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE6 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:01:28,972 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE6 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:01:40,130 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE6 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:01:54,456 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE6 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:02:06,196 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE5 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:02:20,292 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE5 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:02:34,157 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE5 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:02:48,172 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE5 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:02:59,378 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE5 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:03:13,242 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBFE5 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:03:24,502 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:03:37,598 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:03:37,599 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE13 + MOBFE9 (Cu-Fe)                  Database not found\
+00:03:37,631 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:03:49,651 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:03:49,651 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE13 + MOBFE9 (Cu-Fe-O)                Database not found\
+00:03:49,678 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:04:01,829 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:04:01,830 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE13 + MOBFE9 (Cu-Fe-C)                Database not found\
+00:04:01,862 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:04:11,087 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:04:11,088 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE13 + MOBFE9 (Cu-Fe-Mn)               Database not found\
+00:04:11,115 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:04:23,109 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:04:23,110 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE13 + MOBFE9 (Cu-Fe-Al)               Database not found\
+00:04:23,142 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:04:32,544 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:04:32,544 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE13 + MOBFE9 (Cu-Fe-Mn-O)             Database not found\
+00:04:32,577 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:04:44,331 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:04:44,331 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE13 + MOBOX1 (Cu-Fe)                  Database not found\
+00:04:44,358 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:04:56,261 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:04:56,262 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE13 + MOBOX1 (Cu-Fe-O)                Database not found\
+00:04:56,290 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:05:08,333 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:05:08,334 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE13 + MOBOX1 (Cu-Fe-C)                Database not found\
+00:05:08,357 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:05:17,738 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:05:17,739 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE13 + MOBOX1 (Cu-Fe-Mn)               Database not found\
+00:05:17,768 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:05:29,821 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:05:29,822 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE13 + MOBOX1 (Cu-Fe-Al)               Database not found\
+00:05:29,848 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:05:39,267 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:05:39,268 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE13 + MOBOX1 (Cu-Fe-Mn-O)             Database not found\
+00:05:39,293 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:05:51,080 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:05:51,081 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE13 + MOBOX2 (Cu-Fe)                  Database not found\
+00:05:51,106 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:06:03,087 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:06:03,088 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE13 + MOBOX2 (Cu-Fe-O)                Database not found\
+00:06:03,113 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:06:15,048 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:06:15,049 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE13 + MOBOX2 (Cu-Fe-C)                Database not found\
+00:06:15,076 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:06:24,158 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:06:24,159 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE13 + MOBOX2 (Cu-Fe-Mn)               Database not found\
+00:06:24,183 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:06:36,093 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:06:36,093 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE13 + MOBOX2 (Cu-Fe-Al)               Database not found\
+00:06:36,127 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:06:45,522 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:06:45,522 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE13 + MOBOX2 (Cu-Fe-Mn-O)             Database not found\
+00:06:45,546 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBCU3 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:06:57,992 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:07:11,618 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCFE13 + MOBCU3 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:07:11,770 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBCU3 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:07:25,648 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBCU3 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:07:36,744 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBCU3 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:07:50,562 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:08:01,696 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCFE13 + MOBCU3 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:08:01,866 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBCU2 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:08:15,575 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:08:29,174 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCFE13 + MOBCU2 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:08:29,323 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBCU2 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:08:43,077 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBCU2 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:08:53,886 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBCU2 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:09:07,567 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:09:18,572 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCFE13 + MOBCU2 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:09:18,737 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:09:32,447 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:09:32,447 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:09:32,447 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:09:32,448 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:09:32,448 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:09:32,448 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE13 + MOBNI5 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:09:32,871 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:09:46,579 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:09:46,580 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:09:46,580 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:09:46,581 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:09:46,581 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:09:46,582 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE13 + MOBNI5 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:09:47,000 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:10:00,782 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:10:00,783 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:10:00,783 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:10:00,783 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#3\
+00:10:00,784 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#3\
+00:10:00,784 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#3\
+00:10:00,787 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:10:00,787 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:10:00,788 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE13 + MOBNI5 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:10:01,182 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:10:12,092 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:10:12,093 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:10:12,093 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:10:12,094 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:10:12,095 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:10:12,095 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE13 + MOBNI5 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:10:12,473 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:10:26,114 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:10:26,115 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:10:26,115 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:10:26,117 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:10:26,118 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:10:26,118 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE13 + MOBNI5 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:10:26,528 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:10:37,731 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:10:37,731 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:10:37,731 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:10:37,733 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:10:37,733 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:10:37,734 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE13 + MOBNI5 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:10:38,163 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:10:51,670 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:10:51,671 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:10:51,671 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:10:51,671 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:10:51,671 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:10:51,671 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE13 + MOBNI4 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:10:52,060 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:11:05,671 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:11:05,671 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:11:05,671 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:11:05,672 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:11:05,672 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:11:05,673 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE13 + MOBNI4 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:11:06,046 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:11:19,558 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:11:19,559 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:11:19,559 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:11:19,559 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#3\
+00:11:19,559 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#3\
+00:11:19,559 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#3\
+00:11:19,560 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:11:19,561 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:11:19,561 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE13 + MOBNI4 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:11:19,923 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:11:30,704 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:11:30,705 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:11:30,705 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:11:30,707 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:11:30,707 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:11:30,707 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE13 + MOBNI4 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:11:31,065 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:11:44,786 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:11:44,786 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:11:44,786 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:11:44,788 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:11:44,788 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:11:44,788 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE13 + MOBNI4 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:11:45,154 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:11:56,472 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:11:56,472 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:11:56,474 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:11:56,475 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:11:56,475 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:11:56,476 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE13 + MOBNI4 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:11:56,884 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBAL3 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:12:10,971 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:12:24,570 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:12:24,691 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [+] TCFE13 + MOBAL3 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:12:24,852 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBAL3 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:12:38,760 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBAL3 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:12:49,641 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBAL3 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:13:03,563 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:13:14,403 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:13:14,523 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [+] TCFE13 + MOBAL3 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:13:14,687 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBAL2 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:13:28,062 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:13:41,449 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:13:41,497 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [X] TCFE13 + MOBAL2 (Cu-Fe-O)                Thermo-Calc calculation error: se.thermocalc.core.Calculatio\
+00:13:41,547 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:13:54,832 [Thread-1] INFO  CalculationEngine:   *** ERROR C INPUT IGNORED\
+  [+] TCFE13 + MOBAL2 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:13:55,017 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBAL2 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:14:05,662 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+  [+] TCFE13 + MOBAL2 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:14:19,146 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+00:14:29,913 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:14:29,965 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [X] TCFE13 + MOBAL2 (Cu-Fe-Mn-O)             Thermo-Calc calculation error: se.thermocalc.core.Calculatio\
+\
+  --- TCFE12 ---\
+00:14:30,015 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE8 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:14:44,733 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE8 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:14:58,505 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE8 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:15:12,158 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE8 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:15:22,947 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE8 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:15:36,374 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE8 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:15:47,463 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE7 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:16:00,866 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE7 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:16:14,381 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE7 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:16:28,010 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE7 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:16:38,860 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE7 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:16:52,214 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE7 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:17:03,118 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE6 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:17:16,306 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE6 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:17:29,674 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE6 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:17:42,918 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE6 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:17:53,497 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE6 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:18:06,786 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE6 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:18:17,720 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE5 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:18:30,918 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE5 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:18:44,272 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE5 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:18:57,724 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE5 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:19:08,260 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE5 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:19:21,652 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBFE5 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:19:32,506 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:19:45,237 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:19:45,238 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE12 + MOBFE9 (Cu-Fe)                  Database not found\
+00:19:45,272 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:19:57,563 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:19:57,565 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE12 + MOBFE9 (Cu-Fe-O)                Database not found\
+00:19:57,588 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:20:09,112 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:20:09,112 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE12 + MOBFE9 (Cu-Fe-C)                Database not found\
+00:20:09,137 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:20:17,881 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:20:17,882 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE12 + MOBFE9 (Cu-Fe-Mn)               Database not found\
+00:20:17,903 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:20:29,411 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:20:29,412 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE12 + MOBFE9 (Cu-Fe-Al)               Database not found\
+00:20:29,436 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:20:38,538 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:20:38,539 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE12 + MOBFE9 (Cu-Fe-Mn-O)             Database not found\
+00:20:38,560 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:20:49,995 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:20:49,996 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE12 + MOBOX1 (Cu-Fe)                  Database not found\
+00:20:50,018 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:21:01,583 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:21:01,584 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE12 + MOBOX1 (Cu-Fe-O)                Database not found\
+00:21:01,608 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:21:13,136 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:21:13,138 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE12 + MOBOX1 (Cu-Fe-C)                Database not found\
+00:21:13,161 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:21:21,929 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:21:21,930 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE12 + MOBOX1 (Cu-Fe-Mn)               Database not found\
+00:21:21,956 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:21:33,424 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:21:33,425 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE12 + MOBOX1 (Cu-Fe-Al)               Database not found\
+00:21:33,445 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:21:43,018 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:21:43,019 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE12 + MOBOX1 (Cu-Fe-Mn-O)             Database not found\
+00:21:43,040 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:21:54,504 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:21:54,504 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE12 + MOBOX2 (Cu-Fe)                  Database not found\
+00:21:54,526 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:22:06,556 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:22:06,557 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE12 + MOBOX2 (Cu-Fe-O)                Database not found\
+00:22:06,579 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:22:18,328 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:22:18,329 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE12 + MOBOX2 (Cu-Fe-C)                Database not found\
+00:22:18,358 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:22:27,192 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:22:27,193 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE12 + MOBOX2 (Cu-Fe-Mn)               Database not found\
+00:22:27,218 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:22:38,665 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:22:38,666 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE12 + MOBOX2 (Cu-Fe-Al)               Database not found\
+00:22:38,689 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:22:47,747 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:22:47,748 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE12 + MOBOX2 (Cu-Fe-Mn-O)             Database not found\
+00:22:47,772 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBCU3 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:22:59,564 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:23:12,620 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCFE12 + MOBCU3 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:23:12,763 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBCU3 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:23:25,880 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBCU3 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:23:36,270 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBCU3 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:23:49,480 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:24:00,047 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCFE12 + MOBCU3 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:24:00,200 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBCU2 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:24:13,268 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:24:26,401 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCFE12 + MOBCU2 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:24:26,552 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBCU2 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:24:39,786 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBCU2 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:24:50,229 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBCU2 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:25:03,430 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:25:14,065 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCFE12 + MOBCU2 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:25:14,214 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:25:27,289 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:25:27,290 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:25:27,290 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:25:27,291 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:25:27,291 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:25:27,291 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE12 + MOBNI5 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:25:27,679 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:25:40,843 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:25:40,844 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:25:40,844 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:25:40,847 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:25:40,847 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:25:40,848 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE12 + MOBNI5 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:25:41,249 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:25:54,290 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:25:54,290 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:25:54,290 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:25:54,290 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#3\
+00:25:54,291 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#3\
+00:25:54,291 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#3\
+00:25:54,296 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:25:54,297 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:25:54,297 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE12 + MOBNI5 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:25:54,669 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:26:05,105 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:26:05,106 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:26:05,106 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:26:05,107 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:26:05,108 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:26:05,108 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE12 + MOBNI5 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:26:05,475 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:26:18,542 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:26:18,545 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:26:18,545 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:26:18,546 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:26:18,546 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:26:18,546 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE12 + MOBNI5 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:26:18,969 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:26:29,814 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:26:29,815 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:26:29,815 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:26:29,816 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:26:29,816 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:26:29,816 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE12 + MOBNI5 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:26:30,218 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:26:43,257 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:26:43,258 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:26:43,258 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:26:43,260 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:26:43,260 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:26:43,261 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE12 + MOBNI4 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:26:43,650 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:26:56,815 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:26:56,816 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:26:56,816 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:26:56,817 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:26:56,818 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:26:56,818 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE12 + MOBNI4 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:26:57,177 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:27:10,344 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:27:10,344 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:27:10,344 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:27:10,345 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#3\
+00:27:10,345 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#3\
+00:27:10,345 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#3\
+00:27:10,346 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:27:10,347 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:27:10,347 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE12 + MOBNI4 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:27:10,704 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:27:21,178 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:27:21,178 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:27:21,178 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:27:21,179 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:27:21,179 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:27:21,180 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE12 + MOBNI4 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:27:21,523 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:27:34,627 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:27:34,628 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:27:34,628 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:27:34,629 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:27:34,632 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:27:34,632 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE12 + MOBNI4 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:27:34,988 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:27:45,709 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:27:45,710 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:27:45,710 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:27:45,711 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:27:45,711 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:27:45,711 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE12 + MOBNI4 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:27:46,106 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBAL3 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:27:59,138 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:28:12,049 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:28:12,148 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [+] TCFE12 + MOBAL3 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:28:12,368 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBAL3 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:28:25,472 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBAL3 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:28:35,847 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBAL3 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:28:48,942 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:28:59,292 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:28:59,407 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [+] TCFE12 + MOBAL3 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:28:59,562 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBAL2 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:29:12,454 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:29:25,397 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:29:25,446 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [X] TCFE12 + MOBAL2 (Cu-Fe-O)                Thermo-Calc calculation error: se.thermocalc.core.Calculatio\
+00:29:25,495 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:29:38,433 [Thread-1] INFO  CalculationEngine:   *** ERROR C INPUT IGNORED\
+  [+] TCFE12 + MOBAL2 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:29:38,608 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBAL2 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:29:48,921 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+  [+] TCFE12 + MOBAL2 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:30:02,497 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+00:30:13,018 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:30:13,069 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [X] TCFE12 + MOBAL2 (Cu-Fe-Mn-O)             Thermo-Calc calculation error: se.thermocalc.core.Calculatio\
+\
+  --- TCFE11 ---\
+00:30:13,120 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE8 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:30:23,049 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE8 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:30:31,716 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE8 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:30:40,234 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE8 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:30:48,819 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE8 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:30:57,290 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE8 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:31:05,968 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE7 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:31:14,249 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE7 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:31:22,591 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE7 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:31:30,841 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE7 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:31:39,022 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE7 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:31:47,283 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE7 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:31:55,685 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE6 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:32:03,942 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE6 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:32:12,242 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE6 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:32:20,445 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE6 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:32:28,723 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE6 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:32:36,972 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE6 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:32:45,456 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE5 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:32:53,629 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE5 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:33:01,811 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE5 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:33:09,990 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE5 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:33:18,184 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE5 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:33:26,345 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBFE5 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:33:34,698 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:33:42,333 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:33:42,334 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE11 + MOBFE9 (Cu-Fe)                  Database not found\
+00:33:42,360 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:33:49,187 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:33:49,188 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE11 + MOBFE9 (Cu-Fe-O)                Database not found\
+00:33:49,212 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:33:56,010 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:33:56,011 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE11 + MOBFE9 (Cu-Fe-C)                Database not found\
+00:33:56,035 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:34:02,825 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:34:02,826 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE11 + MOBFE9 (Cu-Fe-Mn)               Database not found\
+00:34:02,851 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:34:09,673 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:34:09,673 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE11 + MOBFE9 (Cu-Fe-Al)               Database not found\
+00:34:09,696 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:34:16,631 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:34:16,632 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCFE11 + MOBFE9 (Cu-Fe-Mn-O)             Database not found\
+00:34:16,654 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:34:23,382 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:34:23,383 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE11 + MOBOX1 (Cu-Fe)                  Database not found\
+00:34:23,408 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:34:30,239 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:34:30,240 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE11 + MOBOX1 (Cu-Fe-O)                Database not found\
+00:34:30,265 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:34:37,073 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:34:37,074 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE11 + MOBOX1 (Cu-Fe-C)                Database not found\
+00:34:37,113 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:34:43,849 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:34:43,850 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE11 + MOBOX1 (Cu-Fe-Mn)               Database not found\
+00:34:43,873 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:34:50,638 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:34:50,639 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE11 + MOBOX1 (Cu-Fe-Al)               Database not found\
+00:34:50,664 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:34:57,663 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:34:57,664 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCFE11 + MOBOX1 (Cu-Fe-Mn-O)             Database not found\
+00:34:57,686 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:35:04,487 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:35:04,487 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE11 + MOBOX2 (Cu-Fe)                  Database not found\
+00:35:04,523 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:35:11,476 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:35:11,477 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE11 + MOBOX2 (Cu-Fe-O)                Database not found\
+00:35:11,504 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:35:18,401 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:35:18,402 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE11 + MOBOX2 (Cu-Fe-C)                Database not found\
+00:35:18,426 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:35:25,418 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:35:25,419 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE11 + MOBOX2 (Cu-Fe-Mn)               Database not found\
+00:35:25,444 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:35:32,349 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:35:32,349 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE11 + MOBOX2 (Cu-Fe-Al)               Database not found\
+00:35:32,376 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:35:39,438 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:35:39,439 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCFE11 + MOBOX2 (Cu-Fe-Mn-O)             Database not found\
+00:35:39,464 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBCU3 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:35:46,747 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:35:54,907 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCFE11 + MOBCU3 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:35:55,047 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBCU3 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:36:03,347 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBCU3 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:36:11,578 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBCU3 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:36:19,851 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:36:28,158 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCFE11 + MOBCU3 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:36:28,313 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBCU2 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:36:36,533 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:36:44,731 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCFE11 + MOBCU2 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:36:44,885 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBCU2 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:36:53,259 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBCU2 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:37:01,526 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBCU2 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:37:09,835 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:37:18,255 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCFE11 + MOBCU2 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:37:18,416 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:37:26,680 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:37:26,680 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:37:26,681 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:37:26,682 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:37:26,683 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:37:26,683 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE11 + MOBNI5 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:37:27,097 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:37:35,427 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:37:35,428 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:37:35,428 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:37:35,429 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:37:35,429 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:37:35,429 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE11 + MOBNI5 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:37:35,834 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:37:44,149 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:37:44,150 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:37:44,150 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:37:44,150 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#3\
+00:37:44,151 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#3\
+00:37:44,151 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#3\
+00:37:44,152 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:37:44,153 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:37:44,153 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE11 + MOBNI5 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:37:44,534 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:37:52,783 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:37:52,783 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:37:52,783 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:37:52,785 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:37:52,786 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:37:52,786 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE11 + MOBNI5 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:37:53,182 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:38:01,424 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:38:01,424 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:38:01,424 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:38:01,425 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:38:01,425 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:38:01,425 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE11 + MOBNI5 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:38:01,823 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:38:10,303 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:38:10,303 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:38:10,303 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:38:10,304 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:38:10,305 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:38:10,305 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE11 + MOBNI5 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:38:10,720 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:38:18,965 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:38:18,967 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:38:18,970 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:38:18,971 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:38:18,971 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:38:18,971 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE11 + MOBNI4 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:38:19,390 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:38:27,703 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:38:27,704 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:38:27,704 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:38:27,705 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:38:27,705 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:38:27,705 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE11 + MOBNI4 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:38:28,070 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:38:36,328 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:38:36,328 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:38:36,328 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:38:36,328 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#3\
+00:38:36,328 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#3\
+00:38:36,328 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#3\
+00:38:36,330 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:38:36,331 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:38:36,331 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE11 + MOBNI4 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:38:36,691 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:38:44,942 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:38:44,943 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:38:44,943 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:38:44,945 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:38:44,945 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:38:44,945 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE11 + MOBNI4 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:38:45,312 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:38:53,527 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:38:53,528 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:38:53,528 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:38:53,529 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:38:53,529 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:38:53,529 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE11 + MOBNI4 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:38:53,894 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:39:02,285 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:39:02,287 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:39:02,287 [Thread-1] INFO  CalculationEngine: New CS: FCC_A1#2\
+00:39:02,288 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:39:02,288 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:39:02,288 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+  [+] TCFE11 + MOBNI4 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:39:02,663 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBAL3 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:39:10,898 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:39:18,906 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:39:19,015 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [+] TCFE11 + MOBAL3 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:39:19,172 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBAL3 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:39:27,363 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBAL3 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:39:35,632 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBAL3 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:39:43,744 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:39:51,845 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:39:51,960 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [+] TCFE11 + MOBAL3 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:39:52,109 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBAL2 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:40:00,240 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:40:08,223 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:40:08,274 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [X] TCFE11 + MOBAL2 (Cu-Fe-O)                Thermo-Calc calculation error: se.thermocalc.core.Calculatio\
+00:40:08,324 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:40:16,335 [Thread-1] INFO  CalculationEngine:   *** ERROR C INPUT IGNORED\
+  [+] TCFE11 + MOBAL2 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:40:16,520 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBAL2 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:40:24,544 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+  [+] TCFE11 + MOBAL2 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:40:32,578 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+00:40:40,629 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:40:40,681 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [X] TCFE11 + MOBAL2 (Cu-Fe-Mn-O)             Thermo-Calc calculation error: se.thermocalc.core.Calculatio\
+\
+  --- TCOX14 ---\
+00:40:40,733 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:40:43,330 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:40:43,330 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE8 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:40:56,570 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:40:58,932 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:40:58,932 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:41:11,408 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:41:13,778 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:41:13,779 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:41:25,838 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:41:28,285 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:41:28,286 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:41:39,421 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:41:41,828 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:41:41,829 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:41:53,691 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:41:56,036 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:41:56,036 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:42:07,416 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:42:09,789 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:42:09,789 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE7 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:42:21,625 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:42:24,004 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:42:24,005 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE7 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:42:36,038 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:42:38,374 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:42:38,375 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE7 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:42:50,126 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:42:52,471 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:42:52,471 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE7 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:43:03,073 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:43:05,408 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:43:05,409 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE7 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:43:17,037 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:43:19,370 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:43:19,370 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE7 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:43:30,546 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:43:32,870 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:43:32,870 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE6 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:43:44,545 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:43:46,896 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:43:46,896 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE6 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:43:58,770 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:44:01,103 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:44:01,103 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE6 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:44:12,780 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:44:15,089 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:44:15,089 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE6 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:44:25,649 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:44:27,965 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:44:27,965 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE6 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:44:39,530 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:44:41,868 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:44:41,869 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE6 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:44:52,770 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:44:55,087 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:44:55,087 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE5 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:45:06,652 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:45:08,998 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:45:08,999 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE5 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:45:20,841 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:45:23,154 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:45:23,154 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE5 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:45:34,944 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:45:37,278 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:45:37,279 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE5 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:45:47,878 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:45:50,198 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:45:50,198 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE5 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:46:01,794 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:46:04,114 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:46:04,115 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [+] TCOX14 + MOBFE5 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:46:15,059 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:46:17,401 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:46:17,401 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:46:28,441 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:46:28,442 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCOX14 + MOBFE9 (Cu-Fe)                  Database not found\
+00:46:28,466 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:46:29,740 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:46:29,741 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:46:40,850 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:46:40,851 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCOX14 + MOBFE9 (Cu-Fe-O)                Database not found\
+00:46:40,875 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:46:42,159 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:46:42,159 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:46:53,301 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:46:53,302 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCOX14 + MOBFE9 (Cu-Fe-C)                Database not found\
+00:46:53,323 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:46:54,608 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:46:54,609 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:47:04,482 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:47:04,483 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCOX14 + MOBFE9 (Cu-Fe-Mn)               Database not found\
+00:47:04,504 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:47:05,771 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:47:05,771 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:47:16,788 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:47:16,788 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCOX14 + MOBFE9 (Cu-Fe-Al)               Database not found\
+00:47:16,815 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:47:18,072 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:47:18,072 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:47:28,430 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+00:47:28,431 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+  [X] TCOX14 + MOBFE9 (Cu-Fe-Mn-O)             Database not found\
+00:47:28,455 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:47:29,722 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:47:29,722 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:47:40,632 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:47:40,633 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCOX14 + MOBOX1 (Cu-Fe)                  Database not found\
+00:47:40,655 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:47:41,900 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:47:41,900 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:47:53,056 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:47:53,056 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCOX14 + MOBOX1 (Cu-Fe-O)                Database not found\
+00:47:53,078 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:47:54,352 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:47:54,352 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:48:05,426 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:48:05,427 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCOX14 + MOBOX1 (Cu-Fe-C)                Database not found\
+00:48:05,449 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:48:06,702 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:48:06,702 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:48:16,680 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:48:16,681 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+  [X] TCOX14 + MOBOX1 (Cu-Fe-Mn)               Database not found\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX2 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBFE9 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+tc error: 1234 :  ERROR IN SGTBEG : Database not found: MOBOX1 !\
+t00:48:16,707 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:48:17,951 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:48:17,951 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:48:28,942 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:48:28,943 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCOX14 + MOBOX1 (Cu-Fe-Al)               Database not found\
+00:48:28,975 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:48:30,238 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:48:30,239 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:48:40,545 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX1 !\
+00:48:40,546 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX1 !\
+  [X] TCOX14 + MOBOX1 (Cu-Fe-Mn-O)             Database not found\
+00:48:40,569 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:48:41,836 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:48:41,836 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:48:52,714 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:48:52,715 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCOX14 + MOBOX2 (Cu-Fe)                  Database not found\
+00:48:52,736 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:48:54,011 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:48:54,011 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:49:05,239 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:49:05,240 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCOX14 + MOBOX2 (Cu-Fe-O)                Database not found\
+00:49:05,263 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:49:06,547 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:49:06,547 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:49:17,545 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:49:17,546 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCOX14 + MOBOX2 (Cu-Fe-C)                Database not found\
+00:49:17,567 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:49:18,835 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:49:18,835 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  [X] TCOX14 + MOBOX2 (Cu-Fe-Mn)               Database not found\
+00:49:28,837 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:49:28,838 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+00:49:28,865 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:49:30,119 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:49:30,119 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:49:41,181 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:49:41,182 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCOX14 + MOBOX2 (Cu-Fe-Al)               Database not found\
+00:49:41,208 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:49:42,477 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:49:42,477 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:49:52,792 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBOX2 !\
+00:49:52,792 [Thread-1] INFO  CalculationEngine: Database not found: MOBOX2 !\
+  [X] TCOX14 + MOBOX2 (Cu-Fe-Mn-O)             Database not found\
+00:49:52,814 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:49:54,069 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:49:54,069 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:50:05,261 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:50:05,360 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:50:05,360 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBCU3 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:50:05,572 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:50:07,911 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:50:07,912 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:50:19,578 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:50:19,685 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:50:19,685 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:50:19,687 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCOX14 + MOBCU3 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:50:19,860 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:50:22,194 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:50:22,195 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:50:33,488 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:50:33,591 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:50:33,591 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBCU3 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:50:33,761 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:50:36,101 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:50:36,101 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:50:46,282 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:50:46,385 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:50:46,385 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:50:46,386 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBCU3 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:50:46,556 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:50:48,867 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:50:48,867 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:51:00,193 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:00,293 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:00,293 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:00,293 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBCU3 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:51:00,455 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:51:02,770 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:51:02,770 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:51:13,298 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:13,405 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:13,406 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:13,406 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:13,407 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCOX14 + MOBCU3 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:51:13,593 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:51:15,891 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:51:15,892 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:51:27,075 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:27,170 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:27,170 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBCU2 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:51:27,341 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:51:29,674 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:51:29,675 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:51:41,102 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:41,207 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:41,207 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:41,208 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCOX14 + MOBCU2 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:51:41,384 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:51:43,728 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:51:43,728 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:51:55,009 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:55,112 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:51:55,113 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBCU2 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:51:55,286 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:51:57,596 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:51:57,596 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:52:07,890 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:52:07,989 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:52:07,989 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:52:07,990 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBCU2 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:52:08,152 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:52:10,478 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:52:10,478 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:52:21,775 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:52:21,879 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:52:21,879 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:52:21,879 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBCU2 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:52:22,042 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:52:24,348 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:52:24,348 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:52:34,848 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:52:34,954 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:52:34,956 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:52:34,956 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:52:34,957 [Thread-1] WARN  AppendMessageReceiver: Different SER reference states detected in databases: O\
+  [+] TCOX14 + MOBCU2 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:52:35,133 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:52:37,426 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:52:37,427 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:52:48,732 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:52:48,732 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:52:48,733 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:52:48,733 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:52:48,734 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:52:48,734 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+00:52:48,958 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:52:48,959 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBNI5 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:52:49,160 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:52:51,471 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:52:51,473 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:53:03,328 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:53:03,329 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:53:03,329 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:53:03,330 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:53:03,330 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:53:03,330 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+00:53:03,566 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:53:03,566 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBNI5 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:53:03,746 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:53:06,078 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:53:06,078 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:53:17,591 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:53:17,592 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:53:17,592 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:53:17,592 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#3\
+00:53:17,592 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#3\
+00:53:17,593 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:53:17,593 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:53:17,593 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+00:53:17,829 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:53:17,829 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBNI5 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:53:18,005 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:53:20,338 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:53:20,338 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:53:30,833 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:53:30,834 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:53:30,834 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:53:30,835 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:53:30,835 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:53:30,835 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+00:53:31,061 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:53:31,061 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:53:31,061 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBNI5 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:53:31,225 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:53:33,535 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:53:33,535 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:53:44,922 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:53:44,923 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:53:44,923 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:53:44,923 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:53:44,924 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:53:44,924 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+00:53:45,154 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:53:45,154 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:53:45,154 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBNI5 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:53:45,325 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:53:47,657 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:53:47,658 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:53:58,297 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:53:58,298 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:53:58,298 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:53:58,299 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:53:58,300 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:53:58,300 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+00:53:58,542 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:53:58,543 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:53:58,543 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBNI5 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:53:58,747 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:54:01,080 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:54:01,080 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:54:12,637 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:54:12,638 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:54:12,638 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:54:12,638 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:54:12,639 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:54:12,639 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+00:54:12,839 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:54:12,840 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBNI4 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:54:13,051 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:54:15,371 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:54:15,371 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:54:26,909 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:54:26,910 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:54:26,910 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:54:26,912 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:54:26,913 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:54:26,913 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+00:54:27,131 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:54:27,131 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBNI4 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:54:27,304 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:54:29,613 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:54:29,613 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:54:41,113 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:54:41,113 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:54:41,113 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:54:41,113 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#3\
+00:54:41,113 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#3\
+00:54:41,114 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:54:41,115 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:54:41,115 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+00:54:41,320 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:54:41,320 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBNI4 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:54:41,494 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:54:43,836 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:54:43,837 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:54:54,338 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:54:54,339 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:54:54,339 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:54:54,340 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:54:54,340 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:54:54,341 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+00:54:54,546 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:54:54,546 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:54:54,546 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBNI4 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:54:54,713 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:54:57,082 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:54:57,082 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:55:08,802 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:55:08,802 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:55:08,802 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:55:08,803 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:55:08,804 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:55:08,804 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+00:55:09,014 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:55:09,014 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:55:09,014 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBNI4 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:55:09,220 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:55:11,569 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:55:11,569 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:55:22,488 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:55:22,488 [Thread-1] INFO  CalculationEngine:  Creating a new composition set FCC_L12#2\
+00:55:22,488 [Thread-1] INFO  CalculationEngine: New CS: FCC_L12#2\
+00:55:22,489 [Thread-1] INFO  CalculationEngine:  Creating a new composition set BCC_B2#2\
+00:55:22,489 [Thread-1] INFO  CalculationEngine: New CS: BCC_B2#2\
+00:55:22,489 [Thread-1] INFO  CalculationEngine: New CS: BCC_A2#2\
+00:55:22,710 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:55:22,712 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:55:22,712 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBNI4 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:55:22,905 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:55:25,273 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:55:25,273 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:55:36,571 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:55:36,614 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:55:36,615 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBAL3 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:55:36,784 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:55:39,114 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:55:39,115 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:55:50,652 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:55:50,859 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:55:50,904 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:55:50,904 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:55:50,904 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [+] TCOX14 + MOBAL3 (Cu-Fe-O)                loaded (phases not queryable) iso=True noniso=True\
+00:55:51,077 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:55:53,464 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:55:53,464 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:56:04,936 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:04,980 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:04,981 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBAL3 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:56:05,157 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:56:07,519 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:56:07,519 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:56:18,073 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:18,123 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:18,124 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:18,124 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBAL3 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:56:18,298 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:56:20,706 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:56:20,706 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:56:32,317 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:32,361 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:32,361 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:32,361 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBAL3 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:56:32,527 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:56:34,928 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:56:34,928 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:56:45,708 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:56:45,918 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:45,967 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:45,968 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:45,968 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:45,968 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [+] TCOX14 + MOBAL3 (Cu-Fe-Mn-O)             loaded (phases not queryable) iso=True noniso=True\
+00:56:46,166 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:56:48,587 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:56:48,588 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:56:59,879 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:59,925 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:56:59,925 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBAL2 (Cu-Fe)                  loaded (phases not queryable) iso=True noniso=True\
+00:57:00,072 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:57:02,438 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:57:02,439 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:57:14,157 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:57:14,158 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:57:14,210 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:57:14,210 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:57:14,210 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [X] TCOX14 + MOBAL2 (Cu-Fe-O)                Thermo-Calc calculation error: se.thermocalc.core.Calculatio\
+00:57:14,261 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:57:16,661 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:57:16,661 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:57:28,051 [Thread-1] INFO  CalculationEngine:   *** ERROR C INPUT IGNORED\
+00:57:28,054 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:57:28,108 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:57:28,108 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:57:28,108 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBAL2 (Cu-Fe-C)                loaded (phases not queryable) iso=True noniso=True\
+00:57:28,269 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:57:30,683 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:57:30,683 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:57:40,938 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:57:40,990 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:57:40,991 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:57:40,991 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBAL2 (Cu-Fe-Mn)               loaded (phases not queryable) iso=True noniso=True\
+00:57:41,159 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:57:43,580 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:57:43,580 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:57:54,856 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:57:54,908 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:57:54,908 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:57:54,908 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+  [+] TCOX14 + MOBAL2 (Cu-Fe-Al)               loaded (phases not queryable) iso=True noniso=True\
+00:57:55,062 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+00:57:57,423 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+00:57:57,423 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+00:58:08,014 [Thread-1] INFO  CalculationEngine:   *** ERROR O INPUT IGNORED\
+00:58:08,016 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:58:08,071 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:58:08,071 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:58:08,071 [Thread-1] INFO  CalculationEngine:   *** ERROR  1183 IN GZDIS2: INCONSISTENT SET OF CONSTITUENTS\
+00:58:08,071 [Thread-1] INFO  CalculationEngine:   *** ERROR  1020 IN IXNAM: NO RECORD WITH THIS NAME: FCC_L12@O\
+  [X] TCOX14 + MOBAL2 (Cu-Fe-Mn-O)             Thermo-Calc calculation error: se.thermocalc.core.Calculatio\
+\
+\
+  Phase 1 Summary: 232 working pairs found\
+  Unique thermo+mobility pairs: 40\
+    TCFE13 + MOBFE8  (0 phases)\
+    TCFE13 + MOBFE7  (0 phases)\
+    TCFE13 + MOBFE6  (0 phases)\
+    TCFE13 + MOBFE5  (0 phases)\
+    TCFE13 + MOBCU3  (0 phases)\
+    TCFE13 + MOBCU2  (0 phases)\
+    TCFE13 + MOBNI5  (0 phases)\
+    TCFE13 + MOBNI4  (0 phases)\
+    TCFE13 + MOBAL3  (0 phases)\
+    TCFE13 + MOBAL2  (0 phases)\
+    TCFE12 + MOBFE8  (0 phases)\
+    TCFE12 + MOBFE7  (0 phases)\
+    TCFE12 + MOBFE6  (0 phases)\
+    TCFE12 + MOBFE5  (0 phases)\
+    TCFE12 + MOBCU3  (0 phases)\
+    TCFE12 + MOBCU2  (0 phases)\
+    TCFE12 + MOBNI5  (0 phases)\
+    TCFE12 + MOBNI4  (0 phases)\
+    TCFE12 + MOBAL3  (0 phases)\
+    TCFE12 + MOBAL2  (0 phases)\
+    TCFE11 + MOBFE8  (0 phases)\
+    TCFE11 + MOBFE7  (0 phases)\
+    TCFE11 + MOBFE6  (0 phases)\
+    TCFE11 + MOBFE5  (0 phases)\
+    TCFE11 + MOBCU3  (0 phases)\
+    TCFE11 + MOBCU2  (0 phases)\
+    TCFE11 + MOBNI5  (0 phases)\
+    TCFE11 + MOBNI4  (0 phases)\
+    TCFE11 + MOBAL3  (0 phases)\
+    TCFE11 + MOBAL2  (0 phases)\
+    TCOX14 + MOBFE8  (0 phases)\
+    TCOX14 + MOBFE7  (0 phases)\
+    TCOX14 + MOBFE6  (0 phases)\
+    TCOX14 + MOBFE5  (0 phases)\
+    TCOX14 + MOBCU3  (0 phases)\
+    TCOX14 + MOBCU2  (0 phases)\
+    TCOX14 + MOBNI5  (0 phases)\
+    TCOX14 + MOBNI4  (0 phases)\
+    TCOX14 + MOBAL3  (0 phases)\
+    TCOX14 + MOBAL2  (0 phases)\
+\
+===========================================================================\
+PHASE 2: Deep System Exploration\
+===========================================================================\
+\
+  --- Exploring: TCFE13 + MOBFE8 (Cu-Fe) ---\
+00:58:08,116 [Thread-1] INFO  SystemBuilder: Found matching previous system\
+  Could not enumerate phases (API differs)\
+  [!] TCFE13 + MOBFE8 (Cu-Fe) phases           phase enumeration not available\
+  Diffusion calc methods (20):\
+    .add_console_command()\
+    .add_region()\
+    .calculate()\
+    .get_configuration_as_string()\
+    .get_system_data()\
+    .invalidate()\
+    .remove_all_console_commands()\
+    .remove_all_regions()\
+    .set_simulation_time()\
+    .set_temperature()\
+    .with_cylindrical_geometry()\
+    .with_left_boundary_condition()\
+    .with_options()\
+    .with_planar_geometry()\
+    .with_reference_state()\
+    .with_right_boundary_condition()\
+    .with_solver()\
+    .with_spherical_geometry()\
+    .with_system_modifications()\
+    .with_timestep_control()\
+  [i] TCFE13 + MOBFE8 (Cu-Fe) diff methods     add_console_command, add_region, calculate, get_configuratio\
+  [+] TCFE13 + MOBFE8 (Cu-Fe) geometry: planar available\
+  [+] TCFE13 + MOBFE8 (Cu-Fe) geometry: cylindrical available\
+  [+] TCFE13 + MOBFE8 (Cu-Fe) geometry: spherical available\
+  [+] Class: Region                            available in namespace\
+  [+] Class: CalculatedGrid                    available in namespace\
+  [+] Class: CompositionProfile                available in namespace\
+  [+] Class: ElementProfile                    available in namespace\
+  [+] Class: BoundaryCondition                 available in namespace\
+  [+] Class: Unit                              available in namespace\
+  [X] Class: PhaseComposition                  NOT imported\
+  [+] Class: AutomaticSolver                   available in namespace\
+  [+] Class: ClassicSolver                     available in namespace\
+  [+] Class: HomogenizationSolver              available in namespace\
+  [+] Class: SimulationTime                    available in namespace\
+\
+  --- Exploring: TCFE13 + MOBFE8 (Cu-Fe-O) ---\
+00:58:09,349 [Thread-1] INFO  SystemBuilder: Found matching previous system\
+  Could not enumerate phases (API differs)\
+  [!] TCFE13 + MOBFE8 (Cu-Fe-O) phases         phase enumeration not available\
+  Diffusion calc methods (20):\
+    .add_console_command()\
+    .add_region()\
+    .calculate()\
+    .get_configuration_as_string()\
+    .get_system_data()\
+    .invalidate()\
+    .remove_all_console_commands()\
+    .remove_all_regions()\
+    .set_simulation_time()\
+    .set_temperature()\
+    .with_cylindrical_geometry()\
+    .with_left_boundary_condition()\
+    .with_options()\
+    .with_planar_geometry()\
+    .with_reference_state()\
+    .with_right_boundary_condition()\
+    .with_solver()\
+    .with_spherical_geometry()\
+    .with_system_modifications()\
+    .with_timestep_control()\
+  [i] TCFE13 + MOBFE8 (Cu-Fe-O) diff methods   add_console_command, add_region, calculate, get_configuratio\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-O) geometry: planar available\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-O) geometry: cylindrical available\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-O) geometry: spherical available\
+  [+] Class: Region                            available in namespace\
+  [+] Class: CalculatedGrid                    available in namespace\
+  [+] Class: CompositionProfile                available in namespace\
+  [+] Class: ElementProfile                    available in namespace\
+  [+] Class: BoundaryCondition                 available in namespace\
+  [+] Class: Unit                              available in namespace\
+  [X] Class: PhaseComposition                  NOT imported\
+  [+] Class: AutomaticSolver                   available in namespace\
+  [+] Class: ClassicSolver                     available in namespace\
+  [+] Class: HomogenizationSolver              available in namespace\
+  [+] Class: SimulationTime                    available in namespace\
+\
+  --- Exploring: TCFE13 + MOBFE8 (Cu-Fe-C) ---\
+00:58:10,127 [Thread-1] INFO  SystemBuilder: Found matching previous system\
+  Could not enumerate phases (API differs)\
+  [!] TCFE13 + MOBFE8 (Cu-Fe-C) phases         phase enumeration not available\
+  Diffusion calc methods (20):\
+    .add_console_command()\
+    .add_region()\
+    .calculate()\
+    .get_configuration_as_string()\
+    .get_system_data()\
+    .invalidate()\
+    .remove_all_console_commands()\
+    .remove_all_regions()\
+    .set_simulation_time()\
+    .set_temperature()\
+    .with_cylindrical_geometry()\
+    .with_left_boundary_condition()\
+    .with_options()\
+    .with_planar_geometry()\
+    .with_reference_state()\
+    .with_right_boundary_condition()\
+    .with_solver()\
+    .with_spherical_geometry()\
+    .with_system_modifications()\
+    .with_timestep_control()\
+  [i] TCFE13 + MOBFE8 (Cu-Fe-C) diff methods   add_console_command, add_region, calculate, get_configuratio\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-C) geometry: planar available\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-C) geometry: cylindrical available\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-C) geometry: spherical available\
+  [+] Class: Region                            available in namespace\
+  [+] Class: CalculatedGrid                    available in namespace\
+  [+] Class: CompositionProfile                available in namespace\
+  [+] Class: ElementProfile                    available in namespace\
+  [+] Class: BoundaryCondition                 available in namespace\
+  [+] Class: Unit                              available in namespace\
+  [X] Class: PhaseComposition                  NOT imported\
+  [+] Class: AutomaticSolver                   available in namespace\
+  [+] Class: ClassicSolver                     available in namespace\
+  [+] Class: HomogenizationSolver              available in namespace\
+  [+] Class: SimulationTime                    available in namespace\
+\
+  --- Exploring: TCFE13 + MOBFE8 (Cu-Fe-Mn) ---\
+00:58:10,548 [Thread-1] INFO  SystemBuilder: Found matching previous system\
+  Could not enumerate phases (API differs)\
+  [!] TCFE13 + MOBFE8 (Cu-Fe-Mn) phases        phase enumeration not available\
+  Diffusion calc methods (20):\
+    .add_console_command()\
+    .add_region()\
+    .calculate()\
+    .get_configuration_as_string()\
+    .get_system_data()\
+    .invalidate()\
+    .remove_all_console_commands()\
+    .remove_all_regions()\
+    .set_simulation_time()\
+    .set_temperature()\
+    .with_cylindrical_geometry()\
+    .with_left_boundary_condition()\
+    .with_options()\
+    .with_planar_geometry()\
+    .with_reference_state()\
+    .with_right_boundary_condition()\
+    .with_solver()\
+    .with_spherical_geometry()\
+    .with_system_modifications()\
+    .with_timestep_control()\
+  [i] TCFE13 + MOBFE8 (Cu-Fe-Mn) diff methods  add_console_command, add_region, calculate, get_configuratio\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-Mn) geometry: planar available\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-Mn) geometry: cylindrical available\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-Mn) geometry: spherical available\
+  [+] Class: Region                            available in namespace\
+  [+] Class: CalculatedGrid                    available in namespace\
+  [+] Class: CompositionProfile                available in namespace\
+  [+] Class: ElementProfile                    available in namespace\
+  [+] Class: BoundaryCondition                 available in namespace\
+  [+] Class: Unit                              available in namespace\
+  [X] Class: PhaseComposition                  NOT imported\
+  [+] Class: AutomaticSolver                   available in namespace\
+  [+] Class: ClassicSolver                     available in namespace\
+  [+] Class: HomogenizationSolver              available in namespace\
+  [+] Class: SimulationTime                    available in namespace\
+\
+  --- Exploring: TCFE13 + MOBFE8 (Cu-Fe-Al) ---\
+00:58:10,775 [Thread-1] INFO  SystemBuilder: Found matching previous system\
+  Could not enumerate phases (API differs)\
+  [!] TCFE13 + MOBFE8 (Cu-Fe-Al) phases        phase enumeration not available\
+  Diffusion calc methods (20):\
+    .add_console_command()\
+    .add_region()\
+    .calculate()\
+    .get_configuration_as_string()\
+    .get_system_data()\
+    .invalidate()\
+    .remove_all_console_commands()\
+    .remove_all_regions()\
+    .set_simulation_time()\
+    .set_temperature()\
+    .with_cylindrical_geometry()\
+    .with_left_boundary_condition()\
+    .with_options()\
+    .with_planar_geometry()\
+    .with_reference_state()\
+    .with_right_boundary_condition()\
+    .with_solver()\
+    .with_spherical_geometry()\
+    .with_system_modifications()\
+    .with_timestep_control()\
+  [i] TCFE13 + MOBFE8 (Cu-Fe-Al) diff methods  add_console_command, add_region, calculate, get_configuratio\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-Al) geometry: planar available\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-Al) geometry: cylindrical available\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-Al) geometry: spherical available\
+  [+] Class: Region                            available in namespace\
+  [+] Class: CalculatedGrid                    available in namespace\
+  [+] Class: CompositionProfile                available in namespace\
+  [+] Class: ElementProfile                    available in namespace\
+  [+] Class: BoundaryCondition                 available in namespace\
+  [+] Class: Unit                              available in namespace\
+  [X] Class: PhaseComposition                  NOT imported\
+  [+] Class: AutomaticSolver                   available in namespace\
+  [+] Class: ClassicSolver                     available in namespace\
+  [+] Class: HomogenizationSolver              available in namespace\
+  [+] Class: SimulationTime                    available in namespace\
+\
+  --- Exploring: TCFE13 + MOBFE8 (Cu-Fe-Mn-O) ---\
+00:58:11,123 [Thread-1] INFO  SystemBuilder: Found matching previous system\
+  Could not enumerate phases (API differs)\
+  [!] TCFE13 + MOBFE8 (Cu-Fe-Mn-O) phases      phase enumeration not available\
+  Diffusion calc methods (20):\
+    .add_console_command()\
+    .add_region()\
+    .calculate()\
+    .get_configuration_as_string()\
+    .get_system_data()\
+    .invalidate()\
+    .remove_all_console_commands()\
+    .remove_all_regions()\
+    .set_simulation_time()\
+    .set_temperature()\
+    .with_cylindrical_geometry()\
+    .with_left_boundary_condition()\
+    .with_options()\
+    .with_planar_geometry()\
+    .with_reference_state()\
+    .with_right_boundary_condition()\
+    .with_solver()\
+    .with_spherical_geometry()\
+    .with_system_modifications()\
+    .with_timestep_control()\
+  [i] TCFE13 + MOBFE8 (Cu-Fe-Mn-O) diff methods add_console_command, add_region, calculate, get_configuratio\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-Mn-O) geometry: planar available\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-Mn-O) geometry: cylindrical available\
+  [+] TCFE13 + MOBFE8 (Cu-Fe-Mn-O) geometry: spherical available\
+  [+] Class: Region                            available in namespace\
+  [+] Class: CalculatedGrid                    available in namespace\
+  [+] Class: CompositionProfile                available in namespace\
+  [+] Class: ElementProfile                    available in namespace\
+  [+] Class: BoundaryCondition                 available in namespace\
+  [+] Class: Unit                              available in namespace\
+  [X] Class: PhaseComposition                  NOT imported\
+  [+] Class: AutomaticSolver                   available in namespace\
+  [+] Class: ClassicSolver                     available in namespace\
+  [+] Class: HomogenizationSolver              available in namespace\
+  [+] Class: SimulationTime                    available in namespace\
+\
+  --- Exploring: TCOX14 + MOBFE8 (Cu-Fe) ---\
+00:58:11,332 [Thread-1] INFO  SystemBuilder: Found matching previous system\
+  Could not enumerate phases (API differs)\
+  [!] TCOX14 + MOBFE8 (Cu-Fe) phases           phase enumeration not available\
+  Diffusion calc methods (20):\
+    .add_console_command()\
+    .add_region()\
+    .calculate()\
+    .get_configuration_as_string()\
+    .get_system_data()\
+    .invalidate()\
+    .remove_all_console_commands()\
+    .remove_all_regions()\
+    .set_simulation_time()\
+    .set_temperature()\
+    .with_cylindrical_geometry()\
+    .with_left_boundary_condition()\
+    .with_options()\
+    .with_planar_geometry()\
+    .with_reference_state()\
+    .with_right_boundary_condition()\
+    .with_solver()\
+    .with_spherical_geometry()\
+    .with_system_modifications()\
+    .with_timestep_control()\
+  [i] TCOX14 + MOBFE8 (Cu-Fe) diff methods     add_console_command, add_region, calculate, get_configuratio\
+  [+] TCOX14 + MOBFE8 (Cu-Fe) geometry: planar available\
+  [+] TCOX14 + MOBFE8 (Cu-Fe) geometry: cylindrical available\
+  [+] TCOX14 + MOBFE8 (Cu-Fe) geometry: spherical available\
+  [+] Class: Region                            available in namespace\
+  [+] Class: CalculatedGrid                    available in namespace\
+  [+] Class: CompositionProfile                available in namespace\
+  [+] Class: ElementProfile                    available in namespace\
+  [+] Class: BoundaryCondition                 available in namespace\
+  [+] Class: Unit                              available in namespace\
+  [X] Class: PhaseComposition                  NOT imported\
+  [+] Class: AutomaticSolver                   available in namespace\
+  [+] Class: ClassicSolver                     available in namespace\
+  [+] Class: HomogenizationSolver              available in namespace\
+  [+] Class: SimulationTime                    available in namespace\
+\
+  --- Exploring: TCOX14 + MOBFE8 (Cu-Fe-O) ---\
+00:58:11,687 [Thread-1] INFO  SystemBuilder: Found matching previous system\
+  Could not enumerate phases (API differs)\
+  [!] TCOX14 + MOBFE8 (Cu-Fe-O) phases         phase enumeration not available\
+  Diffusion calc methods (20):\
+    .add_console_command()\
+    .add_region()\
+    .calculate()\
+    .get_configuration_as_string()\
+    .get_system_data()\
+    .invalidate()\
+    .remove_all_console_commands()\
+    .remove_all_regions()\
+    .set_simulation_time()\
+    .set_temperature()\
+    .with_cylindrical_geometry()\
+    .with_left_boundary_condition()\
+    .with_options()\
+    .with_planar_geometry()\
+    .with_reference_state()\
+    .with_right_boundary_condition()\
+    .with_solver()\
+    .with_spherical_geometry()\
+    .with_system_modifications()\
+    .with_timestep_control()\
+  [i] TCOX14 + MOBFE8 (Cu-Fe-O) diff methods   add_console_command, add_region, calculate, get_configuratio\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-O) geometry: planar available\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-O) geometry: cylindrical available\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-O) geometry: spherical available\
+  [+] Class: Region                            available in namespace\
+  [+] Class: CalculatedGrid                    available in namespace\
+  [+] Class: CompositionProfile                available in namespace\
+  [+] Class: ElementProfile                    available in namespace\
+  [+] Class: BoundaryCondition                 available in namespace\
+  [+] Class: Unit                              available in namespace\
+  [X] Class: PhaseComposition                  NOT imported\
+  [+] Class: AutomaticSolver                   available in namespace\
+  [+] Class: ClassicSolver                     available in namespace\
+  [+] Class: HomogenizationSolver              available in namespace\
+  [+] Class: SimulationTime                    available in namespace\
+\
+  --- Exploring: TCOX14 + MOBFE8 (Cu-Fe-C) ---\
+00:58:12,107 [Thread-1] INFO  SystemBuilder: Found matching previous system\
+  Could not enumerate phases (API differs)\
+  [!] TCOX14 + MOBFE8 (Cu-Fe-C) phases         phase enumeration not available\
+  Diffusion calc methods (20):\
+    .add_console_command()\
+    .add_region()\
+    .calculate()\
+    .get_configuration_as_string()\
+    .get_system_data()\
+    .invalidate()\
+    .remove_all_console_commands()\
+    .remove_all_regions()\
+    .set_simulation_time()\
+    .set_temperature()\
+    .with_cylindrical_geometry()\
+    .with_left_boundary_condition()\
+    .with_options()\
+    .with_planar_geometry()\
+    .with_reference_state()\
+    .with_right_boundary_condition()\
+    .with_solver()\
+    .with_spherical_geometry()\
+    .with_system_modifications()\
+    .with_timestep_control()\
+  [i] TCOX14 + MOBFE8 (Cu-Fe-C) diff methods   add_console_command, add_region, calculate, get_configuratio\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-C) geometry: planar available\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-C) geometry: cylindrical available\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-C) geometry: spherical available\
+  [+] Class: Region                            available in namespace\
+  [+] Class: CalculatedGrid                    available in namespace\
+  [+] Class: CompositionProfile                available in namespace\
+  [+] Class: ElementProfile                    available in namespace\
+  [+] Class: BoundaryCondition                 available in namespace\
+  [+] Class: Unit                              available in namespace\
+  [X] Class: PhaseComposition                  NOT imported\
+  [+] Class: AutomaticSolver                   available in namespace\
+  [+] Class: ClassicSolver                     available in namespace\
+  [+] Class: HomogenizationSolver              available in namespace\
+  [+] Class: SimulationTime                    available in namespace\
+\
+  --- Exploring: TCOX14 + MOBFE8 (Cu-Fe-Mn) ---\
+00:58:12,465 [Thread-1] INFO  SystemBuilder: Found matching previous system\
+  Could not enumerate phases (API differs)\
+  [!] TCOX14 + MOBFE8 (Cu-Fe-Mn) phases        phase enumeration not available\
+  Diffusion calc methods (20):\
+    .add_console_command()\
+    .add_region()\
+    .calculate()\
+    .get_configuration_as_string()\
+    .get_system_data()\
+    .invalidate()\
+    .remove_all_console_commands()\
+    .remove_all_regions()\
+    .set_simulation_time()\
+    .set_temperature()\
+    .with_cylindrical_geometry()\
+    .with_left_boundary_condition()\
+    .with_options()\
+    .with_planar_geometry()\
+    .with_reference_state()\
+    .with_right_boundary_condition()\
+    .with_solver()\
+    .with_spherical_geometry()\
+    .with_system_modifications()\
+    .with_timestep_control()\
+  [i] TCOX14 + MOBFE8 (Cu-Fe-Mn) diff methods  add_console_command, add_region, calculate, get_configuratio\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-Mn) geometry: planar available\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-Mn) geometry: cylindrical available\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-Mn) geometry: spherical available\
+  [+] Class: Region                            available in namespace\
+  [+] Class: CalculatedGrid                    available in namespace\
+  [+] Class: CompositionProfile                available in namespace\
+  [+] Class: ElementProfile                    available in namespace\
+  [+] Class: BoundaryCondition                 available in namespace\
+  [+] Class: Unit                              available in namespace\
+  [X] Class: PhaseComposition                  NOT imported\
+  [+] Class: AutomaticSolver                   available in namespace\
+  [+] Class: ClassicSolver                     available in namespace\
+  [+] Class: HomogenizationSolver              available in namespace\
+  [+] Class: SimulationTime                    available in namespace\
+\
+  --- Exploring: TCOX14 + MOBFE8 (Cu-Fe-Al) ---\
+00:58:12,826 [Thread-1] INFO  SystemBuilder: Found matching previous system\
+  Could not enumerate phases (API differs)\
+  [!] TCOX14 + MOBFE8 (Cu-Fe-Al) phases        phase enumeration not available\
+  Diffusion calc methods (20):\
+    .add_console_command()\
+    .add_region()\
+    .calculate()\
+    .get_configuration_as_string()\
+    .get_system_data()\
+    .invalidate()\
+    .remove_all_console_commands()\
+    .remove_all_regions()\
+    .set_simulation_time()\
+    .set_temperature()\
+    .with_cylindrical_geometry()\
+    .with_left_boundary_condition()\
+    .with_options()\
+    .with_planar_geometry()\
+    .with_reference_state()\
+    .with_right_boundary_condition()\
+    .with_solver()\
+    .with_spherical_geometry()\
+    .with_system_modifications()\
+    .with_timestep_control()\
+  [i] TCOX14 + MOBFE8 (Cu-Fe-Al) diff methods  add_console_command, add_region, calculate, get_configuratio\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-Al) geometry: planar available\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-Al) geometry: cylindrical available\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-Al) geometry: spherical available\
+  [+] Class: Region                            available in namespace\
+  [+] Class: CalculatedGrid                    available in namespace\
+  [+] Class: CompositionProfile                available in namespace\
+  [+] Class: ElementProfile                    available in namespace\
+  [+] Class: BoundaryCondition                 available in namespace\
+  [+] Class: Unit                              available in namespace\
+  [X] Class: PhaseComposition                  NOT imported\
+  [+] Class: AutomaticSolver                   available in namespace\
+  [+] Class: ClassicSolver                     available in namespace\
+  [+] Class: HomogenizationSolver              available in namespace\
+  [+] Class: SimulationTime                    available in namespace\
+\
+  --- Exploring: TCOX14 + MOBFE8 (Cu-Fe-Mn-O) ---\
+00:58:13,250 [Thread-1] INFO  SystemBuilder: Found matching previous system\
+  Could not enumerate phases (API differs)\
+  [!] TCOX14 + MOBFE8 (Cu-Fe-Mn-O) phases      phase enumeration not available\
+  Diffusion calc methods (20):\
+    .add_console_command()\
+    .add_region()\
+    .calculate()\
+    .get_configuration_as_string()\
+    .get_system_data()\
+    .invalidate()\
+    .remove_all_console_commands()\
+    .remove_all_regions()\
+    .set_simulation_time()\
+    .set_temperature()\
+    .with_cylindrical_geometry()\
+    .with_left_boundary_condition()\
+    .with_options()\
+    .with_planar_geometry()\
+    .with_reference_state()\
+    .with_right_boundary_condition()\
+    .with_solver()\
+    .with_spherical_geometry()\
+    .with_system_modifications()\
+    .with_timestep_control()\
+  [i] TCOX14 + MOBFE8 (Cu-Fe-Mn-O) diff methods add_console_command, add_region, calculate, get_configuratio\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-Mn-O) geometry: planar available\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-Mn-O) geometry: cylindrical available\
+  [+] TCOX14 + MOBFE8 (Cu-Fe-Mn-O) geometry: spherical available\
+  [+] Class: Region                            available in namespace\
+  [+] Class: CalculatedGrid                    available in namespace\
+  [+] Class: CompositionProfile                available in namespace\
+  [+] Class: ElementProfile                    available in namespace\
+  [+] Class: BoundaryCondition                 available in namespace\
+  [+] Class: Unit                              available in namespace\
+  [X] Class: PhaseComposition                  NOT imported\
+  [+] Class: AutomaticSolver                   available in namespace\
+  [+] Class: ClassicSolver                     available in namespace\
+  [+] Class: HomogenizationSolver              available in namespace\
+  [+] Class: SimulationTime                    available in namespace\
+\
+===========================================================================\
+PHASE 3: Single-Region Diffusion Calculation\
+  Cu diffusion in FCC austenite (simplest possible test)\
+===========================================================================\
+\
+  No working pair with FCC phase found. Skipping Phase 3.\
+  [-] Single-region setup                      no FCC pair\
+\
+===========================================================================\
+PHASE 4: Cu Diffusion Coefficients vs Temperature\
+  Extracting D_Cu at multiple temperatures\
+===========================================================================\
+\
+  Skipped (no working steel pair).\
+  [-] D_Cu extraction                          no pair\
+\
+===========================================================================\
+PHASE 5: Two-Region Interface (Steel | Slag)\
+  Can we model Cu transport across steel/slag boundary?\
+===========================================================================\
+\
+Traceback (most recent call last):\
+  File "U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython\\test_dictra_diffusion.py", line 743, in <module>\
+    elif not calc_succeeded:\
+NameError: name 'calc_succeeded' is not defined\
+\
+U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython>}

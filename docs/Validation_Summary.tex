@@ -495,7 +495,7 @@ CuAl$_2$O$_4$ & Navrotsky \& Kleppa (1968), \textit{J.\ Inorg.\ Nucl.\ Chem.}\ 3
 CuMn$_2$O$_4$ & Sahu \& Navrotsky (2017) & Mn$_3$O$_4$--CuMn$_2$O$_4$ shows \textbf{ideal mixing} (zero $\Delta H_{\text{mix}}$). Formation enthalpies from oxides and elements determined. \\
 \hline
 \rowcolor{altrow}
-Cu$_3$V$_2$O$_8$ & Bureau of Mines IC 8225 & V$_2$O$_5$ was the most effective oxide tested for Cu removal (40--60\%), consistent with our large negative $\Delta G = -109$~kJ. \\
+Cu$_3$V$_2$O$_8$ & Bureau of Mines (via 911Metallurgist summary) & V$_2$O$_5$ was more effective than Al$_2$O$_3$ and MnO$_2$ in oxide injection tests, but results remained far below viable levels. Consistent with our large negative $\Delta G = -109$~kJ at pure-component conditions. \\
 \hline
 \end{tabular}
 \end{table}
@@ -588,7 +588,7 @@ The pure-component $\Delta G$ values overstate the driving force because Cu is d
 
     \item \textbf{MnO is marginally favorable} ($\Delta G_{\text{eff}} = -9.5$~kJ, $\sim$0.6 $kT$ at \SI{1800}{\kelvin}). It remains a candidate because of basicity-tunability and compatibility with slag chemistry, but kinetic barriers may prevent the reaction from proceeding at this weak driving force.
 
-    \item \textbf{V$_2$O$_5$ fails under real conditions} despite appearing second-best in pure-component analysis. Its 3-Cu stoichiometry (Cu$_3$V$_2$O$_8$) incurs a $3\times$ activity penalty. The Bureau of Mines experiments used much higher Cu concentrations than 0.3\%, which would reduce this penalty.
+    \item \textbf{V$_2$O$_5$ fails under real conditions} despite appearing second-best in pure-component analysis. Its 3-Cu stoichiometry (Cu$_3$V$_2$O$_8$) incurs a $3\times$ activity penalty. Bureau of Mines oxide injection tests found V$_2$O$_5$ relatively more effective than other oxides but still far below viable levels, consistent with the thermodynamic penalty at dilute Cu.
 
     \item \textbf{No solid ternary phase survives at \SI{1800}{\kelvin}.} Cu capture at steelmaking temperatures is a slag dissolution process.
 
@@ -637,7 +637,7 @@ These limitations should be stated explicitly in the final report and Zhang pres
 
     \item \textbf{TCFE+TCOX databases are incompatible.} Script~2 (Cu activity) could not model Cu partitioning between metallic steel and oxide slag because TCOX14 lacks FCC\_A1 (austenite). VM testing confirmed that loading TCFE13+TCOX14 together fails due to incompatible phase definitions: the CORUNDUM phase has different sublattice models in the two databases (\texttt{INCOMPATIBLE PHASE DESCRIPTION}). All three TCFE versions (13, 12, 11) exhibit this conflict. Modeling the full steel-slag system would require Thermo-Calc to release a unified database or a custom TDB file merging both descriptions.
 
-    \item \textbf{Limited experimental anchors.} Published Cu-removal data includes Bureau of Mines V$_2$O$_5$ work (1960s, 40--60\% removal), ZnAl$_2$O$_4$ spinel injection (70\% removal), and FeO-SiO$_2$-CaCl$_2$ flux (41\% removal). Calorimetric data exists for CuFe$_2$O$_4$, CuAl$_2$O$_4$, and CuMn$_2$O$_4$ (Navrotsky \& Kleppa 1968; Sahu \& Navrotsky 2017), but most measurements are below 1400~K --- high-temperature validation remains sparse.
+    \item \textbf{Limited experimental anchors.} Published Cu-removal data includes Bureau of Mines V$_2$O$_5$ injection tests (relatively more effective than Al$_2$O$_3$/MnO$_2$ but far below viable), ZnAl$_2$O$_4$ spinel injection ($\sim$70\% by powder blowing; $\sim$33\% by filter), and FeO-SiO$_2$-CaCl$_2$ flux ($\sim$40\% removal). Calorimetric data exists for CuFe$_2$O$_4$, CuAl$_2$O$_4$, and CuMn$_2$O$_4$ (Navrotsky \& Kleppa 1968; Sahu \& Navrotsky 2017), but most measurements are below 1400~K --- high-temperature validation remains sparse.
 \end{enumerate}
 
 \subsection{Paths to Stronger Predictions}

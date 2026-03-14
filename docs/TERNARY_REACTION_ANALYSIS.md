@@ -294,7 +294,7 @@ from neighboring temperatures if needed.
 | Oxide | Best Product | dG (kJ) | Spinel Stable To | Practical Notes |
 |-------|-------------|---------|------------------|-----------------|
 | MnO   | CuMn2O4    | -64.4   | 1427C            | Best "clean" candidate. Cheap, non-toxic, common in steelmaking. Mn2+->Mn3+ contributes some energy but less than Fe case. |
-| V2O5  | Cu3V2O8    | -109.2  | (liquid)         | Literature backing (Bureau of Mines: 40-60% removal). HIGH toxicity (Carc. 1B). -36 kJ per Cu atom. |
+| V2O5  | Cu3V2O8    | -109.2  | (liquid)         | Bureau of Mines tested; more effective than Al2O3/MnO2 but results far below viable. HIGH toxicity (Carc. 1B). -36 kJ per Cu atom. |
 | SiO2  | Cu2SiO4    | -52.2   | (liquid)         | No named phase but strong dG. SiO2 already in slag. -26 kJ per Cu atom. |
 
 ### Tier 2: Good Candidates with Caveats
@@ -310,7 +310,7 @@ from neighboring temperatures if needed.
 Test 3 oxides experimentally:
 1. **Al2O3** — positive control (known to capture some Cu via CuAl2O4 spinel)
 2. **MnO** — strongest "clean" candidate (no Fe oxidation confound, cheap, non-toxic)
-3. **V2O5** — strongest literature backing (Bureau of Mines 40-60% removal), if toxicity manageable
+3. **V2O5** — Bureau of Mines tested (more effective than Al2O3/MnO2 in injection tests, but results far below viable); worth revisiting at higher Cu levels if toxicity manageable
 
 Optional 4th: **SiO2** — already in steelmaking slag, strong dG, cheap, safe
 

@@ -558,9 +558,9 @@ def build_activity_correction(wb):
 
     note_row2 = note_row + 1
     ws.cell(row=note_row2, column=1,
-            value="Bureau of Mines (1960s) used ~1 wt% Cu (a_Cu \u2248 0.13), "
-                  "where both V\u2082O\u2085 products are favorable. Their "
-                  "40-60% removal is consistent with our model."
+            value="Bureau of Mines tested V\u2082O\u2085 injection; more effective than "
+                  "Al\u2082O\u2083/MnO\u2082 but results far below viable levels "
+                  "(slag Cu needs 20-80\u00d7 increase for feasibility)."
             ).font = note_font
     ws.merge_cells(f"A{note_row2}:H{note_row2}")
 

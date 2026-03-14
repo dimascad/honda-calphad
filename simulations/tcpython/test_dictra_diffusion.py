@@ -158,8 +158,11 @@ with TCPython() as session:
                                 type(system).__name__, len(sys_methods)))
 
                     # Try to get phases (multiple possible API names)
+                    # get_phases_in_system() confirmed as correct method
+                    # via Phase 1 API probe (method #9 on kinetic System)
                     phases = []
-                    for phase_method in ["get_phase_names",
+                    for phase_method in ["get_phases_in_system",
+                                         "get_phase_names",
                                          "get_phases",
                                          "get_phase_list"]:
                         fn = getattr(system, phase_method, None)
@@ -267,7 +270,8 @@ with TCPython() as session:
 
                 # List ALL phases (try multiple API methods)
                 all_phases = []
-                for phase_method in ["get_phase_names", "get_phases",
+                for phase_method in ["get_phases_in_system",
+                                     "get_phase_names", "get_phases",
                                      "get_phase_list"]:
                     fn = getattr(system, phase_method, None)
                     if fn is not None and callable(fn):
@@ -341,6 +345,9 @@ with TCPython() as session:
         print("=" * 75)
         print()
 
+        # Initialize — used by Phase 5 to decide whether to attempt
+        calc_succeeded = False
+
         # Find best pair for steel diffusion (TCFE + MOBFE)
         steel_pair = None
         for tdb, mob, elems, label, phases in working_pairs:
@@ -356,9 +363,25 @@ with TCPython() as session:
                     steel_pair = (tdb, mob, elems, label, phases)
                     break
 
+        # Second fallback: if phases lists are all empty (enumeration failed),
+        # pick any TCFE+MOBFE Cu-Fe pair anyway (FCC_A1 exists, just not
+        # queryable via the old API methods)
         if steel_pair is None:
-            print("  No working pair with FCC phase found. Skipping Phase 3.")
-            log("P3", "Single-region setup", "SKIP", "no FCC pair")
+            for tdb, mob, elems, label, phases in working_pairs:
+                if "TCFE" in tdb and "MOBFE" in mob and label == "Cu-Fe":
+                    steel_pair = (tdb, mob, elems, label, phases)
+                    print("  (Using %s+%s despite empty phases list)" % (tdb, mob))
+                    break
+
+        # Third fallback: any working pair at all
+        if steel_pair is None and working_pairs:
+            steel_pair = working_pairs[0]
+            tdb, mob, elems, label, phases = steel_pair
+            print("  (Using first available pair: %s+%s [%s])" % (tdb, mob, label))
+
+        if steel_pair is None:
+            print("  No working pair found at all. Skipping Phase 3.")
+            log("P3", "Single-region setup", "SKIP", "no working pair")
         else:
             tdb, mob, elems, elem_label, phases = steel_pair
             pair_name = "%s + %s (%s)" % (tdb, mob, elem_label)
@@ -375,7 +398,8 @@ with TCPython() as session:
             # just assume standard TC naming conventions
             if not phases:
                 # Re-probe using the fresh system object
-                for phase_method in ["get_phase_names", "get_phases"]:
+                for phase_method in ["get_phases_in_system",
+                                     "get_phase_names", "get_phases"]:
                     fn = getattr(system, phase_method, None)
                     if fn and callable(fn):
                         try:
@@ -384,18 +408,30 @@ with TCPython() as session:
                         except Exception:
                             pass
 
-            fcc_phase = "FCC_A1"  # default assumption
+            # At 1800K steel is liquid, not FCC. Try FCC first (for 1200K
+            # tests), but also accept LIQUID as a fallback (for 1800K tests).
+            diff_phase = "FCC_A1"  # default assumption
+            diff_temp = 1200       # use 1200K for FCC (austenite range)
+            use_liquid = False
             if phases:
+                # Look for FCC first
                 for p in phases:
                     if "FCC" in p and "A1" in p:
-                        fcc_phase = p
+                        diff_phase = p
                         break
-                if fcc_phase == "FCC_A1" and phases:
+                else:
                     fcc_candidates = [p for p in phases if "FCC" in p]
                     if fcc_candidates:
-                        fcc_phase = fcc_candidates[0]
-            print("  FCC phase: %s (from %s)" % (
-                fcc_phase,
+                        diff_phase = fcc_candidates[0]
+                    else:
+                        # No FCC found — try LIQUID for 1800K
+                        liq_candidates = [p for p in phases if "LIQUID" in p]
+                        if liq_candidates:
+                            diff_phase = liq_candidates[0]
+                            diff_temp = 1800
+                            use_liquid = True
+            print("  Diffusion phase: %s @ %dK (from %s)" % (
+                diff_phase, diff_temp,
                 "enumeration" if phases else "assumed standard name"))
 
             # --- Try MULTIPLE API patterns for region setup ---
@@ -411,10 +447,10 @@ with TCPython() as session:
             print("  === Pattern A: CompositionProfile + ElementProfile ===")
             try:
                 diff_a = system.with_isothermal_diffusion_calculation()
-                diff_a.set_temperature(1800)
+                diff_a.set_temperature(diff_temp)
                 diff_a.set_simulation_time(3600)  # 1 hour
 
-                region_a = (Region("steel_fcc")
+                region_a = (Region("steel_region")
                             .set_width(1e-3)  # 1 mm
                             .with_grid(CalculatedGrid.linear()
                                        .set_no_of_points(50))
@@ -434,11 +470,12 @@ with TCPython() as session:
                 log("P3", "Pattern A boundaries", "OK", "closed both sides")
 
                 # Calculate
-                print("  Running simulation (1800K, 3600s)...")
+                print("  Running simulation (%dK, 3600s, %s)..." % (
+                    diff_temp, diff_phase))
                 result_a = diff_a.calculate()
                 print("  *** PATTERN A CALCULATION SUCCEEDED ***")
                 log("P3", "Pattern A calc", "SUCCESS",
-                    "1800K, 3600s, Cu in FCC")
+                    "%dK, 3600s, Cu in %s" % (diff_temp, diff_phase))
                 calc_succeeded = True
 
                 # Extract results
@@ -488,17 +525,17 @@ with TCPython() as session:
                 # Phase fraction profile
                 try:
                     dist_p, frac_p = result_a.get_mass_fraction_of_phase_at_time(
-                        fcc_phase, SimulationTime.LAST)
+                        diff_phase, SimulationTime.LAST)
                     print("  %s fraction: %.4f - %.4f" % (
-                        fcc_phase, min(frac_p), max(frac_p)))
-                    log("P3", "%s fraction" % fcc_phase, "OK",
+                        diff_phase, min(frac_p), max(frac_p)))
+                    log("P3", "%s fraction" % diff_phase, "OK",
                         "%.4f - %.4f" % (min(frac_p), max(frac_p)))
                 except Exception as e:
-                    log("P3", "%s fraction" % fcc_phase, "FAIL", str(e)[:80])
+                    log("P3", "%s fraction" % diff_phase, "FAIL", str(e)[:80])
 
                 # Region width over time
                 try:
-                    t_w, w = result_a.get_width_of_region("steel_fcc")
+                    t_w, w = result_a.get_width_of_region("steel_region")
                     print("  Region width: %.6e to %.6e m" % (
                         w[0], w[-1]))
                     log("P3", "Region width", "OK",
@@ -518,15 +555,15 @@ with TCPython() as session:
                 print("  === Pattern B: PhaseComposition API ===")
                 try:
                     diff_b = system.with_isothermal_diffusion_calculation()
-                    diff_b.set_temperature(1800)
+                    diff_b.set_temperature(diff_temp)
                     diff_b.set_simulation_time(3600)
 
-                    region_b = (Region("steel_fcc")
+                    region_b = (Region("steel_region")
                                 .set_width(1e-3)
                                 .with_grid(CalculatedGrid.linear()
                                            .set_no_of_points(50))
                                 .add_phase_composition(
-                                    PhaseComposition(fcc_phase)
+                                    PhaseComposition(diff_phase)
                                     .set_composition("CU", 0.003)))
 
                     diff_b.add_region(region_b)
@@ -564,7 +601,7 @@ with TCPython() as session:
                 print("  === Pattern C: Minimal region (phase only) ===")
                 try:
                     diff_c = system.with_isothermal_diffusion_calculation()
-                    diff_c.set_temperature(1800)
+                    diff_c.set_temperature(diff_temp)
                     diff_c.set_simulation_time(60)
 
                     # Just region + grid, no explicit composition
@@ -758,7 +795,8 @@ with TCPython() as session:
             # Identify metallic and oxide phases
             # Re-probe phases if empty
             if not phases:
-                for phase_method in ["get_phase_names", "get_phases"]:
+                for phase_method in ["get_phases_in_system",
+                                     "get_phase_names", "get_phases"]:
                     fn = getattr(system, phase_method, None)
                     if fn and callable(fn):
                         try:

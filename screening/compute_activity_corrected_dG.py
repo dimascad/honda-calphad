@@ -438,7 +438,7 @@ def main():
                     product, r["n_Cu"], r["dG_pure_kJ"],
                     r["Cu_correction_kJ"], r["dG_corrected_pO2_1atm_kJ"]))
     print("  Under dilute Cu, CuV2O6 (1 Cu) is preferred over Cu3V2O8 (3 Cu)")
-    print("  At Bureau of Mines conditions (~1 wt%% Cu, a_Cu~0.13):")
+    print("  At hypothetical higher-Cu conditions (~1 wt%% Cu, a_Cu~0.13):")
     for product in ["Cu3V2O8", "CuV2O6"]:
         if product in dG_pure_1800:
             n_cu = CU_ATOMS[product]

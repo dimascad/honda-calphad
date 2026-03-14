@@ -148,3 +148,83 @@ Other compounds: TiO2  -> CuTiO3
 Hypothetical:    MgO   -> CuMgO2
                  CaO   -> CuCaO2
                  ZrO2  -> CuZrO3
+
+
+==========================================================================
+PHASE 3: DICTRA CAPABILITY RE-RUN (Added Mar 14, 2026)
+==========================================================================
+
+First run (~1 hr) succeeded on Phases 1-2 (database inventory + API discovery)
+but Phases 3-6 failed due to script bugs. All bugs are now fixed.
+
+WHAT CHANGED IN THE SCRIPT
+===========================
+
+1. Phase enumeration now tries get_phases_in_system() FIRST
+   (the correct method, discovered by the Phase 1 API probe)
+2. Phase 3 no longer skips when phases list is empty — falls back
+   to any TCFE+MOBFE Cu-Fe pair
+3. calc_succeeded initialized before Phase 3 (fixes NameError at Phase 5)
+4. LIQUID phase accepted at 1800K (steel is molten, not FCC)
+5. Region name mismatch fixed (steel_fcc -> steel_region)
+
+GET UPDATED SCRIPT ONTO VM
+============================
+
+You MUST replace the old test_dictra_diffusion.py with the fixed version.
+
+Option A: Re-download ZIP from GitHub (if pushed)
+   git push from Mac first
+   On VM: github.com/dimascad/honda-calphad -> Code -> Download ZIP
+   Extract and navigate to simulations\tcpython\
+
+Option B: Copy the single file via Citrix folder download
+   DO NOT use Citrix clipboard paste (corrupts files — known issue)
+   Instead: open Mac folder in Finder, drag file to VM desktop
+
+RUN DICTRA TEST
+===============
+
+"C:\Program Files\Thermo-Calc\2025b\python\python.exe" test_dictra_diffusion.py
+
+Timing: ~30-60 minutes (Phase 1-2 take ~10 min, Phases 3-6 depend on
+whether diffusion calculations actually run)
+
+WHAT TO WATCH FOR
+=================
+
+Phase 1: Should show "OK" for ~40 pairs (same as first run)
+Phase 2: Should show get_phases_in_system() returning actual phase lists
+Phase 3: THIS IS THE KEY — should now find a TCFE+MOBFE Cu-Fe pair
+         and attempt Pattern A (CompositionProfile + ElementProfile)
+         Watch for "PATTERN A CALCULATION SUCCEEDED" or error messages
+Phase 4: Only runs if Phase 3 succeeds — D_Cu at 8 temperatures
+Phase 5: Two-region steel|slag interface — the big question
+Phase 6: Boundary conditions — activity-based is most relevant for us
+
+SAVE THE TERMINAL OUTPUT
+=========================
+
+IMPORTANT: Select All (Ctrl+A) -> Copy (Ctrl+C) in the CMD window
+BEFORE closing it. Paste into a new .rtf file.
+
+Save as: U:\4381\DICTRA_rerun_mar14.rtf
+Copy back to Mac at:
+   honda-calphad/data/tcpython/logs/2026-03-14_dictra_rerun.rtf
+
+OUTPUT FILES
+============
+
+CSV (if calculations succeed):
+   ..\..\data\tcpython\raw\dictra_capability_test.csv
+
+Copy to Mac at:
+   honda-calphad/data/tcpython/raw/dictra_capability_test.csv
+
+IF IT STILL FAILS
+==================
+
+1. Copy the FULL terminal output — every error message matters
+2. Note which Phase failed and which Pattern (A, B, or C)
+3. The error message will tell us what the API actually expects
+4. We will fix and re-run (the script is designed to be iterative)

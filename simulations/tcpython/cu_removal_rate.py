@@ -143,16 +143,21 @@ try:
 except Exception:
     phases = []
 
-diff_phase = "LIQUID"
+# At 1800K, steel is LIQUID — must use LIQUID phase for diffusion.
+# FCC_A1 is only valid below the solidus (~1723K for Fe-Cu).
+diff_phase = None
 for p in phases:
     if "LIQUID" in p.upper():
         diff_phase = p
         break
-if diff_phase == "LIQUID" and phases:
+if diff_phase is None:
+    # Fallback to FCC if LIQUID not available (e.g., lower temperature)
     for p in phases:
         if "FCC" in p.upper() and "A1" in p.upper():
             diff_phase = p
             break
+if diff_phase is None:
+    diff_phase = "LIQUID"  # last resort default
 
 print("  Diffusion phase: %s" % diff_phase)
 print()

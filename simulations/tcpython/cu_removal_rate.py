@@ -3,9 +3,9 @@
 Cu Removal Rate Prediction via DICTRA Spherical Particle Model.
 
 Models a spherical oxide particle immersed in liquid steel at 1800K.
-The particle surface imposes a low Cu activity (a_Cu ~ 0.001, from
-TCOX14 oxide equilibrium), creating a chemical potential sink that
-draws Cu out of the surrounding steel.
+The particle surface imposes a low Cu concentration (0.01 wt%, from
+TCOX14 oxide equilibrium where a_Cu ~ 0.0006), creating a concentration
+gradient that draws Cu out of the surrounding steel.
 
 Sweeps:
   - Particle radii: 25, 50, 100, 250, 500 um
@@ -50,10 +50,18 @@ T_K = 1800
 # Initial Cu in steel (wt%)
 CU_INIT_WT = 0.30  # 0.3% Cu — typical contaminated scrap
 
-# Activity of Cu at particle surface — from TCOX14 equilibrium
-# a_Cu ~ 0.0006 in Cu-Fe-O at 1800K (Script 2 result)
-# Using 0.001 (conservative) to avoid numerical issues
-A_CU_SURFACE = 0.001
+# Cu concentration at particle surface (wt%)
+# The oxide maintains near-zero Cu at the steel/oxide interface.
+# From TCOX14: a_Cu ~ 0.0006 at equilibrium in Cu-Fe-O at 1800K.
+# With gamma_Cu ~ 8.5, this corresponds to X_Cu ~ 7e-5, or ~0.008 wt%.
+# Using 0.01 wt% as a round conservative value.
+#
+# NOTE: Cannot use activity BC (mixed_zero_flux_and_activity) because
+# the Fe-Cu liquid miscibility gap creates two solutions for a given
+# a_Cu — DICTRA picks the Cu-rich root (~100% Cu) instead of the
+# Fe-rich root (~0.01% Cu), driving Cu TO the surface instead of away.
+# Fixed composition BC avoids this ambiguity entirely.
+CU_SURFACE_WT = 0.01
 
 # Particle radii to sweep (meters)
 RADII_UM = [25, 50, 100, 250, 500]
@@ -91,7 +99,7 @@ print()
 print("Parameters:")
 print("  Temperature:    %d K (%.0f C)" % (T_K, T_K - 273.15))
 print("  Initial Cu:     %.2f wt%%" % CU_INIT_WT)
-print("  a_Cu at surface: %.4f" % A_CU_SURFACE)
+print("  Cu at surface:   %.3f wt%% (fixed composition BC)" % CU_SURFACE_WT)
 print("  Particle radii: %s um" % RADII_UM)
 print("  Contact times:  %s s" % TIMES_S)
 print("  Steel shell:    %.1f mm" % (SHELL_WIDTH_M * 1e3))
@@ -215,18 +223,20 @@ for ri, (r_um, r_m) in enumerate(zip(RADII_UM, RADII_M)):
             calc.add_region(region)
             calc.with_spherical_geometry()
 
-            # Left BC: particle surface — low a_Cu (oxide captures Cu)
+            # Left BC: particle surface — oxide maintains low Cu
+            # Using fixed composition instead of activity BC to avoid
+            # the Fe-Cu miscibility gap dual-root problem.
             left_bc = (BoundaryCondition
-                       .mixed_zero_flux_and_activity()
-                       .set_activity_for_element("CU", A_CU_SURFACE))
+                       .fixed_compositions(Unit.MASS_PERCENT)
+                       .set_composition("CU", CU_SURFACE_WT))
             calc.with_left_boundary_condition(left_bc)
 
             # Right BC: closed (far-field, no Cu flux out of the system)
             calc.with_right_boundary_condition(
                 BoundaryCondition.closed_system())
 
-            print("    Running DICTRA (a_Cu=%.4f at surface)..." %
-                  A_CU_SURFACE)
+            print("    Running DICTRA (Cu=%.3f wt%% at surface)..." %
+                  CU_SURFACE_WT)
             result = calc.calculate()
 
             # Extract final Cu profile

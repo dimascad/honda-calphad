@@ -564,26 +564,62 @@ The flat value of $a_{\text{Cu}} \approx 6 \times 10^{-4}$ \textit{is} physicall
 \section{Ternary Phase Maps at \SI{1800}{\kelvin}}
 \label{sec:phase_maps}
 
-Script~5 (\texttt{ternary\_phase\_map\_1800K.py}) mapped phase stability across 20$\times$20 composition grids in three Cu-M-O systems at \SI{1800}{\kelvin}. These maps reveal which phases dominate at steelmaking temperature and confirm that most of the composition space is molten.
+Script~5 (\texttt{ternary\_phase\_map\_1800K.py}) mapped phase stability across 20$\times$20 composition grids in Cu-M-O systems at \SI{1800}{\kelvin}. Each map sweeps $X_{\text{Cu}} \in [0.01, 0.50]$ and $X_{\text{O}} \in [0.01, 0.70]$, with the metal fraction as the remainder ($X_M = 1 - X_{\text{Cu}} - X_{\text{O}}$, skipped if $< 0.01$). This creates the white regions at the Cu-rich and O-rich corners of each triangle --- those are grid boundary artifacts, not physical results. The O-rich corner in particular would be O$_2$ gas at \SI{1800}{\kelvin}, and the Cu-rich corner is nearly pure liquid copper, neither of which is relevant to our problem.
+
+These maps answer a practical question for experiment design: \textbf{does the oxide melt into a liquid slag at steelmaking temperature, or does it stay solid?} Liquid slag means Cu capture via bulk dissolution (good metal/slag contact, fast mixing). Solid particles mean Cu capture is limited to the particle surface (slower, diffusion-limited). The distinction directly affects which kinetic model applies.
+
+\begin{table}[H]
+\caption{Dominant Phase Behavior in Cu-M-O Systems at \SI{1800}{\kelvin}}
+\label{tab:phase_map_summary}
+\centering
+\renewcommand{\arraystretch}{1.15}
+\footnotesize
+\begin{tabular}{|l|l|r|l|l|}
+\hline
+\rowcolor{headercolor}
+\textcolor{white}{\textbf{System}} & \textcolor{white}{\textbf{Dominant Phase}} & \textcolor{white}{\textbf{\% Grid}} & \textcolor{white}{\textbf{State}} & \textcolor{white}{\textbf{$T_m$ of Oxide}} \\
+\hline
+Cu-Fe-O & IONIC\_LIQ & 70\% & Fully liquid & 1565\,$^\circ$C \\
+\hline
+\rowcolor{altrow}
+Cu-Al-O & CORUNDUM (Al$_2$O$_3$) & 86\% & Mostly solid & 2072\,$^\circ$C \\
+\hline
+Cu-Mn-O & HALITE (MnO) & 63\% & Mostly solid & 1945\,$^\circ$C \\
+\hline
+\rowcolor{altrow}
+Cu-V-O & \multicolumn{4}{c|}{\textit{Pending --- $T_m$(V$_2$O$_5$) = 690\,$^\circ$C, expect fully liquid}} \\
+\hline
+Cu-Si-O & \multicolumn{4}{c|}{\textit{Pending --- $T_m$(SiO$_2$) = 1713\,$^\circ$C, near boundary}} \\
+\hline
+\end{tabular}
+\end{table}
+
+Fe$_2$O$_3$ melts well below \SI{1800}{\kelvin} ($T_m = 1565$\,$^\circ$C), so the Cu-Fe-O system is fully liquid --- IONIC\_LIQ covers 70\% of the composition grid, with GAS (O$_2$-rich) covering the high-oxygen region and a second ionic liquid (IONIC\_LIQ\#2) appearing at intermediate compositions. This is the best-case scenario for Cu capture: a liquid slag that mixes directly with molten steel.
+
+Al$_2$O$_3$ ($T_m = 2072$\,$^\circ$C) stays solid as CORUNDUM across 86\% of the grid. At steelmaking temperature, Al$_2$O$_3$ particles remain intact. Cu capture happens at the solid/liquid interface --- a surface reaction, not bulk dissolution. This may explain why Year~2's Al$_2$O$_3$ experiments showed limited Cu removal: the mechanism is fundamentally different from what our DICTRA model assumes (liquid-phase diffusion to a Cu-depleted surface). The solid surface limits the available reaction area.
+
+MnO ($T_m = 1945$\,$^\circ$C) also stays solid as HALITE (rock-salt structure) across 63\% of the grid. Similar to Al$_2$O$_3$: particles remain solid, Cu capture is a surface reaction. However, HALITE covers less of the grid than CORUNDUM, and more ionic liquid appears --- MnO is closer to its melting point and has some partial dissolution.
+
+Cu-V-O and Cu-Si-O phase maps have not yet been computed. V$_2$O$_5$ ($T_m = 690$\,$^\circ$C) should be fully liquid at \SI{1800}{\kelvin}, similar to Fe$_2$O$_3$. SiO$_2$ ($T_m = 1713$\,$^\circ$C) is the most interesting case: only 87\,K below \SI{1800}{\kelvin}, it should be liquid but may show solid CRISTOBALITE or TRIDYMITE regions in oxide-rich compositions. The phase map will clarify this.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{phase_map_cu_fe_o_1800K.png}
-    \caption{Phase map for Cu-Fe-O at \SI{1800}{\kelvin}. IONIC\_LIQ dominates ($\sim$70\% of points), confirming the system is fully liquid at steelmaking temperature. Script: \texttt{screening/plot\_ternary\_phase.py}.}
+    \caption{Phase map for Cu-Fe-O at \SI{1800}{\kelvin}. IONIC\_LIQ dominates ($\sim$70\% of points), confirming the system is fully liquid at steelmaking temperature. The white corners are outside the computation grid ($X_{\text{Cu}} \leq 0.50$, $X_M \geq 0.01$). Script: \texttt{screening/plot\_ternary\_phase.py}.}
     \label{fig:phase_map_fe}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{phase_map_cu_al_o_1800K.png}
-    \caption{Phase map for Cu-Al-O at \SI{1800}{\kelvin}. Large CORUNDUM (Al$_2$O$_3$) region persists ($\sim$86\% of points), reflecting Al$_2$O$_3$'s high melting point (\SI{2072}{\celsius}). Cu-rich corner is ionic liquid.}
+    \caption{Phase map for Cu-Al-O at \SI{1800}{\kelvin}. CORUNDUM (Al$_2$O$_3$) persists across $\sim$86\% of the grid, reflecting its high melting point (\SI{2072}{\celsius}). Cu capture with Al$_2$O$_3$ occurs at a solid/liquid interface, not via bulk slag dissolution.}
     \label{fig:phase_map_al}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{phase_map_cu_mn_o_1800K.png}
-    \caption{Phase map for Cu-Mn-O at \SI{1800}{\kelvin}. HALITE (MnO rock-salt) phase dominates ($\sim$63\%), with ionic liquid in the Cu-rich and O-rich corners.}
+    \caption{Phase map for Cu-Mn-O at \SI{1800}{\kelvin}. HALITE (MnO rock-salt) dominates ($\sim$63\%). More ionic liquid appears than in Cu-Al-O, consistent with MnO being closer to its melting point (\SI{1945}{\celsius}).}
     \label{fig:phase_map_mn}
 \end{figure}
 
@@ -940,6 +976,74 @@ A spherical particle model (\texttt{cu\_removal\_rate.py}) simulates the Cu depl
 The original script used an activity boundary condition ($a_{\text{Cu}} = 0.001$) at the particle surface. This caused DICTRA to drive Cu \textit{toward} the surface (100\,wt\% Cu) instead of away from it. Root cause: the Fe-Cu liquid miscibility gap creates two compositions with the same activity. DICTRA picked the Cu-rich root ($\sim$100\% Cu) instead of the Fe-rich root ($\sim$0.01\% Cu). Switching to a fixed composition BC (Cu = 0.01\,wt\%) eliminated the ambiguity. Lesson: use activity BCs only when the activity-composition mapping is monotonic.
 \end{insight}
 
+\subsection{Thermodynamics vs.\ Mass Efficiency}
+\label{sec:thermo_vs_mass}
+
+The oxide selection problem turns out to be more subtle than ``pick the most negative $\Delta G$.'' The reasoning proceeds in steps:
+
+\paragraph{Step 1: Binary screening (Ellingham).} Cu cannot reduce any useful ceramic oxide. All binary $\Delta G_{\text{rxn}}$ values are positive. Dead end for the direct ``Cu steals oxygen'' mechanism.
+
+\paragraph{Step 2: Ternary reactions.} Cu does not reduce the oxide --- it gets \textit{incorporated} into a ternary compound. Cu + Fe$_2$O$_3$ + O$_2 \to$ CuFe$_2$O$_4$. All 16 modeled reactions have negative $\Delta G$. The oxide ``captures'' Cu.
+
+\paragraph{Step 3: Ranking by $\Delta G$.} Fe$_2$O$_3$ wins ($-112$~kJ), then V$_2$O$_5$ ($-109$), MnO ($-64$), SiO$_2$ ($-50$), Al$_2$O$_3$ ($-36$). This tells us \textit{thermodynamic preference} --- which reaction has the strongest driving force.
+
+\paragraph{Step 4: DICTRA kinetics.} Cu diffusion through liquid steel toward an oxide particle is \textbf{identical for all 5 oxides}. Cu does not know what oxide it is heading toward --- it is just diffusing through liquid iron at $D_{\text{Cu}} \approx 10^{-9}$~m$^2$/s. The per-particle Cu capture (in mg) at a given radius and contact time is the same regardless of oxide identity.
+
+\paragraph{Step 5: Mass balance.} If each particle captures the same mg of Cu, total removal depends on:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Particles per gram of oxide} --- lighter, less dense oxides yield more particles. SiO$_2$ ($\rho = 2650$~kg/m$^3$, MW~$= 60$) gives $\sim$5$\times$ more particles per gram than Fe$_2$O$_3$ ($\rho = 5240$, MW~$= 160$).
+    \item \textbf{Stoichiometric Cu capacity per mol} --- V$_2$O$_5$ captures 3~Cu/mol, SiO$_2$ captures 2, Fe$_2$O$_3$ captures 1, MnO only 0.5.
+\end{itemize}
+
+The resulting \textbf{mass efficiency ranking} (Cu removed per gram of oxide) is:
+\[
+\text{SiO}_2 > \text{V}_2\text{O}_5 > \text{Al}_2\text{O}_3 > \text{Fe}_2\text{O}_3 > \text{MnO}
+\]
+This is nearly the \textbf{reverse} of the $\Delta G$ ranking (Fig.~\ref{fig:thermo_kinetics}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{thermo_kinetics_overlay.png}
+    \caption{Thermodynamic driving force ($|\Delta G|$) vs.\ kinetic removal performance at $T = 1823$\,K, $R = 250$\,$\mu$m, dose $= 3$\,g. Each oxide shows 4 connected markers (1--30 min, growing in size). Dashed line: 66.7\% target. Only SiO$_2$ crosses the target at these conditions. Generated by \texttt{thermo\_kinetics\_overlay.py}.}
+    \label{fig:thermo_kinetics}
+\end{figure}
+
+\paragraph{Step 6: The open question.} All 5 reactions are thermodynamically favorable ($\Delta G < 0$). The kinetics are identical. Mass efficiency favors SiO$_2$. So why would we pick Fe$_2$O$_3$ over SiO$_2$?
+
+The answer may lie in the \textbf{equilibrium partition coefficient}, $L_{\text{Cu}}$.
+
+\subsubsection{The Partition Coefficient Hypothesis}
+
+When oxide powder is added to molten steel, Cu distributes between two liquid phases at equilibrium: the \textbf{steel} (liquid Fe with dissolved Cu) and the \textbf{slag} (molten oxide with captured Cu). The partition coefficient is:
+\[
+L_{\text{Cu}} = \frac{(\text{wt\% Cu in slag})}{(\text{wt\% Cu in steel})}
+\]
+
+If $L_{\text{Cu}} = 100$, the slag holds 100$\times$ the Cu concentration of the steel --- it is an effective Cu sink. If $L_{\text{Cu}} \approx 1$, the slag has no thermodynamic preference for Cu.
+
+\textbf{Hypothesis:} A more negative $\Delta G$ produces a higher $L_{\text{Cu}}$. Stronger thermodynamic driving force means equilibrium favors Cu being in the slag rather than in the steel. If Fe$_2$O$_3$ has $L_{\text{Cu}} = 500$ and SiO$_2$ has $L_{\text{Cu}} = 5$, then Fe$_2$O$_3$ slag is a much better Cu sink \textit{per unit of slag}, even though you get less slag per gram of oxide.
+
+\textbf{Alternative:} All 5 oxides may have similarly large $L_{\text{Cu}}$ (all $\Delta G$ values are ``negative enough''), and the differences are negligible. In that case, mass efficiency wins and SiO$_2$ is the better choice.
+
+A TC-Python equilibrium calculation (\texttt{cu\_partition\_equilibrium.py}) will resolve this by computing $L_{\text{Cu}}$ for all 5 oxides at realistic steel + oxide compositions. Results pending.
+
+\subsubsection{The Al$_2$O$_3$ Precedent}
+
+This framework may explain why Andrew's group (Year~2) chose Al$_2$O$_3$ for their experiments. Al$_2$O$_3$ sits at the \textbf{bottom} of the $\Delta G$ ranking ($-36$~kJ, weakest driving force) but near the \textbf{top} of the mass efficiency ranking (third most efficient). If both factors contribute and are weighted roughly equally, Al$_2$O$_3$ ends up in the \textbf{middle} of a combined ranking --- a compromise candidate that is neither the best thermodynamically nor the most efficient, but avoids the extremes of either axis. It also has the highest melting point (2072\,$^\circ$C), ensuring particle integrity at steelmaking temperatures. Zhang's comment that ``Al$_2$O$_3$ works because of the spinel reaction'' (CuAl$_2$O$_4$ formation) is consistent with this: the reaction proceeds ($\Delta G < 0$, barely) and the practical advantages (availability, stability, moderate efficiency) made it a reasonable first choice.
+
+Whether it was the \textit{optimal} choice depends on the partition coefficient data.
+
+\subsection{Experiment Outcome Predictor}
+
+Figure~\ref{fig:experiment_predictor} provides the practical ``recipe card'' for Fontana Lab experiment planning. For each oxide, a heatmap shows the predicted final Cu wt\% across a grid of dose (1--10\,g) and particle radius (50--500\,$\mu$m). Green cells meet the $\leq$0.10\,wt\% target.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{experiment_predictor.png}
+    \caption{Predicted final Cu wt\% for 5 candidate oxides across a dose $\times$ particle radius grid. $T = 1823$\,K, $t = 30$\,min, 0.5\,kg steel, 0.30\,wt\% Cu initial. Green cells ($\leq 0.10$\,wt\%) meet the hot shortness target. SiO$_2$ has the widest feasible region (13/20); Fe$_2$O$_3$ and MnO the narrowest (8/20 each). Generated by \texttt{experiment\_predictor.py}.}
+    \label{fig:experiment_predictor}
+\end{figure}
+
 \subsection{Experiment Plan}
 
 Fontana Lab induction furnace with graphite crucible inside Al$_2$O$_3$ containment. Key variables:
@@ -1167,6 +1271,38 @@ The Fe-Cu binary has a well-known liquid miscibility gap. Activity is not monoto
 \end{insight}
 
 
+\subsection{March 15, 2026: DICTRA Temperature Sweep and Visualization Suite}
+
+Ran a DICTRA temperature sweep (11 temps $\times$ 5 radii $\times$ 4 times = 220 calculations) on the OSU VM using \texttt{cu\_removal\_rate.py}. Output: \texttt{cu\_removal\_rate\_summary.csv} (220 rows). This data underpins all 6 static visualizations and the interactive marimo notebook.
+
+Built 6 new static visualizations in \texttt{screening/visualizations/}, each targeting a different aspect of the Cu removal problem:
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Dose-Response Curves} --- 2-panel figure comparing 30-min (stoichiometry-limited) and 1-min (kinetics-limited) removal vs.\ oxide dose. SiO$_2$ needs only 0.47\,g at 30\,min vs.\ Fe$_2$O$_3$'s 2.51\,g. At 1 min, all curves compress because Cu diffusion (oxide-independent) limits everything.
+
+    \item \textbf{Sensitivity Tornado} --- one-at-a-time perturbations from baseline ($T=1823$\,K, $R=250$\,$\mu$m, $t=10$\,min, dose $=3$\,g Fe$_2$O$_3$ $\to$ 16.4\% removal). Particle radius is the \#1 lever (76.6 pp swing). Temperature is an asymmetric risk: catastrophic below liquidus, negligible above.
+
+    \item \textbf{Break-Even Contour} --- 2D contour of removal \% over (dose $\times$ radius) with 66.7\% target contour overlaid for all 5 oxides. Two regimes: stoichiometry-limited below $\sim$200\,$\mu$m (vertical contours), kinetics-limited above (curving sharply upward).
+
+    \item \textbf{Oxide Decision Matrix} --- radar chart: 5 oxides $\times$ 5 criteria ($|\Delta G|$, Cu capacity/g, 1/$\rho$, melting point, dose efficiency). SiO$_2$ dominates 3 axes; Fe$_2$O$_3$/V$_2$O$_5$ dominate thermodynamics. No single winner.
+
+    \item \textbf{Thermo $\times$ Kinetics Overlay} --- $|\Delta G|$ vs.\ removal \% scatter with time evolution. \textbf{Key finding: thermodynamics and mass efficiency are anti-correlated.} Fe$_2$O$_3$ has the strongest $\Delta G$ (112\,kJ) but only 42\% removal at 30 min. SiO$_2$ has the weakest strong-tier $\Delta G$ (50\,kJ) but the highest removal (83\%). V$_2$O$_5$ is the best compromise.
+
+    \item \textbf{Experiment Predictor} --- 5-panel heatmap ``recipe card.'' Each oxide gets a dose $\times$ particle size grid showing predicted final Cu wt\% after 30 min. Green cells meet the 0.10\% target. SiO$_2$: 13/20 feasible; Fe$_2$O$_3$: 8/20. This is the practical planning tool for the Fontana Lab experiment.
+\end{enumerate}
+
+\begin{insight}[Thermodynamic Driving Force vs.\ Mass Efficiency: Anti-Correlation]
+The oxide ranking depends on which axis you prioritize. \textbf{Thermodynamic ranking} (by $|\Delta G|$): Fe$_2$O$_3$ $>$ V$_2$O$_5$ $>$ MnO $>$ SiO$_2$ $>$ Al$_2$O$_3$. \textbf{Mass efficiency ranking} (by Cu removed per gram of oxide): SiO$_2$ $>$ V$_2$O$_5$ $>$ Al$_2$O$_3$ $>$ MnO $>$ Fe$_2$O$_3$. These are nearly \textit{inverted}. Dense, heavy-MW oxides (Fe$_2$O$_3$: $\rho=5240$, MW$=160$) yield fewer particles and less stoichiometric capacity per gram than light oxides (SiO$_2$: $\rho=2650$, MW$=60$). The DICTRA kinetics are oxide-independent (Cu diffusion in liquid Fe), so the spread comes entirely from density and stoichiometry. This raises the question: if all 5 reactions are thermodynamically favorable ($\Delta G < 0$), does exact $\Delta G$ magnitude matter, or is mass efficiency the real differentiator?
+\end{insight}
+
+\textbf{Open questions for Zhang meeting:}
+\begin{itemize}[leftmargin=*]
+    \item SiO$_2$ (sand/quartz): $T_m = 1713$\,$^\circ$C (solid at steelmaking temps), cheapest oxide, highest Cu capacity per gram. But weakest $\Delta G$ ($-50$ kJ) of the strong tier. Is $-50$ kJ enough driving force? Cu$_2$SiO$_4$ dissolves into ionic liquid slag at 1800\,K --- does the Cu stay captured?
+    \item Two valid rankings exist (thermodynamic vs.\ mass efficiency). Which determines experiment success?
+    \item Confirm 66.7\% target (0.30 $\to$ 0.10 wt\% Cu). Honda may want lower.
+\end{itemize}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % APPENDIX B: SCRIPT INDEX
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1284,6 +1420,49 @@ These run locally on the Mac after copying CSVs from the VM.
 \hline
 \rowcolor{altrow}
 \texttt{build\_unified\_xlsx.py} & Build \texttt{Cu\_Removal\_Unified.xlsx}: 16-tab workbook with formula-driven analysis tabs and raw data tabs. \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Visualization Scripts (\texttt{screening/visualizations/})}
+
+Static and interactive visualizations of the DICTRA Cu removal data.
+
+\begin{table}[H]
+\caption{Cu Removal Visualization Scripts}
+\label{tab:viz_scripts}
+\centering
+\renewcommand{\arraystretch}{1.15}
+\footnotesize
+\begin{tabular}{|p{2.8in}|p{3.2in}|}
+\hline
+\rowcolor{headercolor}
+\textcolor{white}{\textbf{Script}} & \textcolor{white}{\textbf{Purpose}} \\
+\hline
+\texttt{dose\_response\_curves.py} & 2-panel dose-response: 30-min (stoich) vs.\ 1-min (kinetics). Crossover doses annotated. \\
+\hline
+\rowcolor{altrow}
+\texttt{sensitivity\_tornado.py} & Tornado chart: one-at-a-time perturbations. Particle radius is \#1 lever (76.6 pp). \\
+\hline
+\texttt{breakeven\_contour.py} & Break-even contour: dose $\times$ radius with 66.7\% target for all 5 oxides. \\
+\hline
+\rowcolor{altrow}
+\texttt{oxide\_decision\_matrix.py} & Radar chart: 5 oxides $\times$ 5 criteria (multi-criteria comparison). \\
+\hline
+\texttt{thermo\_kinetics\_overlay.py} & $|\Delta G|$ vs.\ removal scatter with time evolution (anti-correlation finding). \\
+\hline
+\rowcolor{altrow}
+\texttt{experiment\_predictor.py} & 5-panel heatmap: predicted final Cu wt\% for each oxide $\times$ dose $\times$ radius. \\
+\hline
+\texttt{animate\_cu\_removal.py} & GIF: parameter sweep animation (T $\to$ R $\to$ dose $\to$ optimal). Gauge dashboard. \\
+\hline
+\rowcolor{altrow}
+\texttt{heatmap\_cu\_removal.py} & Plotly HTML: 2D heatmap (radius $\times$ time), temperature animation. \\
+\hline
+\texttt{surface3d\_cu\_removal.py} & Plotly HTML: 3D surface (radius $\times$ time $\times$ removal\%). \\
+\hline
+\rowcolor{altrow}
+\texttt{plotly\_cu\_removal.py} & Plotly HTML: animated line chart, 5 radius curves over temperature. \\
 \hline
 \end{tabular}
 \end{table}

@@ -2,10 +2,11 @@
 Plot DICTRA Cu removal rate results.
 
 Reads cu_removal_rate_profiles.csv and cu_removal_rate_summary.csv
-to produce three figures:
+(now with temperature sweep) to produce four figures:
   1. Cu concentration profiles (wt% vs distance from particle surface)
   2. Cu captured per particle vs contact time
-  3. System-scale Cu removal (%) for a 50g Fe2O3 dose in 0.5 kg steel
+  3. System-scale Cu removal (%) for a 2g Fe2O3 dose in 0.5 kg steel
+  4. Temperature effect: Cu capture vs T showing solid/liquid transition
 
 Colorblind-friendly palette per CLAUDE.md.
 
@@ -30,6 +31,9 @@ RHO_OXIDE = 5240       # kg/m3 for Fe2O3
 CU_INIT_WT = 0.30      # wt%
 STEEL_MASS_KG = 0.50   # kg
 OXIDE_DOSE_G = 50.0    # grams of Fe2O3
+
+# Reference temperature for Figs 1-3 (closest liquid temp to 1800K)
+T_REF = 1823  # K — first liquid temperature in sweep
 
 # ── Colorblind palette ───────────────────────────────────────────────
 COLORS_BY_TIME = {
@@ -65,6 +69,7 @@ def load_profiles():
         reader = csv.DictReader(f)
         for r in reader:
             rows.append({
+                "temp_K": int(r["temp_K"]),
                 "radius_um": int(r["radius_um"]),
                 "time_s": int(r["time_s"]),
                 "dist_um": float(r["distance_from_surface_um"]),
@@ -79,6 +84,8 @@ def load_summary():
         reader = csv.DictReader(f)
         for r in reader:
             rows.append({
+                "temp_K": int(r["temp_K"]),
+                "phase": r["phase"],
                 "radius_um": int(r["radius_um"]),
                 "time_s": int(r["time_s"]),
                 "time_label": r["time_label"],
@@ -91,17 +98,14 @@ def load_summary():
 # ── Figure 1: Cu concentration profiles ─────────────────────────────
 
 def plot_profiles(profiles):
-    """Single panel: Cu vs distance at all 4 times for R=100 um (representative).
-
-    All radii give nearly identical profile shapes (same diffusion physics),
-    so one panel with time evolution is more informative than 3 repetitive panels.
-    """
-    r_um = 100  # representative radius
+    """Single panel: Cu vs distance at all 4 times for R=100 um."""
+    r_um = 100
     fig, ax = plt.subplots(figsize=(7, 5))
 
     for t_s in [60, 300, 600, 1800]:
         pts = [p for p in profiles
-               if p["radius_um"] == r_um and p["time_s"] == t_s]
+               if p["temp_K"] == T_REF and p["radius_um"] == r_um
+               and p["time_s"] == t_s]
         pts.sort(key=lambda p: p["dist_um"])
         dist = [p["dist_um"] for p in pts]
         cu = [p["cu_wt"] for p in pts]
@@ -114,18 +118,17 @@ def plot_profiles(profiles):
 
     # Shade the depletion zone for 30 min case
     pts_30 = [p for p in profiles
-              if p["radius_um"] == r_um and p["time_s"] == 1800]
+              if p["temp_K"] == T_REF and p["radius_um"] == r_um
+              and p["time_s"] == 1800]
     pts_30.sort(key=lambda p: p["dist_um"])
     dist_30 = [p["dist_um"] for p in pts_30]
     cu_30 = [p["cu_wt"] for p in pts_30]
     ax.fill_between(dist_30, cu_30, CU_INIT_WT, alpha=0.08, color="#009988")
 
-    # Reference line at initial Cu
     ax.axhline(CU_INIT_WT, color="gray", linestyle="--", alpha=0.5, linewidth=1)
     ax.text(1600, CU_INIT_WT + 0.005, "Bulk: 0.30 wt%",
             fontsize=9, color="gray", ha="center")
 
-    # Target line
     ax.axhline(0.10, color="gray", linestyle=":", alpha=0.4, linewidth=1)
     ax.text(1600, 0.105, "Target: 0.10 wt%",
             fontsize=9, color="gray", ha="center")
@@ -135,7 +138,7 @@ def plot_profiles(profiles):
     ax.set_xlim(0, 2000)
     ax.set_ylim(0, 0.34)
     ax.set_title("Cu Depletion Profile Around Fe$_2$O$_3$ Particle "
-                 "(R=100 $\\mu$m, 1800 K)",
+                 "(R=100 $\\mu$m, %d K)" % T_REF,
                  fontsize=12, fontweight="bold")
     ax.legend(title="Contact time", fontsize=10, title_fontsize=10,
               loc="lower right", framealpha=0.9)
@@ -160,11 +163,12 @@ def plot_capture_per_particle(summary):
     """Cu captured (mg) per particle vs contact time for all 5 radii."""
     fig, ax = plt.subplots(figsize=(7, 5))
 
-    radii = sorted(set(r["radius_um"] for r in summary))
+    data = [s for s in summary if s["temp_K"] == T_REF]
+    radii = sorted(set(r["radius_um"] for r in data))
     for r_um in radii:
-        pts = [s for s in summary if s["radius_um"] == r_um]
+        pts = [s for s in data if s["radius_um"] == r_um]
         pts.sort(key=lambda s: s["time_s"])
-        times = [s["time_s"] / 60 for s in pts]  # minutes
+        times = [s["time_s"] / 60 for s in pts]
         captured = [s["cu_captured_mg"] for s in pts]
 
         ax.plot(times, captured,
@@ -176,7 +180,7 @@ def plot_capture_per_particle(summary):
 
     ax.set_xlabel("Contact time (min)", fontsize=11)
     ax.set_ylabel("Cu captured per particle (mg)", fontsize=11)
-    ax.set_title("Cu Capture Rate by Particle Size (1800 K, Fe$_2$O$_3$)",
+    ax.set_title("Cu Capture Rate by Particle Size (%d K, Fe$_2$O$_3$)" % T_REF,
                  fontsize=12, fontweight="bold")
     ax.legend(title="Particle radius", fontsize=9, title_fontsize=10)
 
@@ -197,21 +201,18 @@ def plot_capture_per_particle(summary):
 # ── Figure 3: System-scale removal ──────────────────────────────────
 
 def plot_system_removal(summary):
-    """2-panel: (left) fixed dose, vary radius; (right) fixed radius, vary dose.
-
-    Left panel uses a small enough dose (2g) that curves spread out.
-    Right panel (R=100 um) shows how much oxide you actually need.
-    """
+    """2-panel: (left) fixed dose, vary radius; (right) fixed radius, vary dose."""
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.5))
 
-    total_cu_mg = STEEL_MASS_KG * 1000 * CU_INIT_WT / 100 * 1000  # 1500 mg
-    target_pct = (CU_INIT_WT - 0.10) / CU_INIT_WT * 100  # 66.7%
+    data = [s for s in summary if s["temp_K"] == T_REF]
+    total_cu_mg = STEEL_MASS_KG * 1000 * CU_INIT_WT / 100 * 1000
+    target_pct = (CU_INIT_WT - 0.10) / CU_INIT_WT * 100
 
     # ── Left panel: 2g dose, all radii ───────────────────────────────
     dose_g = 2.0
-    radii = sorted(set(r["radius_um"] for r in summary))
+    radii = sorted(set(r["radius_um"] for r in data))
     for r_um in radii:
-        pts = [s for s in summary if s["radius_um"] == r_um]
+        pts = [s for s in data if s["radius_um"] == r_um]
         pts.sort(key=lambda s: s["time_s"])
         times = [s["time_s"] / 60 for s in pts]
 
@@ -256,7 +257,7 @@ def plot_system_removal(summary):
         m_particle_g = RHO_OXIDE * v_particle * 1000
         n_particles = dose_g / m_particle_g
 
-        pts = [s for s in summary if s["radius_um"] == r_um_fixed]
+        pts = [s for s in data if s["radius_um"] == r_um_fixed]
         pts.sort(key=lambda s: s["time_s"])
         times = [s["time_s"] / 60 for s in pts]
 
@@ -283,7 +284,6 @@ def plot_system_removal(summary):
                   fontsize=12, fontweight="bold")
     ax2.legend(title="Fe$_2$O$_3$ dose", fontsize=9, title_fontsize=10)
 
-    # Shared formatting
     for ax in (ax1, ax2):
         ax.grid(True, which="major", alpha=0.3)
         ax.grid(True, which="minor", alpha=0.1)
@@ -291,13 +291,119 @@ def plot_system_removal(summary):
         for spine in ax.spines.values():
             spine.set_visible(False)
 
-    fig.suptitle("Cu Removal from 0.5 kg Steel at 1800 K (DICTRA)",
+    fig.suptitle("Cu Removal from 0.5 kg Steel at %d K (DICTRA)" % T_REF,
                  fontsize=13, fontweight="bold", y=1.02)
     fig.tight_layout()
     for ext in ("png", "pdf"):
         fig.savefig(FIG_DIR / ("cu_removal_system_scale." + ext),
                     dpi=300, bbox_inches="tight")
     print("Saved cu_removal_system_scale.png/pdf")
+    plt.close(fig)
+
+
+# ── Figure 4: Temperature effect ────────────────────────────────────
+
+def plot_temperature_effect(summary):
+    """2-panel: (left) Cu capture vs T for R=100um at all times;
+    (right) system-scale removal vs T at t=30 min for all radii.
+
+    Shows the ~260x jump at the solid/liquid transition.
+    """
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5.5))
+
+    temps = sorted(set(s["temp_K"] for s in summary))
+
+    # ── Left panel: Cu/particle vs T, R=100um, all times ────────────
+    for t_s in [60, 300, 600, 1800]:
+        pts = [s for s in summary
+               if s["radius_um"] == 100 and s["time_s"] == t_s]
+        pts.sort(key=lambda s: s["temp_K"])
+        tt = [s["temp_K"] for s in pts]
+        cc = [s["cu_captured_mg"] for s in pts]
+
+        ax1.plot(tt, cc,
+                 color=COLORS_BY_TIME[t_s],
+                 linestyle=LSTYLES_BY_TIME[t_s],
+                 marker="o", markersize=5, linewidth=2.0,
+                 label=LABELS_BY_TIME[t_s])
+
+    # Shade the liquid region
+    ax1.axvspan(min(t for t in temps if t >= 1823), max(temps),
+                alpha=0.06, color="#0077BB")
+    ax1.axvline(1811, color="gray", linestyle=":", alpha=0.5, linewidth=1)
+    ax1.text(1811, ax1.get_ylim()[1] * 0.95 if ax1.get_ylim()[1] > 0 else 0.05,
+             "Fe liquidus", fontsize=8, color="gray", ha="center",
+             rotation=90, va="top")
+
+    ax1.set_xlabel("Temperature (K)", fontsize=11)
+    ax1.set_ylabel("Cu captured per particle (mg)", fontsize=11)
+    ax1.set_yscale("log")
+    ax1.set_title("Cu Capture vs Temperature (R=100 $\\mu$m)",
+                  fontsize=12, fontweight="bold")
+    ax1.legend(title="Contact time", fontsize=9, title_fontsize=10)
+
+    ax1.grid(True, which="major", alpha=0.3)
+    ax1.grid(True, which="minor", alpha=0.1)
+    ax1.minorticks_on()
+    for spine in ax1.spines.values():
+        spine.set_visible(False)
+
+    # ── Right panel: system removal vs T, t=30min, all radii ────────
+    total_cu_mg = STEEL_MASS_KG * 1000 * CU_INIT_WT / 100 * 1000
+    target_pct = (CU_INIT_WT - 0.10) / CU_INIT_WT * 100
+    dose_g = 2.0
+
+    radii = sorted(set(s["radius_um"] for s in summary))
+    for r_um in radii:
+        pts = [s for s in summary
+               if s["radius_um"] == r_um and s["time_s"] == 1800]
+        pts.sort(key=lambda s: s["temp_K"])
+        tt = [s["temp_K"] for s in pts]
+
+        r_m = r_um * 1e-6
+        v_particle = (4 / 3) * math.pi * r_m ** 3
+        m_particle_g = RHO_OXIDE * v_particle * 1000
+        n_particles = dose_g / m_particle_g
+
+        removal = [min(s["cu_captured_mg"] * n_particles / total_cu_mg * 100,
+                       100) for s in pts]
+
+        ax2.plot(tt, removal,
+                 color=COLORS_BY_RADIUS[r_um],
+                 marker=MARKERS_BY_RADIUS[r_um],
+                 markersize=6, linewidth=2.0,
+                 label="%d $\\mu$m" % r_um)
+
+    ax2.axhline(target_pct, color="gray", linestyle="--", alpha=0.5,
+                linewidth=1.2)
+    ax2.text(1700, target_pct + 2, "Target: 0.10 wt%",
+             fontsize=9, color="gray", style="italic")
+
+    ax2.axvspan(min(t for t in temps if t >= 1823), max(temps),
+                alpha=0.06, color="#0077BB")
+    ax2.axvline(1811, color="gray", linestyle=":", alpha=0.5, linewidth=1)
+    ax2.text(1815, 5, "Fe liquidus", fontsize=8, color="gray", rotation=90)
+
+    ax2.set_xlabel("Temperature (K)", fontsize=11)
+    ax2.set_ylabel("Cu removal (%)", fontsize=11)
+    ax2.set_ylim(0, 105)
+    ax2.set_title("System Removal vs Temperature (t=30 min, 2 g Fe$_2$O$_3$)",
+                  fontsize=12, fontweight="bold")
+    ax2.legend(title="Particle radius", fontsize=9, title_fontsize=10)
+
+    ax2.grid(True, which="major", alpha=0.3)
+    ax2.grid(True, which="minor", alpha=0.1)
+    ax2.minorticks_on()
+    for spine in ax2.spines.values():
+        spine.set_visible(False)
+
+    fig.suptitle("Temperature Effect on Cu Removal (DICTRA, 0.5 kg steel)",
+                 fontsize=13, fontweight="bold", y=1.02)
+    fig.tight_layout()
+    for ext in ("png", "pdf"):
+        fig.savefig(FIG_DIR / ("cu_removal_temperature_effect." + ext),
+                    dpi=300, bbox_inches="tight")
+    print("Saved cu_removal_temperature_effect.png/pdf")
     plt.close(fig)
 
 
@@ -309,6 +415,10 @@ if __name__ == "__main__":
     summary = load_summary()
     print("  Profiles: %d points" % len(profiles))
     print("  Summary:  %d rows" % len(summary))
+
+    temps = sorted(set(s["temp_K"] for s in summary))
+    print("  Temperatures: %s" % temps)
+    print("  Reference T for Figs 1-3: %d K" % T_REF)
     print()
 
     FIG_DIR.mkdir(exist_ok=True)
@@ -316,6 +426,7 @@ if __name__ == "__main__":
     plot_profiles(profiles)
     plot_capture_per_particle(summary)
     plot_system_removal(summary)
+    plot_temperature_effect(summary)
 
     print()
-    print("Done. 3 figures saved to %s" % FIG_DIR)
+    print("Done. 4 figures saved to %s" % FIG_DIR)

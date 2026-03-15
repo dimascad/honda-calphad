@@ -47,6 +47,8 @@ SYSTEMS = [
     {"name": "Cu-Al-O", "metal": "AL", "elements": ["CU", "AL", "O"]},
     {"name": "Cu-Mn-O", "metal": "MN", "elements": ["CU", "MN", "O"]},
     {"name": "Cu-Fe-O", "metal": "FE", "elements": ["CU", "FE", "O"]},
+    {"name": "Cu-V-O",  "metal": "V",  "elements": ["CU", "V", "O"]},
+    {"name": "Cu-Si-O", "metal": "SI", "elements": ["CU", "SI", "O"]},
 ]
 
 

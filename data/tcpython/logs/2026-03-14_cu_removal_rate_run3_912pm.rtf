@@ -1,0 +1,789 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2867
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Microsoft Windows [Version 10.0.22631.6783]\
+(c) Microsoft Corporation. All rights reserved.\
+\
+C:\\Users\\dimascio.12>U:\
+\
+U:\\>cd U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython\
+\
+U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython>"C:\\Program Files\\Thermo-Calc\\2025b\\python\\python.exe" cu_removal_rate.py\
+===========================================================================\
+Cu REMOVAL RATE PREDICTION - DICTRA Spherical Particle Model\
+Honda CALPHAD - Cu Removal from Recycled Steel\
+Started: 2026-03-14T21:11:19.966413\
+===========================================================================\
+\
+Parameters:\
+  Temperature:    1800 K (1527 C)\
+  Initial Cu:     0.30 wt%\
+  a_Cu at surface: 0.0010\
+  Particle radii: [25, 50, 100, 250, 500] um\
+  Contact times:  [60, 300, 600, 1800] s\
+  Steel shell:    5.0 mm\
+  Grid points:    60\
+  Databases:      TCFE13 + MOBFE8\
+\
+tc_python imported successfully.\
+Initializing TCPython session...\
+21:11:23,078 [Thread-1] INFO  CalculationEngine: Starting Thermo-Calc 2025b, Java-version: 21.0.2\
+Session ready.\
+\
+Loading databases: TCFE13 + MOBFE8 with elements ['FE', 'CU']\
+21:11:25,728 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+21:11:29,779 [Thread-1] INFO  JavaWrapper: *** Invoking Gibbs Energy System v6 ***\
+System loaded successfully.\
+  Phases in system: ['NBNI3_D0A', 'C15_LAVES', 'BCC_A2', 'BCC_B2', 'C14_LAVES', 'LIQUID', 'FCC_A1', 'CU6Y', 'HCP_A3', 'CUB_A13', 'FCC_L12', 'FE4N_LP1', 'BCT_A5', 'GAS', 'AL5FE4', 'CBCC_A12', 'CUZN_EPSILON']\
+  Diffusion phase: LIQUID\
+\
+---------------------------------------------------------------------------\
+Particle radius: 25 um (2.50e-05 m)\
+---------------------------------------------------------------------------\
+\
+  [1/20] R=25 um, t=1 min (60 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:45,135 [pool-5-thread-1] INFO  TimedependentSettings: Simulation time for DICTRA: 60.0\
+21:11:45,184 [pool-5-thread-1] INFO  DictraSimulation: Performing Dictra simulation\
+21:11:45,188 [pool-5-thread-1] INFO  CalculationEngine:   NO TIME STEP DEFINED\
+21:11:45,192 [pool-5-thread-1] INFO  CalculationEngine:   NO TIME STEP DEFINED\
+21:11:45,195 [pool-5-thread-1] INFO  CalculationEngine:   NO TIME STEP DEFINED\
+21:11:45,196 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,199 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,206 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,747 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,749 [pool-5-thread-1] INFO  CalculationEngine:  Dependent substitutional element:FE\
+21:11:45,750 [pool-5-thread-1] INFO  CalculationEngine:  Dependent interstitial element:VA\
+21:11:45,752 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,754 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,756 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,762 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,764 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,764 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,765 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,770 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,772 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,772 [pool-5-thread-1] INFO  CalculationEngine:   INFO: ENABLING HOMOGENIZATION MODEL\
+21:11:45,788 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,789 [pool-5-thread-1] INFO  CalculationEngine:   HOMOGENIZATION DISABLED\
+21:11:45,789 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,790 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,836 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:45,838 [pool-5-thread-1] INFO  CalculationEngine:   DEGREE OF IMPLICITY SET TO TRAPEZOIDAL RULE\
+21:11:45,838 [pool-5-thread-1] INFO  CalculationEngine:   INFO: TIMESTEP IS CONTROLLED BY INTERFACE POSITION\
+21:11:45,887 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00263748966293095  FE = .997362510467576\
+21:11:45,888 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:45,889 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00263748966293095  FE = .997362510467576\
+21:11:45,889 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:45,919 [pool-5-thread-1] INFO  CalculationEngine:   TIME =  0.10000000E-06 DT =  0.10000000E-06 SUM OF SQUARES =   0.0000000\
+21:11:45,920 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00263991776572639  FE = .997360082364781\
+21:11:45,921 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:45,922 [pool-5-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:45,953 [pool-5-thread-1] INFO  CalculationEngine:   TIME =  0.10010000E-03 DT =  0.10000000E-03 SUM OF SQUARES =   0.0000000\
+21:11:45,954 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .0026399182122617  FE = .997360081918245\
+21:11:45,955 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:45,955 [pool-5-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:46,002 [pool-5-thread-1] INFO  CalculationEngine:   TIME =  0.90421873     DT =  0.90411863     SUM OF SQUARES =   0.0000000\
+21:11:46,003 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00264235953227131  FE = .997357640598236\
+21:11:46,003 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:46,004 [pool-5-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:46,047 [pool-5-thread-1] INFO  CalculationEngine:   TIME =   2.7124560     DT =   1.8082373     SUM OF SQUARES =   0.0000000\
+21:11:46,048 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00264551395091449  FE = .997354486179593\
+21:11:46,048 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:46,049 [pool-5-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:46,087 [pool-5-thread-1] INFO  CalculationEngine:   TIME =   6.3289305     DT =   3.6164745     SUM OF SQUARES =   0.0000000\
+21:11:46,088 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00265083293789129  FE = .997349167192616\
+21:11:46,088 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:46,088 [pool-5-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:46,136 [pool-5-thread-1] INFO  CalculationEngine:   TIME =   12.328931     DT =   6.0000000     SUM OF SQUARES =   0.0000000\
+21:11:46,137 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00265882723149501  FE = .997341172899012\
+21:11:46,137 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:46,137 [pool-5-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:46,185 [pool-5-thread-1] INFO  CalculationEngine:   TIME =   18.328931     DT =   6.0000000     SUM OF SQUARES =   0.0000000\
+21:11:46,186 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00266641408012134  FE = .997333586050386\
+21:11:46,187 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:46,187 [pool-5-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:46,237 [pool-5-thread-1] INFO  CalculationEngine:   TIME =   24.328931     DT =   6.0000000     SUM OF SQUARES =   0.0000000\
+21:11:46,239 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00267379448060781  FE = .997326205649899\
+21:11:46,239 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:46,240 [pool-5-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     1  seconds\
+21:11:46,286 [pool-5-thread-1] INFO  CalculationEngine:   TIME =   30.328931     DT =   6.0000000     SUM OF SQUARES =   0.0000000\
+21:11:46,287 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00268104421530546  FE = .997318955915201\
+21:11:46,288 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:46,289 [pool-5-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:46,329 [pool-5-thread-1] INFO  CalculationEngine:   TIME =   36.328931     DT =   6.0000000     SUM OF SQUARES =   0.0000000\
+21:11:46,329 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00268820191315521  FE = .997311798217352\
+21:11:46,330 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:46,330 [pool-5-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:46,369 [pool-5-thread-1] INFO  CalculationEngine:   TIME =   42.328931     DT =   6.0000000     SUM OF SQUARES =   0.0000000\
+21:11:46,370 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00269529032715722  FE = .99730470980335\
+21:11:46,370 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:46,371 [pool-5-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:46,407 [pool-5-thread-1] INFO  CalculationEngine:   TIME =   48.328931     DT =   6.0000000     SUM OF SQUARES =   0.0000000\
+21:11:46,408 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00270232421285947  FE = .997297675917647\
+21:11:46,409 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:46,409 [pool-5-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:46,456 [pool-5-thread-1] INFO  CalculationEngine:   TIME =   54.328931     DT =   6.0000000     SUM OF SQUARES =   0.0000000\
+21:11:46,457 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .0027093137708099  FE = .997290686359697\
+21:11:46,458 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:46,458 [pool-5-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:46,502 [pool-5-thread-1] INFO  CalculationEngine:   TIME =   60.000000     DT =   5.6710695     SUM OF SQUARES =   0.0000000\
+21:11:46,503 [pool-5-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00271588606690336  FE = .997284114063604\
+21:11:46,503 [pool-5-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:46,521 [pool-5-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  6.00000E+01\
+21:11:46,524 [pool-5-thread-1] INFO  CalculationEngine:    *** Nothing saved ***\
+21:11:46,525 [pool-5-thread-1] INFO  TimedependentSettings: Simulation time for DICTRA: 60.0\
+21:11:46,648 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  6.00000E+01\
+21:11:46,880 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:46,880 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:46,888 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3000 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -3.6666e-01 mg/particle\
+\
+  [2/20] R=25 um, t=5 min (300 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:47,249 [pool-6-thread-1] INFO  TimedependentSettings: Simulation time for DICTRA: 300.0\
+21:11:47,257 [pool-6-thread-1] INFO  DictraSimulation: Performing Dictra simulation\
+21:11:47,261 [pool-6-thread-1] INFO  CalculationEngine:   NO TIME STEP DEFINED\
+21:11:47,264 [pool-6-thread-1] INFO  CalculationEngine:   NO TIME STEP DEFINED\
+21:11:47,266 [pool-6-thread-1] INFO  CalculationEngine:   NO TIME STEP DEFINED\
+21:11:47,267 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,269 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,271 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,441 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,443 [pool-6-thread-1] INFO  CalculationEngine:  Dependent substitutional element:FE\
+21:11:47,444 [pool-6-thread-1] INFO  CalculationEngine:  Dependent interstitial element:VA\
+21:11:47,445 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,447 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,448 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,452 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,453 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,454 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,454 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,455 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,457 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,457 [pool-6-thread-1] INFO  CalculationEngine:   INFO: ENABLING HOMOGENIZATION MODEL\
+21:11:47,467 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,468 [pool-6-thread-1] INFO  CalculationEngine:   HOMOGENIZATION DISABLED\
+21:11:47,468 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,468 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,486 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:47,487 [pool-6-thread-1] INFO  CalculationEngine:   DEGREE OF IMPLICITY SET TO TRAPEZOIDAL RULE\
+21:11:47,487 [pool-6-thread-1] INFO  CalculationEngine:   INFO: TIMESTEP IS CONTROLLED BY INTERFACE POSITION\
+21:11:47,529 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00263748966293095  FE = .997362510467576\
+21:11:47,530 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:47,531 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00263748966293095  FE = .997362510467576\
+21:11:47,532 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:47,541 [pool-6-thread-1] INFO  CalculationEngine:   TIME =  0.10000000E-06 DT =  0.10000000E-06 SUM OF SQUARES =   0.0000000\
+21:11:47,542 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00263991776572639  FE = .997360082364781\
+21:11:47,542 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:47,542 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:47,564 [pool-6-thread-1] INFO  CalculationEngine:   TIME =  0.10010000E-03 DT =  0.10000000E-03 SUM OF SQUARES =   0.0000000\
+21:11:47,565 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .0026399182122617  FE = .997360081918245\
+21:11:47,565 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:47,566 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:47,600 [pool-6-thread-1] INFO  CalculationEngine:   TIME =  0.90421873     DT =  0.90411863     SUM OF SQUARES =   0.0000000\
+21:11:47,600 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00264235953227131  FE = .997357640598236\
+21:11:47,600 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:47,601 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:47,638 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   2.7124560     DT =   1.8082373     SUM OF SQUARES =   0.0000000\
+21:11:47,640 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00264551395091449  FE = .997354486179593\
+21:11:47,640 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:47,641 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:47,696 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   6.3289305     DT =   3.6164745     SUM OF SQUARES =   0.0000000\
+21:11:47,697 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00265083293789129  FE = .997349167192616\
+21:11:47,697 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:47,698 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     1  seconds\
+21:11:47,755 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   13.561880     DT =   7.2329491     SUM OF SQUARES =   0.0000000\
+21:11:47,756 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00266041226204646  FE = .99733958786846\
+21:11:47,756 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:47,757 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:47,809 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   28.027778     DT =   14.465898     SUM OF SQUARES =   0.0000000\
+21:11:47,810 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00267828571105962  FE = .997321714419448\
+21:11:47,810 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:47,810 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:47,877 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   56.959574     DT =   28.931796     SUM OF SQUARES =   0.0000000\
+21:11:47,877 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00271238119237922  FE = .997287618938128\
+21:11:47,878 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:47,878 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:47,958 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   86.959574     DT =   30.000000     SUM OF SQUARES =   0.0000000\
+21:11:47,959 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00274680905199552  FE = .997253191078512\
+21:11:47,959 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:47,960 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:48,046 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   116.95957     DT =   30.000000     SUM OF SQUARES =   0.0000000\
+21:11:48,047 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00278077561067502  FE = .997219224519832\
+21:11:48,048 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:48,048 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:48,140 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   146.95957     DT =   30.000000     SUM OF SQUARES =   0.0000000\
+21:11:48,141 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00281445538387339  FE = .997185544746634\
+21:11:48,142 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:48,142 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:48,228 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   176.95957     DT =   30.000000     SUM OF SQUARES =   0.0000000\
+21:11:48,229 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00284793465352497  FE = .997152065476982\
+21:11:48,229 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:48,229 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:48,321 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   206.95957     DT =   30.000000     SUM OF SQUARES =   0.0000000\
+21:11:48,322 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00288126370518307  FE = .997118736425324\
+21:11:48,322 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:48,323 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:48,417 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   236.95957     DT =   30.000000     SUM OF SQUARES =   0.0000000\
+21:11:48,418 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00291447476508011  FE = .997085525365427\
+21:11:48,419 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:48,419 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:48,521 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   266.95957     DT =   30.000000     SUM OF SQUARES =   0.0000000\
+21:11:48,522 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00294758996732982  FE = .997052410163177\
+21:11:48,522 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:48,522 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:48,606 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   286.39013     DT =   19.430555     SUM OF SQUARES =   0.0000000\
+21:11:48,607 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00296899467821472  FE = .997031005452292\
+21:11:48,608 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:48,608 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:48,684 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   296.11279     DT =   9.7226655     SUM OF SQUARES =   0.0000000\
+21:11:48,685 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00297969368949624  FE = .997020306441011\
+21:11:48,685 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:48,685 [pool-6-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     1  seconds\
+21:11:48,741 [pool-6-thread-1] INFO  CalculationEngine:   TIME =   300.00000     DT =   3.8872061     SUM OF SQUARES =   0.0000000\
+21:11:48,742 [pool-6-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00298396923373698  FE = .99701603089677\
+21:11:48,742 [pool-6-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:48,755 [pool-6-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  3.00000E+02\
+21:11:48,757 [pool-6-thread-1] INFO  CalculationEngine:    *** Nothing saved ***\
+21:11:48,759 [pool-6-thread-1] INFO  TimedependentSettings: Simulation time for DICTRA: 300.0\
+21:11:48,875 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  3.00000E+02\
+21:11:49,113 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:49,114 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,124 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3007 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -1.5223e+00 mg/particle\
+\
+  [3/20] R=25 um, t=10 min (600 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:49,398 [pool-7-thread-1] INFO  TimedependentSettings: Simulation time for DICTRA: 600.0\
+21:11:49,401 [pool-7-thread-1] INFO  DictraSimulation: Performing Dictra simulation\
+21:11:49,402 [pool-7-thread-1] INFO  CalculationEngine:   NO TIME STEP DEFINED\
+21:11:49,404 [pool-7-thread-1] INFO  CalculationEngine:   NO TIME STEP DEFINED\
+21:11:49,406 [pool-7-thread-1] INFO  CalculationEngine:   NO TIME STEP DEFINED\
+21:11:49,407 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,408 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,411 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,534 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,536 [pool-7-thread-1] INFO  CalculationEngine:  Dependent substitutional element:FE\
+21:11:49,536 [pool-7-thread-1] INFO  CalculationEngine:  Dependent interstitial element:VA\
+21:11:49,539 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,541 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,542 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,547 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,548 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,548 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,549 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,550 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,551 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,552 [pool-7-thread-1] INFO  CalculationEngine:   INFO: ENABLING HOMOGENIZATION MODEL\
+21:11:49,562 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,563 [pool-7-thread-1] INFO  CalculationEngine:   HOMOGENIZATION DISABLED\
+21:11:49,564 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,564 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,592 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:49,596 [pool-7-thread-1] INFO  CalculationEngine:   DEGREE OF IMPLICITY SET TO TRAPEZOIDAL RULE\
+21:11:49,596 [pool-7-thread-1] INFO  CalculationEngine:   INFO: TIMESTEP IS CONTROLLED BY INTERFACE POSITION\
+21:11:49,640 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00263748966293095  FE = .997362510467576\
+21:11:49,640 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:49,640 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00263748966293095  FE = .997362510467576\
+21:11:49,640 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:49,651 [pool-7-thread-1] INFO  CalculationEngine:   TIME =  0.10000000E-06 DT =  0.10000000E-06 SUM OF SQUARES =   0.0000000\
+21:11:49,652 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00263991776572639  FE = .997360082364781\
+21:11:49,653 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:49,654 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:49,669 [pool-7-thread-1] INFO  CalculationEngine:   TIME =  0.10010000E-03 DT =  0.10000000E-03 SUM OF SQUARES =   0.0000000\
+21:11:49,670 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .0026399182122617  FE = .997360081918245\
+21:11:49,670 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:49,670 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:49,697 [pool-7-thread-1] INFO  CalculationEngine:   TIME =  0.90421873     DT =  0.90411863     SUM OF SQUARES =   0.0000000\
+21:11:49,698 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00264235953227131  FE = .997357640598236\
+21:11:49,699 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:49,699 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:49,728 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   2.7124560     DT =   1.8082373     SUM OF SQUARES =   0.0000000\
+21:11:49,729 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00264551395091449  FE = .997354486179593\
+21:11:49,730 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:49,730 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:49,766 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   6.3289305     DT =   3.6164745     SUM OF SQUARES =   0.0000000\
+21:11:49,768 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00265083293789129  FE = .997349167192616\
+21:11:49,768 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:49,769 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:49,807 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   13.561880     DT =   7.2329491     SUM OF SQUARES =   0.0000000\
+21:11:49,808 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00266041226204646  FE = .99733958786846\
+21:11:49,808 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:49,808 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:49,859 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   28.027778     DT =   14.465898     SUM OF SQUARES =   0.0000000\
+21:11:49,861 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00267828571105962  FE = .997321714419448\
+21:11:49,861 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:49,862 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:49,919 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   56.959574     DT =   28.931796     SUM OF SQUARES =   0.0000000\
+21:11:49,920 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00271238119237922  FE = .997287618938128\
+21:11:49,920 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:49,921 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:49,997 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   113.20726     DT =   56.247684     SUM OF SQUARES =   0.0000000\
+21:11:49,998 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00277655761179177  FE = .997223442518715\
+21:11:49,998 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:49,999 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:50,092 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   171.54742     DT =   58.340162     SUM OF SQUARES =   0.0000000\
+21:11:50,093 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00284191607571706  FE = .99715808405479\
+21:11:50,093 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:50,093 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:50,199 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   230.08212     DT =   58.534705     SUM OF SQUARES =   0.0000000\
+21:11:50,200 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00290687681228586  FE = .997093123318221\
+21:11:50,200 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:50,201 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:50,303 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   288.75371     DT =   58.671588     SUM OF SQUARES =   0.0000000\
+21:11:50,304 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00297160129078705  FE = .99702839883972\
+21:11:50,304 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:50,305 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     1  seconds\
+21:11:50,412 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   347.52966     DT =   58.775949     SUM OF SQUARES =   0.0000000\
+21:11:50,413 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00303616692917267  FE = .996963833201334\
+21:11:50,413 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:50,413 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:50,527 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   406.38886     DT =   58.859201     SUM OF SQUARES =   0.0000000\
+21:11:50,528 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00310061726647468  FE = .996899382864032\
+21:11:50,528 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:50,528 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:50,641 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   465.31672     DT =   58.927862     SUM OF SQUARES =   0.0000000\
+21:11:50,642 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00316497957388333  FE = .996835020556624\
+21:11:50,642 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:50,643 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:50,754 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   524.30265     DT =   58.985926     SUM OF SQUARES =   0.0000000\
+21:11:50,755 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00322927223119896  FE = .996770727899308\
+21:11:50,756 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:50,757 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:50,858 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   565.21882     DT =   40.916170     SUM OF SQUARES =   0.0000000\
+21:11:50,859 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00327380301996231  FE = .996726197110545\
+21:11:50,860 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:50,861 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:50,948 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   585.67691     DT =   20.458085     SUM OF SQUARES =   0.0000000\
+21:11:50,949 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00329605025950559  FE = .996703949871002\
+21:11:50,949 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:50,949 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:51,023 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   595.90595     DT =   10.229043     SUM OF SQUARES =   0.0000000\
+21:11:51,024 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00330716961692178  FE = .996692830513585\
+21:11:51,024 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:51,025 [pool-7-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:51,088 [pool-7-thread-1] INFO  CalculationEngine:   TIME =   600.00000     DT =   4.0940510     SUM OF SQUARES =   0.0000000\
+21:11:51,089 [pool-7-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00331161925423905  FE = .996688380876268\
+21:11:51,089 [pool-7-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:51,103 [pool-7-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  6.00000E+02\
+21:11:51,106 [pool-7-thread-1] INFO  CalculationEngine:    *** Nothing saved ***\
+21:11:51,107 [pool-7-thread-1] INFO  TimedependentSettings: Simulation time for DICTRA: 600.0\
+21:11:51,221 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  6.00000E+02\
+21:11:51,383 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:51,384 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,397 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3139 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -2.9164e+00 mg/particle\
+\
+  [4/20] R=25 um, t=30 min (1800 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:51,654 [pool-8-thread-1] INFO  TimedependentSettings: Simulation time for DICTRA: 1800.0\
+21:11:51,660 [pool-8-thread-1] INFO  DictraSimulation: Performing Dictra simulation\
+21:11:51,662 [pool-8-thread-1] INFO  CalculationEngine:   NO TIME STEP DEFINED\
+21:11:51,666 [pool-8-thread-1] INFO  CalculationEngine:   NO TIME STEP DEFINED\
+21:11:51,674 [pool-8-thread-1] INFO  CalculationEngine:   NO TIME STEP DEFINED\
+21:11:51,675 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,682 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,689 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,811 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,814 [pool-8-thread-1] INFO  CalculationEngine:  Dependent substitutional element:FE\
+21:11:51,814 [pool-8-thread-1] INFO  CalculationEngine:  Dependent interstitial element:VA\
+21:11:51,816 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,818 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,820 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,824 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,825 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,825 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,826 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,826 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,831 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,832 [pool-8-thread-1] INFO  CalculationEngine:   INFO: ENABLING HOMOGENIZATION MODEL\
+21:11:51,842 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,846 [pool-8-thread-1] INFO  CalculationEngine:   HOMOGENIZATION DISABLED\
+21:11:51,847 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,847 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,874 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:51,875 [pool-8-thread-1] INFO  CalculationEngine:   DEGREE OF IMPLICITY SET TO TRAPEZOIDAL RULE\
+21:11:51,875 [pool-8-thread-1] INFO  CalculationEngine:   INFO: TIMESTEP IS CONTROLLED BY INTERFACE POSITION\
+21:11:51,928 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00263748966293095  FE = .997362510467576\
+21:11:51,928 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:51,929 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00263748966293095  FE = .997362510467576\
+21:11:51,929 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:51,940 [pool-8-thread-1] INFO  CalculationEngine:   TIME =  0.10000000E-06 DT =  0.10000000E-06 SUM OF SQUARES =   0.0000000\
+21:11:51,940 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00263991776572639  FE = .997360082364781\
+21:11:51,941 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:51,941 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:51,960 [pool-8-thread-1] INFO  CalculationEngine:   TIME =  0.10010000E-03 DT =  0.10000000E-03 SUM OF SQUARES =   0.0000000\
+21:11:51,961 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .0026399182122617  FE = .997360081918245\
+21:11:51,961 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:51,961 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:51,990 [pool-8-thread-1] INFO  CalculationEngine:   TIME =  0.90421873     DT =  0.90411863     SUM OF SQUARES =   0.0000000\
+21:11:51,991 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00264235953227131  FE = .997357640598236\
+21:11:51,991 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:51,991 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:52,022 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   2.7124560     DT =   1.8082373     SUM OF SQUARES =   0.0000000\
+21:11:52,023 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00264551395091449  FE = .997354486179593\
+21:11:52,023 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:52,023 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:52,061 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   6.3289305     DT =   3.6164745     SUM OF SQUARES =   0.0000000\
+21:11:52,062 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00265083293789129  FE = .997349167192616\
+21:11:52,062 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:52,063 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     1  seconds\
+21:11:52,110 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   13.561880     DT =   7.2329491     SUM OF SQUARES =   0.0000000\
+21:11:52,111 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00266041226204646  FE = .99733958786846\
+21:11:52,112 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:52,112 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:52,165 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   28.027778     DT =   14.465898     SUM OF SQUARES =   0.0000000\
+21:11:52,166 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00267828571105962  FE = .997321714419448\
+21:11:52,166 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:52,168 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:52,231 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   56.959574     DT =   28.931796     SUM OF SQUARES =   0.0000000\
+21:11:52,232 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00271238119237922  FE = .997287618938128\
+21:11:52,233 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:52,234 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:52,317 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   113.20726     DT =   56.247684     SUM OF SQUARES =   0.0000000\
+21:11:52,317 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00277655761179177  FE = .997223442518715\
+21:11:52,318 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:52,318 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:52,418 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   215.54322     DT =   102.33597     SUM OF SQUARES =   0.0000000\
+21:11:52,419 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00289079761773758  FE = .997109202512769\
+21:11:52,420 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:52,421 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:52,549 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   376.26076     DT =   160.71754     SUM OF SQUARES =   0.0000000\
+21:11:52,549 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00306766963434673  FE = .99693233049616\
+21:11:52,549 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:52,551 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:52,689 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   537.54377     DT =   161.28301     SUM OF SQUARES =   0.0000000\
+21:11:52,690 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00324370347034203  FE = .996756296660165\
+21:11:52,690 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:52,691 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:52,814 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   699.20472     DT =   161.66094     SUM OF SQUARES =   0.0000000\
+21:11:52,815 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00341932796415797  FE = .996580672166349\
+21:11:52,816 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:52,817 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:52,948 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   861.15971     DT =   161.95499     SUM OF SQUARES =   0.0000000\
+21:11:52,949 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00359472226719272  FE = .996405277863314\
+21:11:52,949 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:52,950 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:53,077 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   1023.3619     DT =   162.20222     SUM OF SQUARES =   0.0000000\
+21:11:53,078 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00376997710296259  FE = .996230023027545\
+21:11:53,078 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:53,079 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     1  seconds\
+21:11:53,210 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   1185.7841     DT =   162.42218     SUM OF SQUARES =   0.0000000\
+21:11:53,211 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .0039451429682183  FE = .996054857162289\
+21:11:53,211 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:53,211 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:53,336 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   1348.4102     DT =   162.62610     SUM OF SQUARES =   0.0000000\
+21:11:53,337 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00412024898653405  FE = .995879751143973\
+21:11:53,337 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:53,337 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:53,464 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   1511.2308     DT =   162.82056     SUM OF SQUARES =   0.0000000\
+21:11:53,465 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00429531212056417  FE = .995704688009943\
+21:11:53,465 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:53,466 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:53,592 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   1642.9355     DT =   131.70474     SUM OF SQUARES =   0.0000000\
+21:11:53,592 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00443674683134082  FE = .995563253299166\
+21:11:53,594 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:53,594 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:53,714 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   1718.0127     DT =   75.077235     SUM OF SQUARES =   0.0000000\
+21:11:53,715 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00451730383241048  FE = .995482696298096\
+21:11:53,715 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:53,715 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:53,824 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   1761.8711     DT =   43.858370     SUM OF SQUARES =   0.0000000\
+21:11:53,825 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00456434132583922  FE = .995435658804668\
+21:11:53,826 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:53,826 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:53,928 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   1784.0747     DT =   22.203569     SUM OF SQUARES =   0.0000000\
+21:11:53,929 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .0045881482075038  FE = .995411851923003\
+21:11:53,929 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:53,930 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:54,014 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   1795.1765     DT =   11.101784     SUM OF SQUARES =   0.0000000\
+21:11:54,015 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00460005010087075  FE = .995399950029636\
+21:11:54,015 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:54,015 [pool-8-thread-1] INFO  CalculationEngine:    CPU time used in timestep                     0  seconds\
+21:11:54,078 [pool-8-thread-1] INFO  CalculationEngine:   TIME =   1800.0000     DT =   4.8235340     SUM OF SQUARES =   0.0000000\
+21:11:54,079 [pool-8-thread-1] INFO  CalculationEngine:   U-FRACTION IN SYSTEM:  CU = .00460522097849699  FE = .99539477915201\
+21:11:54,079 [pool-8-thread-1] INFO  CalculationEngine:   TOTAL SIZE OF SYSTEM:  5.23598775598E-07 [m^3]\
+21:11:54,092 [pool-8-thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  1.80000E+03\
+21:11:54,094 [pool-8-thread-1] INFO  CalculationEngine:    *** Nothing saved ***\
+21:11:54,096 [pool-8-thread-1] INFO  TimedependentSettings: Simulation time for DICTRA: 1800.0\
+21:11:54,206 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  1.80000E+03\
+21:11:54,355 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:54,355 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:54,361 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.4450 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -8.3909e+00 mg/particle\
+\
+---------------------------------------------------------------------------\
+Particle radius: 50 um (5.00e-05 m)\
+---------------------------------------------------------------------------\
+\
+  [5/20] R=50 um, t=1 min (60 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:54,470 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:54,503 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  1.80000E+03\
+21:11:54,724 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:54,724 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:54,729 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3000 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -4.2092e-01 mg/particle\
+\
+  [6/20] R=50 um, t=5 min (300 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:54,836 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:54,854 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  6.00000E+01\
+21:11:55,015 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:55,015 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:55,021 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3007 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -1.6173e+00 mg/particle\
+\
+  [7/20] R=50 um, t=10 min (600 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:55,112 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:55,125 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  3.00000E+02\
+21:11:55,265 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:55,266 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:55,271 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3139 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -3.0414e+00 mg/particle\
+\
+  [8/20] R=50 um, t=30 min (1800 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:55,375 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:55,389 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  6.00000E+02\
+21:11:55,532 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:55,532 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:55,545 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.4450 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -8.6029e+00 mg/particle\
+\
+---------------------------------------------------------------------------\
+Particle radius: 100 um (1.00e-04 m)\
+---------------------------------------------------------------------------\
+\
+  [9/20] R=100 um, t=1 min (60 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:55,654 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:55,664 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  1.80000E+03\
+21:11:55,863 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:55,864 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:55,871 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3000 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -5.5433e-01 mg/particle\
+\
+  [10/20] R=100 um, t=5 min (300 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:55,996 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:56,010 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  6.00000E+01\
+21:11:56,186 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:56,187 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3007 wt%\
+21:11:56,192 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Depletion depth:   0 um\
+    Cu captured:       -1.8356e+00 mg/particle\
+\
+  [11/20] R=100 um, t=10 min (600 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:56,317 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:56,330 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  3.00000E+02\
+21:11:56,489 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:56,490 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:56,496 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3139 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -3.3209e+00 mg/particle\
+\
+  [12/20] R=100 um, t=30 min (1800 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:56,584 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:56,599 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  6.00000E+02\
+21:11:56,758 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:56,758 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:56,770 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.4450 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -9.0594e+00 mg/particle\
+\
+---------------------------------------------------------------------------\
+Particle radius: 250 um (2.50e-04 m)\
+---------------------------------------------------------------------------\
+\
+  [13/20] R=250 um, t=1 min (60 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:56,881 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:56,894 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  1.80000E+03\
+21:11:57,108 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:57,110 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:57,116 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3000 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -1.1537e+00 mg/particle\
+\
+  [14/20] R=250 um, t=5 min (300 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:57,204 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:57,216 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  6.00000E+01\
+21:11:57,346 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:57,347 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:57,355 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3007 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -2.7155e+00 mg/particle\
+\
+  [15/20] R=250 um, t=10 min (600 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:57,447 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:57,456 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  3.00000E+02\
+21:11:57,583 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:57,584 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:57,591 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3139 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -4.3959e+00 mg/particle\
+\
+  [16/20] R=250 um, t=30 min (1800 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:57,694 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:57,705 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  6.00000E+02\
+21:11:57,856 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:57,856 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:57,864 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.4450 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -1.0688e+01 mg/particle\
+\
+---------------------------------------------------------------------------\
+Particle radius: 500 um (5.00e-04 m)\
+---------------------------------------------------------------------------\
+\
+  [17/20] R=500 um, t=1 min (60 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:57,972 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:57,984 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  1.80000E+03\
+21:11:58,100 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:58,100 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:58,106 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3000 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -2.8165e+00 mg/particle\
+\
+  [18/20] R=500 um, t=5 min (300 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:58,198 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:58,209 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  6.00000E+01\
+21:11:58,325 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:58,325 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:58,331 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3007 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -4.9325e+00 mg/particle\
+\
+  [19/20] R=500 um, t=10 min (600 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:58,423 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:58,434 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  3.00000E+02\
+21:11:58,579 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:58,580 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:58,585 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.3139 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -6.9763e+00 mg/particle\
+\
+  [20/20] R=500 um, t=30 min (1800 s)\
+    Running DICTRA (a_Cu=0.0010 at surface)...\
+21:11:58,697 [Thread-1] INFO  Calculation: Found matching previous result. DiffusionIsothermalCalculation is unnecessary\
+21:11:58,710 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  6.00000E+02\
+21:11:58,836 [Thread-1] INFO  CalculationEngine:   OK\
+21:11:58,836 [Thread-1] INFO  CalculationEngine:   TIME STEP AT TIME  0.00000E+00\
+21:11:58,841 [Thread-1] INFO  CalculationEngine:    INFO: Distance is set as independent variable\
+    Cu at surface:     100.0000 wt% (was 0.30)\
+    Cu at far field:   0.4450 wt%\
+    Depletion depth:   0 um\
+    Cu captured:       -1.4266e+01 mg/particle\
+\
+===========================================================================\
+WRITING OUTPUT\
+===========================================================================\
+\
+Summary CSV: U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython\\..\\..\\data\\tcpython\\raw\\cu_removal_rate_summary.csv (20 rows)\
+Profile CSV: U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython\\..\\..\\data\\tcpython\\raw\\cu_removal_rate_profiles.csv (1200 rows)\
+\
+===========================================================================\
+PRACTICAL SCALING ESTIMATES\
+===========================================================================\
+\
+Reference oxide: Fe2O3 (rho=5240 kg/m3)\
+Steel: 1 kg at 0.30 wt% Cu (3 mg Cu)\
+Oxide dose: 50 g Fe2O3 per kg steel (5 wt%%)\
+\
+\
+(Full results in summary CSV)\
+\
+===========================================================================\
+SUMMARY TABLE\
+===========================================================================\
+\
+Radius      Time      Cu@surface    Depletion     Cu/particle      50g dose removal\
+(um)        (s)       (wt%)         (um)          (mg)             (% of total Cu)\
+--------------------------------------------------------------------------------\
+25          60        FAIL          FAIL          FAIL             FAIL\
+25          300       FAIL          FAIL          FAIL             FAIL\
+25          600       FAIL          FAIL          FAIL             FAIL\
+25          1800      FAIL          FAIL          FAIL             FAIL\
+50          60        FAIL          FAIL          FAIL             FAIL\
+50          300       FAIL          FAIL          FAIL             FAIL\
+50          600       FAIL          FAIL          FAIL             FAIL\
+50          1800      FAIL          FAIL          FAIL             FAIL\
+100         60        FAIL          FAIL          FAIL             FAIL\
+100         300       FAIL          FAIL          FAIL             FAIL\
+100         600       FAIL          FAIL          FAIL             FAIL\
+100         1800      FAIL          FAIL          FAIL             FAIL\
+250         60        FAIL          FAIL          FAIL             FAIL\
+250         300       FAIL          FAIL          FAIL             FAIL\
+250         600       FAIL          FAIL          FAIL             FAIL\
+250         1800      FAIL          FAIL          FAIL             FAIL\
+500         60        FAIL          FAIL          FAIL             FAIL\
+500         300       FAIL          FAIL          FAIL             FAIL\
+500         600       FAIL          FAIL          FAIL             FAIL\
+500         1800      FAIL          FAIL          FAIL             FAIL\
+\
+===========================================================================\
+Completed: 20/20 calculations (0 failed)\
+Finished: 2026-03-14T21:11:58.992889\
+===========================================================================}

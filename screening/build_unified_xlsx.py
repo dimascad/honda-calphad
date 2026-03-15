@@ -6,23 +6,24 @@ Tab layout (narrative order, 3-tier color coding):
   BLUE  — Analysis (formula-driven, what Honda/Zhang see)
     1. Dashboard              — project story, navigation card, 4 embedded plots
     2. Screening_Summary      — binary + ternary verdicts, tier classification
-    3. CuFe2O4_DeepDive       — Cu-capture vs Fe-oxidation decomposition
+    3. Mass_Balance           — experiment design: oxide dropdown, particle sweep, contact time
     4. Activity_and_Slag      — dilute Cu penalty + slag basicity effects
-    5. Normalization          — full stoichiometry tables (17 binary + 18 ternary) + 2 worked examples
+    5. CuFe2O4_DeepDive       — Cu-capture vs Fe-oxidation decomposition
+    6. Normalization          — full stoichiometry tables (17 binary + 18 ternary) + 2 worked examples
 
   GREEN — Results (derived CSVs — still "answers", not raw TC-Python)
-    6. Screening_Table        — one row per oxide, binary dG + verdict
-    7. Ternary_Verdicts       — one row per ternary product, dG + verdict
-    8. Activity_Corrected     — activity-corrected dG across temperatures
+    7.  Screening_Table       — one row per oxide, binary dG + verdict
+    8.  Ternary_Verdicts      — one row per ternary product, dG + verdict
+    9.  Activity_Corrected    — activity-corrected dG across temperatures
 
   GRAY  — Raw TC-Python Output (the receipt)
-    9.  OX_Gibbs              — binary oxide Gibbs energies (18 oxides x 31 temps)
-    10. Ternary_Rxns          — ternary reaction energies (414 rows)
-    11. dG_Top6               — fine-resolution dG vs T for top 6 (270 rows)
-    12. CuFe2O4_Raw           — CuFe2O4 decomposition raw data (23 rows)
-    13. Cu_Activity           — Cu activity sweep at 1800K (80 rows)
-    14. Slag_Effects          — slag basicity effects on a_Cu (30 rows)
-    15. Phase_Map             — ternary composition phase mapping (1107 rows)
+    10. OX_Gibbs              — binary oxide Gibbs energies (18 oxides x 31 temps)
+    11. Ternary_Rxns          — ternary reaction energies (414 rows)
+    12. dG_Top6               — fine-resolution dG vs T for top 6 (270 rows)
+    13. CuFe2O4_Raw           — CuFe2O4 decomposition raw data (23 rows)
+    14. Cu_Activity           — Cu activity sweep at 1800K (80 rows)
+    15. Slag_Effects          — slag basicity effects on a_Cu (30 rows)
+    16. Phase_Map             — ternary composition phase mapping (1107 rows)
 """
 
 import csv
@@ -34,6 +35,7 @@ from openpyxl.styles import (
     Font, PatternFill, Alignment, Border, Side, numbers,
 )
 from openpyxl.formatting.rule import CellIsRule
+from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.utils import get_column_letter
 from openpyxl.chart import BarChart, LineChart, Reference
 from openpyxl.chart.axis import ChartLines
@@ -99,6 +101,16 @@ CARD_FILL   = PatternFill(start_color="F2F2F2", end_color="F2F2F2",
 
 THICK = Side(style="medium")
 THIN  = Side(style="thin")
+
+# Dropdown cell style — bright orange-gold fill so it pops as "click me"
+DROPDOWN_FILL = PatternFill(start_color="FFC000", end_color="FFC000",
+                             fill_type="solid")
+DROPDOWN_FONT = Font(bold=True, size=11, color="000000")
+DROPDOWN_BORDER = Border(
+    top=Side(style="medium", color="B8860B"),
+    bottom=Side(style="medium", color="B8860B"),
+    left=Side(style="medium", color="B8860B"),
+    right=Side(style="medium", color="B8860B"))
 
 # Tab colors (3-tier)
 BLUE_TAB  = "4472C4"   # analysis
@@ -346,7 +358,14 @@ def _intro(title, detail):
 
 
 def build_raw_tabs(wb):
-    """Build 7 raw TC-Python data tabs (gray) with intro cards."""
+    """Build 8 raw/backing data tabs (gray) with intro cards."""
+    _build_raw_tab(wb, "Ternary_Verdicts", "ternary_v",
+        tab_color=GRAY_TAB, intro=_intro(
+        "TERNARY VERDICTS \u2014 One row per Cu-M-O product "
+        "(backing data for Screening_Summary)",
+        "\u0394G < 0 means oxide captures Cu into a ternary compound. "
+        "Col I shows equilibrium phases at 1527\u00b0C (all melt into "
+        "IONIC_LIQ at steelmaking temp)."))
     _build_raw_tab(wb, "OX_Gibbs", "ox_gibbs", intro=_intro(
         "RAW TC-PYTHON \u2014 Binary oxide Gibbs energies (18 oxides, TCOX14+SSUB3)",
         "GM values are per mole of ATOMS. See Normalization tab for conversion "
@@ -390,13 +409,6 @@ def build_results_tabs(wb):
         _highlight_toxicity(ws_st, col_idx=11,
                             start_row=INTRO_ROWS + 2,
                             end_row=INTRO_ROWS + 1 + n_st)
-
-    _build_raw_tab(wb, "Ternary_Verdicts", "ternary_v",
-        tab_color=GREEN_TAB, intro=_intro(
-        "TERNARY VERDICTS \u2014 One row per Cu-M-O product",
-        "\u0394G < 0 means oxide captures Cu into a ternary compound. "
-        "Col I shows equilibrium phases at 1527\u00b0C (all melt into "
-        "IONIC_LIQ at steelmaking temp)."))
 
     ws_ac, n_ac = _build_raw_tab(wb, "Activity_Corrected", "corrected",
         tab_color=GREEN_TAB, intro=_intro(
@@ -494,7 +506,7 @@ def build_dashboard(wb):
     r += 2
 
     # ── Table of Contents ──
-    toc_headers = ["Tab", "Color", "Purpose", "Key Contents"]
+    toc_headers = ["Tab", "Purpose", "Key Contents"]
     toc_ncols = len(toc_headers)
     toc_start_col = COL_START
 
@@ -507,7 +519,7 @@ def build_dashboard(wb):
         ws.cell(row=r, column=c).font = Font(size=10)
     r += 1
 
-    # Color fills for TOC
+    # Color fills for TOC — applied directly to Tab name cell
     blue_indicator = PatternFill(start_color="4472C4", end_color="4472C4",
                                  fill_type="solid")
     green_indicator = PatternFill(start_color="70AD47", end_color="70AD47",
@@ -516,50 +528,49 @@ def build_dashboard(wb):
                                   fill_type="solid")
 
     toc_entries = [
-        ("Dashboard",          blue_indicator,  "BLUE — Analysis",
+        ("Dashboard",          blue_indicator,  "Analysis",
          "This tab. Project overview, navigation, key figures."),
-        ("Screening_Summary",  blue_indicator,  "BLUE — Analysis",
+        ("Screening_Summary",  blue_indicator,  "Analysis",
          "One row per oxide: binary verdict, ternary verdict, tier rank."),
-        ("CuFe2O4_DeepDive",   blue_indicator,  "BLUE — Analysis",
-         "Decompose CuFe2O4 reaction into Cu-capture vs Fe-oxidation."),
-        ("Activity_and_Slag",  blue_indicator,  "BLUE — Analysis",
+        ("Mass_Balance",       blue_indicator,  "Analysis",
+         "Experiment design: oxide dropdown, particle size sweep, contact time."),
+        ("Activity_and_Slag",  blue_indicator,  "Analysis",
          "Dilute Cu penalty, gamma sensitivity, slag basicity effects."),
-        ("Normalization",      blue_indicator,  "BLUE — Analysis",
+        ("CuFe2O4_DeepDive",   blue_indicator,  "Analysis",
+         "Decompose CuFe2O4 reaction into Cu-capture vs Fe-oxidation."),
+        ("Normalization",      blue_indicator,  "Analysis",
          "Full stoichiometry (17 binary + 18 ternary) + 2 worked examples."),
-        ("Screening_Table",    green_indicator, "GREEN — Results",
+        ("Screening_Table",    green_indicator, "Results",
          "Binary oxide dG at 3 temperatures + physical properties."),
-        ("Ternary_Verdicts",   green_indicator, "GREEN — Results",
-         "Ternary product dG at 3 temperatures + phase data."),
-        ("Activity_Corrected", green_indicator, "GREEN — Results",
+        ("Activity_Corrected", green_indicator, "Results",
          "Activity-corrected dG for all products across temperature."),
-        ("OX_Gibbs",           gray_indicator,  "GRAY — Raw Data",
+        ("Ternary_Verdicts",   gray_indicator,  "Raw/Backing",
+         "Ternary product dG + phase data (backing for Screening_Summary)."),
+        ("OX_Gibbs",           gray_indicator,  "Raw/Backing",
          "Oxide Gibbs energies (18 oxides, 500-2000K, TCOX14)."),
-        ("Ternary_Rxns",       gray_indicator,  "GRAY — Raw Data",
+        ("Ternary_Rxns",       gray_indicator,  "Raw/Backing",
          "Ternary reaction energies (16 systems x 23 temps)."),
-        ("dG_Top6",            gray_indicator,  "GRAY — Raw Data",
+        ("dG_Top6",            gray_indicator,  "Raw/Backing",
          "Fine-resolution dG vs T for top 6 candidates (25K steps)."),
-        ("CuFe2O4_Raw",        gray_indicator,  "GRAY — Raw Data",
+        ("CuFe2O4_Raw",        gray_indicator,  "Raw/Backing",
          "CuFe2O4 formation: Cu-capture vs Fe-oxidation components."),
-        ("Cu_Activity",        gray_indicator,  "GRAY — Raw Data",
+        ("Cu_Activity",        gray_indicator,  "Raw/Backing",
          "Cu activity sweep at 1800K (4 ternary systems)."),
-        ("Slag_Effects",       gray_indicator,  "GRAY — Raw Data",
+        ("Slag_Effects",       gray_indicator,  "Raw/Backing",
          "Slag basicity effects on a_Cu (2 quaternary systems)."),
-        ("Phase_Map",          gray_indicator,  "GRAY — Raw Data",
+        ("Phase_Map",          gray_indicator,  "Raw/Backing",
          "20x20 ternary composition grid phase mapping at 1800K."),
     ]
 
     toc_first_data = r
-    for tab_name, color_fill, tier, purpose in toc_entries:
-        ws.cell(row=r, column=toc_start_col, value=tab_name).font = \
-            Font(size=10, bold=True)
-        color_cell = ws.cell(row=r, column=toc_start_col + 1)
-        color_cell.fill = color_fill
-        color_cell.value = tier.split(" — ")[0]
-        color_cell.font = Font(size=9, color="FFFFFF", bold=True)
-        color_cell.alignment = Alignment(horizontal="center")
-        ws.cell(row=r, column=toc_start_col + 2, value=tier.split(" — ")[1]
-                ).font = Font(size=10)
-        ws.cell(row=r, column=toc_start_col + 3, value=purpose).font = \
+    for tab_name, color_fill, purpose, contents in toc_entries:
+        tab_cell = ws.cell(row=r, column=toc_start_col, value=tab_name)
+        tab_cell.font = Font(size=10, bold=True, color="FFFFFF")
+        tab_cell.fill = color_fill
+        tab_cell.alignment = Alignment(horizontal="center")
+        ws.cell(row=r, column=toc_start_col + 1, value=purpose).font = \
+            Font(size=10)
+        ws.cell(row=r, column=toc_start_col + 2, value=contents).font = \
             Font(size=9, color="444444")
         r += 1
 
@@ -853,7 +864,45 @@ def build_screening_summary(wb):
 
     auto_width(ws, ncols, max_w=35)
 
-    # Conditional formatting
+    # ── Oxide highlight selector ──
+    # Place dropdown in row 1, col M (outside merged intro area)
+    HL_COL = 13  # col M
+    ws.cell(row=1, column=HL_COL,
+            value="Highlight:").font = Font(size=9, bold=True,
+                                            color="2F5496")
+    ws.cell(row=1, column=HL_COL).alignment = Alignment(horizontal="right")
+    highlight_cell = ws.cell(row=1, column=HL_COL + 1, value="(none)")
+    highlight_cell.fill = DROPDOWN_FILL
+    highlight_cell.font = DROPDOWN_FONT
+    highlight_cell.border = DROPDOWN_BORDER
+    ws.column_dimensions[get_column_letter(HL_COL)].width = 10
+    ws.column_dimensions[get_column_letter(HL_COL + 1)].width = 14
+
+    # Build formula list from the oxide names in the data
+    oxide_formulas = [r["Formula"] for r in rows_s]
+    dv_list = "(none)," + ",".join(oxide_formulas[:25])  # DataValidation limit
+    highlight_dv = DataValidation(
+        type="list",
+        formula1=f'"{dv_list}"',
+        allow_blank=True,
+    )
+    highlight_dv.prompt = "Select an oxide to highlight its row in yellow."
+    highlight_dv.promptTitle = "Highlight Oxide"
+    ws.add_data_validation(highlight_dv)
+    highlight_dv.add(highlight_cell)
+
+    # Conditional formatting: highlight entire row when col B matches $N$1
+    from openpyxl.formatting.rule import FormulaRule
+    hl_ref = f"${get_column_letter(HL_COL + 1)}$1"
+    highlight_fill = PatternFill(start_color="FFFF00", end_color="FFFF00",
+                                  fill_type="solid")
+    highlight_range = f"A{data_start}:K{last_data}"
+    ws.conditional_formatting.add(
+        highlight_range,
+        FormulaRule(formula=[f'=$B{data_start}={hl_ref}'],
+                    fill=highlight_fill))
+
+    # Conditional formatting for verdict columns
     for col_l in ["G", "J"]:
         cell_range = f"{col_l}{data_start}:{col_l}{last_data}"
         ws.conditional_formatting.add(
@@ -1036,13 +1085,19 @@ def build_activity_and_slag(wb):
 
     ws.cell(row=5, column=1, value="Cu mole fraction in steel")
     ws.cell(row=5, column=2, value="X_Cu")
-    ws.cell(row=5, column=3, value=0.003)
+    xcu_cell = ws.cell(row=5, column=3, value=0.003)
+    xcu_cell.fill = DROPDOWN_FILL
+    xcu_cell.font = DROPDOWN_FONT
+    xcu_cell.border = DROPDOWN_BORDER
     fmt_number(ws, 5, 3, "0.0000")
     ws.cell(row=5, column=4, value="~0.3 wt% Cu (EDITABLE)")
 
     ws.cell(row=6, column=1, value="Raoultian activity coefficient")
     ws.cell(row=6, column=2, value="\u03b3_Cu")
-    ws.cell(row=6, column=3, value=8.5)
+    gamma_cell = ws.cell(row=6, column=3, value=8.5)
+    gamma_cell.fill = DROPDOWN_FILL
+    gamma_cell.font = DROPDOWN_FONT
+    gamma_cell.border = DROPDOWN_BORDER
     fmt_number(ws, 6, 3, "0.0")
     ws.cell(row=6, column=4, value="Literature range: 5-13 (EDITABLE)")
 
@@ -1054,8 +1109,22 @@ def build_activity_and_slag(wb):
 
     ws.cell(row=8, column=1, value="Temperature")
     ws.cell(row=8, column=2, value="T")
-    ws.cell(row=8, column=3, value=1800)
-    ws.cell(row=8, column=4, value="K (steelmaking)")
+    t_cell = ws.cell(row=8, column=3, value=1800)
+    t_cell.fill = DROPDOWN_FILL
+    t_cell.font = DROPDOWN_FONT
+    t_cell.border = DROPDOWN_BORDER
+    ws.cell(row=8, column=4, value="K \u25bc SELECT FROM DROPDOWN")
+
+    t_dv = DataValidation(
+        type="list",
+        formula1='"1400,1500,1600,1700,1800,1900,2000"',
+        allow_blank=False,
+    )
+    t_dv.prompt = ("Select temperature. The penalty term -RT ln(a_Cu) "
+                   "updates automatically.")
+    t_dv.promptTitle = "Temperature"
+    ws.add_data_validation(t_dv)
+    t_dv.add(t_cell)
 
     ws.cell(row=9, column=1, value="Gas constant")
     ws.cell(row=9, column=2, value="R")
@@ -1309,6 +1378,342 @@ def build_activity_and_slag(wb):
 # =====================================================================
 # Tab 5: Normalization (full stoichiometry + worked examples)
 # =====================================================================
+def build_mass_balance(wb):
+    """Tab: Experiment design — oxide mass, particles, contact time.
+
+    Features:
+      - Editable parameter cells (steel mass, Cu%, excess factor, radius)
+      - Oxide comparison table with formula-computed stoichiometry
+      - Oxide DROPDOWN selector — particle sweep updates via INDEX/MATCH
+      - Particle size sweep for whichever oxide is selected
+    """
+    ws = wb.create_sheet("Mass_Balance")
+
+    note_font = Font(italic=True, size=9, color="666666")
+    param_font = Font(bold=True, size=10)
+    section_font = Font(bold=True, size=11, color="2F5496")
+    edit_fill = PatternFill(start_color="DAEEF3", end_color="DAEEF3",
+                            fill_type="solid")
+
+    # ── Intro card ──
+    _write_card_line(ws, 1, 1, 9,
+                     "EXPERIMENT DESIGN \u2014 How much oxide, what particle "
+                     "size, how long?",
+                     font=section_font)
+    _write_card_line(ws, 2, 1, 9,
+                     "Gold cells are editable. All results update "
+                     "automatically. Use the oxide dropdown (C15) to "
+                     "switch the particle sweep.",
+                     font=note_font)
+
+    # ── Section 1: Editable Parameters (rows 4-15) ──
+    ws.cell(row=4, column=1, value="Parameter").font = param_font
+    ws.cell(row=4, column=2, value="Symbol").font = param_font
+    ws.cell(row=4, column=3, value="Value").font = param_font
+    ws.cell(row=4, column=4, value="Unit / Note").font = param_font
+    style_header(ws, 4, 4)
+
+    params = [
+        # (row, label, symbol, value, fmt, unit, editable)
+        (5,  "Steel mass",           "m_steel",    0.5,      "0.00",     "kg (EDITABLE)",               True),
+        (6,  "Initial Cu",           "Cu_init",    0.30,     "0.00",     "wt% (EDITABLE)",              True),
+        (7,  "Target Cu",            "Cu_target",  0.10,     "0.00",     "wt% (EDITABLE)",              True),
+        (8,  "Excess factor",        "k_excess",   3.0,      "0.0",      "\u00d7 stoichiometric (EDITABLE)", True),
+        (9,  "Particle radius",      "R",          100,      "0",        "\u03bcm (EDITABLE)",          True),
+        (10, "D_Cu in liquid Fe",    "D_Cu",       9.63e-10, "0.00E+00", "m\u00b2/s at 1800K (DICTRA)", False),
+        (11, "Liquid steel density", "\u03c1_steel", 7000,   "0",        "kg/m\u00b3",                  False),
+    ]
+    for row, label, symbol, value, fmt, unit, editable in params:
+        ws.cell(row=row, column=1, value=label)
+        ws.cell(row=row, column=2, value=symbol)
+        c = ws.cell(row=row, column=3, value=value)
+        c.number_format = fmt
+        if editable:
+            c.fill = DROPDOWN_FILL
+            c.font = DROPDOWN_FONT
+            c.border = DROPDOWN_BORDER
+        ws.cell(row=row, column=4, value=unit)
+
+    # Derived parameters (formulas)
+    ws.cell(row=12, column=1, value="Cu to remove")
+    ws.cell(row=12, column=2, value="\u0394Cu")
+    ws.cell(row=12, column=3, value="=C5*1000*(C6-C7)/100")
+    fmt_number(ws, 12, 3, "0.00")
+    ws.cell(row=12, column=4,
+            value="g  =  m_steel \u00d7 1000 \u00d7 (Cu_init \u2212 Cu_target) / 100")
+
+    ws.cell(row=13, column=1, value="Cu moles to remove")
+    ws.cell(row=13, column=2, value="n_Cu")
+    ws.cell(row=13, column=3, value="=C12/63.546")
+    fmt_number(ws, 13, 3, "0.0000")
+    ws.cell(row=13, column=4, value="mol  =  \u0394Cu / MW_Cu (63.546 g/mol)")
+
+    ws.cell(row=14, column=1, value="Diffusion time")
+    ws.cell(row=14, column=2, value="t_diff")
+    ws.cell(row=14, column=3, value="=(C9*1E-6)^2/(2*C10)")
+    fmt_number(ws, 14, 3, "0.0")
+    ws.cell(row=14, column=4, value="s  =  R\u00b2 / (2 D_Cu)")
+
+    # ── Oxide selector dropdown (row 15) ──
+    ws.cell(row=15, column=1, value="Selected oxide")
+    ws.cell(row=15, column=2, value="oxide")
+    # Unicode oxide names for the dropdown list and default value
+    oxide_names = [
+        "Fe\u2082O\u2083", "V\u2082O\u2085", "MnO",
+        "SiO\u2082", "Al\u2082O\u2083",
+    ]
+    c15 = ws.cell(row=15, column=3, value=oxide_names[0])  # default Fe2O3
+    c15.fill = DROPDOWN_FILL
+    c15.font = DROPDOWN_FONT
+    c15.border = DROPDOWN_BORDER
+    ws.cell(row=15, column=4,
+            value="\u25bc SELECT FROM DROPDOWN \u2192 particle sweep updates")
+
+    dv = DataValidation(
+        type="list",
+        formula1='"' + ",".join(oxide_names) + '"',
+        allow_blank=False,
+    )
+    dv.error = "Pick one of the 5 oxides."
+    dv.errorTitle = "Invalid oxide"
+    dv.prompt = "Select an oxide to analyze in the particle sweep below."
+    dv.promptTitle = "Oxide Selection"
+    ws.add_data_validation(dv)
+    dv.add(c15)
+
+    # ── Section 2: Oxide Comparison Table (rows 18+) ──
+    OX_TABLE_ROW = 18  # header row
+    ws.cell(row=OX_TABLE_ROW - 1, column=1,
+            value="OXIDE COMPARISON TABLE").font = section_font
+
+    headers = ["Oxide", "Product", "\u0394G(1800K)", "MW_oxide",
+               "\u03c1 (kg/m\u00b3)", "Cu/mol oxide",
+               "Stoich (g)", "Recommended (g)", "wt% of steel"]
+    for ci, h in enumerate(headers, 1):
+        ws.cell(row=OX_TABLE_ROW, column=ci, value=h)
+    style_header(ws, OX_TABLE_ROW, len(headers))
+
+    oxides = [
+        # (name, product, dG, MW, rho, cu_per_mol)
+        ("Fe\u2082O\u2083", "CuFe\u2082O\u2084", -111.9, 159.69, 5240, 1),
+        ("V\u2082O\u2085",  "Cu\u2083V\u2082O\u2088", -109.2, 181.88, 3357, 3),
+        ("MnO",             "CuMn\u2082O\u2084",  -63.5,  70.94, 5430, 0.5),
+        ("SiO\u2082",       "Cu\u2082SiO\u2084",  -50.2,  60.08, 2650, 2),
+        ("Al\u2082O\u2083", "CuAl\u2082O\u2084",  -35.7, 101.96, 3950, 1),
+    ]
+
+    first_data_row = OX_TABLE_ROW + 1
+    for i, (name, product, dG, mw, rho, cu_per_mol) in enumerate(oxides):
+        row = first_data_row + i
+        ws.cell(row=row, column=1, value=name)      # A: oxide name (lookup key)
+        ws.cell(row=row, column=2, value=product)    # B: product
+        ws.cell(row=row, column=3, value=dG)         # C: dG
+        fmt_number(ws, row, 3, "0.0")
+        ws.cell(row=row, column=4, value=mw)         # D: MW
+        fmt_number(ws, row, 4, "0.00")
+        ws.cell(row=row, column=5, value=rho)        # E: density
+        ws.cell(row=row, column=6, value=cu_per_mol) # F: Cu per mol
+        # G: stoich = n_Cu / cu_per_mol * MW_oxide
+        ws.cell(row=row, column=7, value=f"=$C$13/F{row}*D{row}")
+        fmt_number(ws, row, 7, "0.00")
+        # H: recommended = stoich * excess
+        ws.cell(row=row, column=8, value=f"=G{row}*$C$8")
+        fmt_number(ws, row, 8, "0.00")
+        # I: wt% of steel
+        ws.cell(row=row, column=9, value=f"=H{row}/($C$5*1000)*100")
+        fmt_number(ws, row, 9, "0.00")
+
+    last_data_row = first_data_row + len(oxides) - 1
+    alt_shading(ws, first_data_row, last_data_row, len(headers))
+    apply_borders(ws, OX_TABLE_ROW, last_data_row, len(headers))
+
+    # Row/col references for INDEX/MATCH formulas below
+    # Oxide name range: A19:A23 (for MATCH against C15 dropdown)
+    ox_range = f"$A${first_data_row}:$A${last_data_row}"
+    # Density col (E), Recommended col (H)
+    rho_range = f"$E${first_data_row}:$E${last_data_row}"
+    rec_range = f"$H${first_data_row}:$H${last_data_row}"
+
+    # ── Section 3: Particle Size Sweep (dropdown-driven) ──
+    ps_start = last_data_row + 3  # header row
+    # Title references the selected oxide via formula
+    ws.cell(row=ps_start - 1, column=1,
+            value="PARTICLE SIZE SWEEP").font = section_font
+    ws.cell(row=ps_start - 1, column=4,
+            value='="\u2190 for "&C15&" (change dropdown in C15 to switch)"')
+    ws.cell(row=ps_start - 1, column=4).font = note_font
+
+    # Lookup cells for the selected oxide (hidden math, visible for audit)
+    # Put them in cols G-I of the section title row so they're visible but
+    # out of the way
+    ws.cell(row=ps_start - 1, column=7,
+            value="Selected \u03c1:").font = note_font
+    ws.cell(row=ps_start - 1, column=8,
+            value=f"=INDEX({rho_range},MATCH($C$15,{ox_range},0))")
+    fmt_number(ws, ps_start - 1, 8, "0")
+    ws.cell(row=ps_start - 1, column=9,
+            value="kg/m\u00b3").font = note_font
+
+    # Reference cells for formulas below
+    rho_cell = f"$H${ps_start - 1}"   # looked-up density
+    rec_cell = f"INDEX({rec_range},MATCH($C$15,{ox_range},0))"
+
+    ps_headers = ["Radius (\u03bcm)", "N particles",
+                  "Surface area (cm\u00b2)", "t_diff (s)", "t_diff (min)",
+                  "Rec. mass (g)"]
+    for ci, h in enumerate(ps_headers, 1):
+        ws.cell(row=ps_start, column=ci, value=h)
+    style_header(ws, ps_start, len(ps_headers))
+
+    radii = [10, 25, 50, 100, 250, 500]
+    for i, rad in enumerate(radii):
+        row = ps_start + 1 + i
+        ws.cell(row=row, column=1, value=rad)
+        # F: Rec mass (repeated for clarity — from INDEX/MATCH)
+        ws.cell(row=row, column=6,
+                value=f"={rec_cell}")
+        fmt_number(ws, row, 6, "0.00")
+        # B: N = rec_mass_g / (rho * 4/3*pi*r^3 * 1000)
+        ws.cell(row=row, column=2,
+                value=f"=F{row}/({rho_cell}*4/3*PI()*(A{row}*1E-6)^3*1000)")
+        fmt_number(ws, row, 2, "0.00E+00")
+        # C: Area = N * 4*pi*r^2 * 1e4
+        ws.cell(row=row, column=3,
+                value=f"=B{row}*4*PI()*(A{row}*1E-6)^2*1E4")
+        fmt_number(ws, row, 3, "0.0")
+        # D: t_diff = r^2 / (2*D_Cu)
+        ws.cell(row=row, column=4,
+                value=f"=(A{row}*1E-6)^2/(2*$C$10)")
+        fmt_number(ws, row, 4, "0.0")
+        # E: t_diff in minutes
+        ws.cell(row=row, column=5,
+                value=f"=D{row}/60")
+        fmt_number(ws, row, 5, "0.1")
+
+    ps_end = ps_start + len(radii)
+    alt_shading(ws, ps_start + 1, ps_end, len(ps_headers))
+    apply_borders(ws, ps_start, ps_end, len(ps_headers))
+
+    # ── Key insight note ──
+    note_row = ps_end + 2
+    ws.cell(row=note_row, column=1,
+            value="KEY INSIGHT:").font = Font(bold=True, size=10,
+                                              color="2F5496")
+    ws.cell(row=note_row + 1, column=1,
+            value="D_Cu = 9.63\u00d710\u207b\u00b9\u2070 m\u00b2/s means "
+                  "Cu reaches any 100\u03bcm particle in ~5 seconds. "
+                  "Diffusion is NOT the bottleneck; the chemical "
+                  "reaction at the particle surface is rate-limiting."
+            ).font = note_font
+    ws.merge_cells(start_row=note_row + 1, start_column=1,
+                   end_row=note_row + 1, end_column=9)
+
+    # ── Section 4: "What-If" Reverse Calculator ──
+    wi_start = note_row + 4
+    ws.cell(row=wi_start, column=1,
+            value="WHAT-IF: I HAVE THIS MUCH OXIDE").font = section_font
+    ws.cell(row=wi_start + 1, column=1,
+            value="Enter the oxide mass you actually have. "
+                  "Formulas compute how much Cu it can remove."
+            ).font = note_font
+    ws.merge_cells(start_row=wi_start + 1, start_column=1,
+                   end_row=wi_start + 1, end_column=6)
+
+    # Input cell: oxide mass available
+    wi_input_row = wi_start + 3
+    ws.cell(row=wi_input_row, column=1,
+            value="Oxide mass available").font = Font(size=10)
+    ws.cell(row=wi_input_row, column=2, value="m_oxide")
+    c_avail = ws.cell(row=wi_input_row, column=3, value=2.0)
+    c_avail.fill = DROPDOWN_FILL
+    c_avail.font = DROPDOWN_FONT
+    c_avail.border = DROPDOWN_BORDER
+    ws.cell(row=wi_input_row, column=4,
+            value="g (EDIT THIS \u2192 results update below)")
+
+    # Derived values: how much Cu this oxide can capture
+    # Uses the selected oxide from dropdown C15
+    # cu_per_mol from lookup: INDEX(F19:F23, MATCH(C15, A19:A23, 0))
+    cu_per_mol_range = f"$F${first_data_row}:$F${last_data_row}"
+    mw_range = f"$D${first_data_row}:$D${last_data_row}"
+
+    wi_r = wi_input_row + 1
+    ws.cell(row=wi_r, column=1, value="MW of selected oxide")
+    ws.cell(row=wi_r, column=3,
+            value=f"=INDEX({mw_range},MATCH($C$15,{ox_range},0))")
+    fmt_number(ws, wi_r, 3, "0.00")
+    ws.cell(row=wi_r, column=4, value="g/mol")
+
+    wi_r += 1
+    ws.cell(row=wi_r, column=1, value="Cu captured per mol oxide")
+    ws.cell(row=wi_r, column=3,
+            value=f"=INDEX({cu_per_mol_range},MATCH($C$15,{ox_range},0))")
+    fmt_number(ws, wi_r, 3, "0.0")
+    ws.cell(row=wi_r, column=4, value="mol Cu / mol oxide")
+
+    wi_r += 1
+    ws.cell(row=wi_r, column=1, value="Oxide moles available")
+    ws.cell(row=wi_r, column=3,
+            value=f"=C{wi_input_row}/C{wi_input_row+1}")
+    fmt_number(ws, wi_r, 3, "0.0000")
+    ws.cell(row=wi_r, column=4, value="mol")
+
+    wi_r += 1
+    ws.cell(row=wi_r, column=1, value="Cu moles removable (stoich)")
+    ws.cell(row=wi_r, column=3,
+            value=f"=C{wi_r-1}*C{wi_r-2}")
+    fmt_number(ws, wi_r, 3, "0.0000")
+    ws.cell(row=wi_r, column=4, value="mol Cu")
+
+    wi_r += 1
+    ws.cell(row=wi_r, column=1, value="Cu mass removable")
+    ws.cell(row=wi_r, column=3,
+            value=f"=C{wi_r-1}*63.546")
+    fmt_number(ws, wi_r, 3, "0.00")
+    ws.cell(row=wi_r, column=4, value="g Cu")
+
+    wi_r += 1
+    ws.cell(row=wi_r, column=1, value="Cu reduction in wt%")
+    ws.cell(row=wi_r, column=3,
+            value=f"=C{wi_r-1}/($C$5*1000)*100")
+    fmt_number(ws, wi_r, 3, "0.000")
+    ws.cell(row=wi_r, column=4,
+            value="wt% Cu removed from steel")
+
+    wi_r += 1
+    ws.cell(row=wi_r, column=1,
+            value="Final Cu (if stoich. complete)").font = \
+        Font(bold=True, size=10)
+    ws.cell(row=wi_r, column=3,
+            value=f"=MAX(0,$C$6-C{wi_r-1})")
+    ws.cell(row=wi_r, column=3).font = Font(bold=True, size=10)
+    fmt_number(ws, wi_r, 3, "0.000")
+    ws.cell(row=wi_r, column=4,
+            value="wt% Cu remaining (assuming 100% conversion)")
+
+    # Excess ratio indicator
+    wi_r += 1
+    ws.cell(row=wi_r, column=1, value="Excess ratio vs need")
+    ws.cell(row=wi_r, column=3,
+            value=f"=IF($C$12>0,C{wi_input_row}/"
+                  f"INDEX($G${first_data_row}:$G${last_data_row},"
+                  f"MATCH($C$15,{ox_range},0)),\"N/A\")")
+    fmt_number(ws, wi_r, 3, "0.0")
+    ws.cell(row=wi_r, column=4,
+            value='x stoichiometric (need >= 1.0 for full removal)')
+
+    alt_shading(ws, wi_input_row, wi_r, 4)
+    apply_borders(ws, wi_input_row, wi_r, 4)
+
+    # Formatting
+    freeze_and_color(ws, BLUE_TAB, freeze_row=4)
+    auto_width(ws, 9)
+
+    print(f"  Mass_Balance: parameters + {len(oxides)} oxides + "
+          f"{len(radii)}-point particle sweep (dropdown-driven)")
+    return ws
+
+
 def build_normalization(wb):
     ws = wb.create_sheet("Normalization")
 
@@ -1658,25 +2063,26 @@ def build_normalization(wb):
 def main():
     print("=" * 70)
     print("Building Cu_Removal_Unified.xlsx")
-    print("  Dashboard + 4 analysis + 3 results + 7 raw = 15 tabs")
+    print("  6 analysis (blue) + 2 results (green) + 8 raw/backing (gray) = 16 tabs")
     print("=" * 70)
 
     wb = openpyxl.Workbook()
 
-    # Blue analysis tabs
+    # Blue analysis tabs (ordered by audience priority)
     print("\n--- Analysis Tabs (blue) ---")
     build_dashboard(wb)
     build_screening_summary(wb)
-    build_cufe2o4_deepdive(wb)
+    build_mass_balance(wb)
     build_activity_and_slag(wb)
+    build_cufe2o4_deepdive(wb)
     build_normalization(wb)
 
-    # Green results tabs
-    print("\n--- Results Tabs (green) ---")
+    # Green results tabs (Screening_Table + Activity_Corrected)
+    # Ternary_Verdicts demoted to gray (backing data for Screening_Summary)
+    print("\n--- Results Tabs (green) + Raw/Backing (gray) ---")
     build_results_tabs(wb)
 
     # Gray raw data tabs
-    print("\n--- Raw Data Tabs (gray) ---")
     build_raw_tabs(wb)
 
     wb.save(OUTPUT_FILE)

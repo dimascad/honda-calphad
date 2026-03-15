@@ -1,0 +1,201 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2867
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Microsoft Windows [Version 10.0.22631.6783]\
+(c) Microsoft Corporation. All rights reserved.\
+\
+C:\\Users\\dimascio.12>U:\
+\
+U:\\>cd \\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython\
+\
+U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython>"C:\\Program Files\\Thermo-Calc\\2025b\\python\\python.exe" check_vm_capabilities.py\
+============================================================\
+TC-PYTHON VM CAPABILITIES REPORT\
+Date: 2026-03-13 22:18\
+============================================================\
+TC-Python imported successfully.\
+22:18:39,780 [Thread-1] INFO  CalculationEngine: Starting Thermo-Calc 2025b, Java-version: 21.0.2\
+\
+============================================================\
+1. THERMODYNAMIC DATABASES\
+============================================================\
+    [FOUND]  TCOX14\
+    [FOUND]  TCOX13\
+    [FOUND]  TCOX12\
+    [FOUND]  TCOX11\
+    [FOUND]  TCOX10\
+    [FOUND]  TCOX9\
+    [FOUND]  TCFE13\
+    [FOUND]  TCFE12\
+    [FOUND]  TCFE11\
+    [FOUND]  TCFE10\
+    [FOUND]  SSUB6\
+    [FOUND]  SSUB5\
+    [FOUND]  SSUB4\
+    [FOUND]  SSUB3\
+    [FOUND]  TCAL8\
+    [FOUND]  TCAL7\
+    [FOUND]  TCAL6\
+    [FOUND]  TCCU4\
+    [FOUND]  TCCU3\
+    [FOUND]  TCCU2\
+\
+============================================================\
+2. MOBILITY / KINETIC DATABASES\
+============================================================\
+    [FOUND]  MOBFE9\
+    [FOUND]  MOBFE8\
+    [FOUND]  MOBFE7\
+    [FOUND]  MOBFE6\
+    [FOUND]  MOBFE5\
+    [FOUND]  MOBOX1\
+    [FOUND]  MOBOX2\
+    [FOUND]  MOBCU3\
+    [FOUND]  MOBCU2\
+    [FOUND]  MOBCU1\
+    [FOUND]  MOBNI5\
+    [FOUND]  MOBNI4\
+    [FOUND]  MOBNI3\
+    [FOUND]  MOBAL2\
+    [FOUND]  MOBAL1\
+\
+============================================================\
+3. COMBINED DATABASE LOADING\
+============================================================\
+    [OK]     TCFE + TCOX \'97 loaded together\
+22:18:45,010 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+22:18:51,301 [Thread-1] INFO  JavaWrapper: *** Invoking Gibbs Energy System v6 ***\
+22:19:10,633 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+22:19:10,634 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+22:19:10,635 [Thread-1] INFO  CalculationEngine:   *** ERROR  1001 IN TDBEPH: INCOMPATIBLE PHASE DESCRIPTION IN PHASE CORUNDUM\
+22:19:16,664 [Thread-1] ERROR AppendMessageReceiver: Different number of sublattices detected in databases: CORUNDUM\
+22:19:16,666 [Thread-1] ERROR JavaWrapper: setPhaseSelectionStatus(JavaWrapper.java:660): Definitions not compatible: CORUNDUM\
+22:19:17,115 [Thread-1] ERROR AppendMessageReceiver: Different number of sublattices detected in databases: CORUNDUM\
+22:19:17,115 [Thread-1] ERROR JavaWrapper: notifyWrapper(JavaWrapper.java:377): AssertionError\
+22:19:17,119 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   19 CUO_B26 CUPRITE\
+22:19:17,119 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   21 CUPRITE_C3 CUZN_EPSILON\
+22:19:17,119 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   22 CUZN_EPSILON DELAFOSSITE\
+22:19:17,120 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   23 DELAFOSSITE DHCP\
+22:19:17,120 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   24 DHCP DIAMOND_A4\
+22:19:17,120 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   25 DIAMOND_A4 FCC_A1\
+22:19:17,120 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   26 FCC_A1 FCC_L12\
+22:19:17,120 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   27 FCC_L12 FE4N_LP1\
+22:19:17,120 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   28 FE4N_LP1 FLUORITE\
+22:19:17,121 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   29 FLUORITE HALITE\
+22:19:17,121 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   30 HALITE HCP_A3\
+22:19:17,121 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   31 HCP_A3 M2O3C\
+22:19:17,121 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   33 M2O3C_D53 NBNI3_D0A\
+22:19:17,121 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   34 NBNI3_D0A SPINEL\
+22:19:17,121 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   35 SPINEL ZRO2_TETR\
+22:19:17,122 [Thread-1] ERROR JavaWrapper: GSPHB(JavaWrapper.java:964): There is no phase with this index: 36\
+22:19:17,122 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   36 ZRO2_TETR Not in GES6\
+22:19:17,122 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   36 ZRO2_TETR\
+22:19:17,123 [Thread-1] ERROR JavaWrapper: getNoOfSelectedConstituents(JavaWrapper.java:789): There is no phase with this index: 36\
+22:19:17,123 [Thread-1] INFO  CalculationEngine:   *** ERROR  8936 IN CONSIS: NOT POSSIBLE TO RUN THIS IN GES 6\
+             (could not enumerate phases: Thermo-Calc calculation error: se.thermocalc.core.Calculatio)\
+    [OK]     TCFE + TCOX (older) \'97 loaded together\
+22:19:17,170 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+22:19:37,141 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+22:19:37,142 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+22:19:37,143 [Thread-1] INFO  CalculationEngine:   *** ERROR  1001 IN TDBEPH: INCOMPATIBLE PHASE DESCRIPTION IN PHASE CORUNDUM\
+22:19:42,767 [Thread-1] ERROR AppendMessageReceiver: Different number of sublattices detected in databases: CORUNDUM\
+22:19:42,767 [Thread-1] ERROR JavaWrapper: setPhaseSelectionStatus(JavaWrapper.java:660): Definitions not compatible: CORUNDUM\
+22:19:42,790 [Thread-1] ERROR AppendMessageReceiver: Different number of sublattices detected in databases: CORUNDUM\
+22:19:42,792 [Thread-1] ERROR JavaWrapper: notifyWrapper(JavaWrapper.java:377): AssertionError\
+22:19:42,794 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   19 CUO_B26 CUPRITE\
+22:19:42,795 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   21 CUPRITE_C3 CUZN_EPSILON\
+22:19:42,795 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   22 CUZN_EPSILON DELAFOSSITE\
+22:19:42,795 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   23 DELAFOSSITE DHCP\
+22:19:42,795 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   24 DHCP DIAMOND_A4\
+22:19:42,795 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   25 DIAMOND_A4 FCC_A1\
+22:19:42,796 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   26 FCC_A1 FCC_L12\
+22:19:42,796 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   27 FCC_L12 FE4N_LP1\
+22:19:42,796 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   28 FE4N_LP1 FLUORITE\
+22:19:42,796 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   29 FLUORITE HALITE\
+             (could not enumerate phases: Thermo-Calc calculation error: se.thermocalc.core.Calculatio)\
+22:19:42,796 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   30 HALITE HCP_A3\
+22:19:42,796 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   31 HCP_A3 M2O3C\
+22:19:42,797 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   33 M2O3C_D53 NBNI3_D0A\
+22:19:42,797 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   34 NBNI3_D0A SPINEL\
+22:19:42,797 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   35 SPINEL ZRO2_TETR\
+22:19:42,797 [Thread-1] ERROR JavaWrapper: GSPHB(JavaWrapper.java:964): There is no phase with this index: 36\
+22:19:42,798 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   36 ZRO2_TETR Not in GES6\
+    [OK]     TCFE + TCOX (oldest) \'97 loaded together\
+22:19:42,798 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   36 ZRO2_TETR\
+22:19:42,798 [Thread-1] ERROR JavaWrapper: getNoOfSelectedConstituents(JavaWrapper.java:789): There is no phase with this index: 36\
+22:19:42,798 [Thread-1] INFO  CalculationEngine:   *** ERROR  8936 IN CONSIS: NOT POSSIBLE TO RUN THIS IN GES 6\
+22:19:42,850 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+22:19:57,217 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+22:19:57,219 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+22:19:57,222 [Thread-1] INFO  CalculationEngine:   *** ERROR  1001 IN TDBEPH: INCOMPATIBLE PHASE DESCRIPTION IN PHASE CORUNDUM\
+22:20:00,792 [Thread-1] ERROR AppendMessageReceiver: Different number of sublattices detected in databases: CORUNDUM\
+22:20:00,793 [Thread-1] ERROR JavaWrapper: setPhaseSelectionStatus(JavaWrapper.java:660): Definitions not compatible: CORUNDUM\
+22:20:00,950 [Thread-1] ERROR AppendMessageReceiver: Different number of sublattices detected in databases: CORUNDUM\
+22:20:00,951 [Thread-1] ERROR JavaWrapper: notifyWrapper(JavaWrapper.java:377): AssertionError\
+22:20:00,954 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   18 CUO_B26 CUPRITE\
+22:20:00,954 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   20 CUPRITE_C3 CUZN_EPSILON\
+22:20:00,955 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   21 CUZN_EPSILON DELAFOSSITE\
+22:20:00,955 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   22 DELAFOSSITE DHCP\
+22:20:00,955 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   23 DHCP DIAMOND_A4\
+22:20:00,955 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   24 DIAMOND_A4 FCC_A1\
+22:20:00,955 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   25 FCC_A1 FCC_L12\
+22:20:00,956 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   26 FCC_L12 FE4N_LP1\
+22:20:00,956 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   27 FE4N_LP1 FLUORITE\
+22:20:00,956 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   28 FLUORITE HALITE\
+22:20:00,956 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   29 HALITE HCP_A3\
+22:20:00,956 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   30 HCP_A3 M2O3C\
+22:20:00,956 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   32 M2O3C_D53 NBNI3_D0A\
+22:20:00,956 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   33 NBNI3_D0A SPINEL\
+22:20:00,956 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   34 SPINEL ZRO2_TETR\
+22:20:00,957 [Thread-1] ERROR JavaWrapper: GSPHB(JavaWrapper.java:964): There is no phase with this index: 35\
+22:20:00,957 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   35 ZRO2_TETR Not in GES6\
+22:20:00,957 [Thread-1] INFO  CalculationEngine:  Phase mismatch:   35 ZRO2_TETR\
+22:20:00,957 [Thread-1] ERROR JavaWrapper: getNoOfSelectedConstituents(JavaWrapper.java:789): There is no phase with this index: 35\
+22:20:00,961 [Thread-1] INFO  CalculationEngine:   *** ERROR  8936 IN CONSIS: NOT POSSIBLE TO RUN THIS IN GES 6\
+             (could not enumerate phases: Thermo-Calc calculation error: se.thermocalc.core.Calculatio)\
+\
+============================================================\
+4. DICTRA / DIFFUSION MODULE\
+============================================================\
+22:20:00,995 [Thread-1] INFO  CalculationEngine: Opening database::TCFE13::\
+22:20:14,848 [Thread-1] INFO  CalculationEngine:   *** ERROR  1234 IN SGTBEG: Database not found: MOBFE9 !\
+22:20:14,850 [Thread-1] INFO  CalculationEngine: Database not found: MOBFE9 !\
+22:20:14,883 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+22:20:30,433 [Thread-1] INFO  CalculationEngine: Opening database::TCFE12::\
+22:20:43,979 [Thread-1] INFO  CalculationEngine: Opening database::TCFE11::\
+22:20:52,491 [Thread-1] INFO  CalculationEngine: Opening database::TCFE10::\
+    [AVAIL]  DICTRA API exists but no compatible DB pair found\
+             (need both TCFE + MOBFE installed)\
+\
+============================================================\
+5. PROCESS METALLURGY MODULE\
+============================================================\
+    [NONE]   No process metallurgy API on session object\
+    [-----]  No Property Model API on session object\
+\
+============================================================\
+SUMMARY\
+============================================================\
+Thermodynamic DBs found: TCOX14, TCOX13, TCOX12, TCOX11, TCOX10, TCOX9, TCFE13, TCFE12, TCFE11, TCFE10, SSUB6, SSUB5, SSUB4, SSUB3, TCAL8, TCAL7, TCAL6, TCCU4, TCCU3, TCCU2\
+Mobility DBs found:      MOBFE9, MOBFE8, MOBFE7, MOBFE6, MOBFE5, MOBOX1, MOBOX2, MOBCU3, MOBCU2, MOBCU1, MOBNI5, MOBNI4, MOBNI3, MOBAL2, MOBAL1\
+\
+RECOMMENDATIONS FOR CAPSTONE:\
+  - Re-run Script 2 (cu_activity) with TCFE13 + TCOX14\
+    This adds FCC_A1 (metallic Cu/Fe) alongside IONIC_LIQ (slag)\
+    \uc0\u8594  should show a_Cu dropping as oxide fraction increases\
+  - Cu diffusion in steel phase possible with MOBFE9\
+    But NO oxide mobility DB exists \uc0\u8594  no DICTRA in slag/spinel\
+\
+Report saved to: U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython\\vm_capabilities_report.txt\
+Traceback (most recent call last):\
+  File "U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython\\check_vm_capabilities.py", line 265, in <module>\
+    main()\
+  File "U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython\\check_vm_capabilities.py", line 261, in main\
+    f.write("\\n".join(lines))\
+  File "C:\\Program Files\\Thermo-Calc\\2025b\\python\\lib\\encodings\\cp1252.py", line 19, in encode\
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]\
+UnicodeEncodeError: 'charmap' codec can't encode character '\\u2192' in position 3023: character maps to <undefined>}

@@ -1,0 +1,716 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2867
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \
+U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython>"C:\\Program Files\\Thermo-Calc\\2025b\\python\\python.exe" extract_ternary_reactions.py\
+======================================================================\
+TC-Python: Ternary Reaction Energies (Cu + oxide -> complex)\
+======================================================================\
+Database: TCOX14\
+Temperature range: 800-1900 K\
+Output: U:\\4381\\honda-calphad-main\\honda-calphad-main\\data\\tcpython\\raw\\ternary_reaction_energies.csv\
+Started: 2026-03-13T16:40:03.576771\
+\
+16:40:05,773 [Thread-1] INFO  CalculationEngine: Starting Thermo-Calc 2025b, Java-version: 21.0.2\
+Connected to Thermo-Calc\
+\
+--- Getting Cu metal reference ---\
+16:40:08,537 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:40:11,526 [Thread-1] INFO  JavaWrapper: *** Invoking Gibbs Energy System v6 ***\
+16:40:12,596 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:40:12,597 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Cu(metal) at 1500K: -83478.2 J/mol-atoms\
+\
+--- Getting O2 gas reference ---\
+16:40:34,816 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+  O2(gas) at 1500K: -346342.4 J/mol-O2\
+\
+\
+============================================================\
+System: Cu-AL-O  (oxide = Al2O3)\
+============================================================\
+16:40:48,531 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:40:49,762 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:40:49,764 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,765 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,765 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,765 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,765 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,766 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,766 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,766 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,766 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,766 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,767 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,767 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,767 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,767 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,767 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,767 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,767 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,768 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,768 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,768 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,768 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,768 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,768 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:40:49,768 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Getting Al2O3 reference in ternary system...\
+  Al2O3 GM at 1500K: -376311.2 J/mol-atoms\
+\
+  --- CuAl2O4 (copper aluminate spinel) ---\
+  Composition: X_Cu=0.1429, X_AL=0.2857, X_O=0.5714\
+  Reaction: Cu + Al2O3 + 0.5 O2 -> CuAl2O4\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -32.3 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: CORUNDUM#1; GAS#1; IONIC_LIQ#2\
+\
+  --- CuAlO2 (delafossite) ---\
+  Composition: X_Cu=0.2500, X_AL=0.2500, X_O=0.5000\
+  Reaction: Cu + 0.5 Al2O3 + 0.25 O2 -> CuAlO2\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -30.1 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: CORUNDUM#1; IONIC_LIQ#1; IONIC_LIQ#2\
+\
+============================================================\
+System: Cu-CR-O  (oxide = Cr2O3)\
+============================================================\
+16:41:31,043 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:41:32,268 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:41:32,268 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,269 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,269 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,270 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,270 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,270 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,270 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,270 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,270 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,270 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,271 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,271 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,271 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,272 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,272 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,272 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,272 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,272 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,273 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,273 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,273 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,273 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,273 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:41:32,274 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Getting Cr2O3 reference in ternary system...\
+  Cr2O3 GM at 1500K: -279068.7 J/mol-atoms\
+\
+  --- CuCr2O4 (copper chromite spinel) ---\
+  Composition: X_Cu=0.1429, X_CR=0.2857, X_O=0.5714\
+  Reaction: Cu + Cr2O3 + 0.5 O2 -> CuCr2O4\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -30.0 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: CORUNDUM#1; DELAFOSSITE#1; GAS#1\
+\
+============================================================\
+System: Cu-MN-O  (oxide = MnO)\
+============================================================\
+16:42:02,028 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:42:03,270 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:42:03,271 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,271 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,272 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,273 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,273 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,273 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,273 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,274 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,274 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,274 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,274 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,274 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,274 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,274 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,274 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,274 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,274 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,274 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,275 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,275 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,275 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,275 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,275 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:03,276 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Getting MnO reference in ternary system...\
+  MnO GM at 1500K: -267867.2 J/mol-atoms\
+\
+  --- CuMn2O4 (copper manganite spinel) ---\
+  Composition: X_Cu=0.1429, X_MN=0.2857, X_O=0.5714\
+  Reaction: Cu + 2MnO + O2 -> CuMn2O4\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -64.4 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: GAS#1; IONIC_LIQ#2\
+\
+============================================================\
+System: Cu-FE-O  (oxide = FeO)\
+============================================================\
+16:42:39,254 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:42:40,473 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:42:40,473 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,474 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,474 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,474 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,474 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,474 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,475 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,475 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,475 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,475 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,475 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,475 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,475 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,475 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,476 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,476 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,476 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,476 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,476 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,476 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,476 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,476 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,476 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:42:40,477 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Getting FeO reference in ternary system...\
+16:43:05,061 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#3\
+16:43:05,062 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,062 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,062 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,062 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,062 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,062 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,064 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,064 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,064 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,064 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,064 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,064 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,064 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,064 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,064 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,065 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,065 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,065 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,065 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,065 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,065 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,066 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,066 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:43:05,068 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#3\
+  FeO GM at 1500K: -210240.7 J/mol-atoms\
+\
+  --- CuFe2O4 (copper ferrite spinel) ---\
+  Composition: X_Cu=0.1429, X_FE=0.2857, X_O=0.5714\
+  Reaction: Cu + 2FeO + O2 -> CuFe2O4\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -111.9 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: GAS#1; IONIC_LIQ#2\
+\
+============================================================\
+System: Cu-V-O  (oxide = V2O5)\
+============================================================\
+16:43:18,800 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:43:20,015 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:43:20,016 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,016 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,016 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,016 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,017 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,018 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,018 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,018 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,018 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,019 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,019 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,019 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,020 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,020 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,020 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,020 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,020 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,020 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,021 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,021 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,021 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,021 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,021 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:43:20,023 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Getting V2O5 reference in ternary system...\
+16:43:42,307 [Thread-1] INFO  CalculationEngine:   *** ERROR  1611 IN QTHISS: TOO MANY ITERATIONS\
+16:43:57,290 [Thread-1] INFO  CalculationEngine:   *** ERROR  1611 IN QTHISS: TOO MANY ITERATIONS\
+  V2O5 GM at 1500K: -282717.7 J/mol-atoms\
+\
+  --- CuV2O6 (copper vanadate) ---\
+  Composition: X_Cu=0.1111, X_V=0.2222, X_O=0.6667\
+  Reaction: Cu + V2O5 + 0.5 O2 -> CuV2O6\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -45.0 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: GAS#1; IONIC_LIQ#2\
+\
+  --- Cu3V2O8 (copper orthovanadate) ---\
+  Composition: X_Cu=0.2308, X_V=0.1538, X_O=0.6154\
+  Reaction: 3Cu + V2O5 + 1.5 O2 -> Cu3V2O8\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -109.2 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: GAS#1; IONIC_LIQ#2\
+\
+============================================================\
+System: Cu-TI-O  (oxide = TiO2)\
+============================================================\
+16:44:57,422 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:44:58,651 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:44:58,652 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,652 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,652 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,652 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,652 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,652 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,653 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,653 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,653 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,654 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,654 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,654 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,654 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,654 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,654 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,655 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,655 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,655 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,655 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,655 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,655 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,655 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,655 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:44:58,657 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Getting TiO2 reference in ternary system...\
+  TiO2 GM at 1500K: -366653.3 J/mol-atoms\
+\
+  --- CuTiO3 (copper titanate) ---\
+  Composition: X_Cu=0.2000, X_TI=0.2000, X_O=0.6000\
+  Reaction: Cu + TiO2 + 0.5 O2 -> CuTiO3\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -36.8 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: GAS#1; IONIC_LIQ#2\
+\
+============================================================\
+System: Cu-SI-O  (oxide = SiO2)\
+============================================================\
+16:45:36,091 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:45:37,314 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:45:37,315 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,316 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,317 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,317 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,317 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,318 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,318 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,319 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,319 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,319 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,319 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,319 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,319 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,319 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,319 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,319 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,319 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,320 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,320 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,320 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,320 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,320 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,321 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:45:37,322 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+16:45:37,322 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#3\
+16:45:37,323 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,323 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,324 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,324 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,324 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,324 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,324 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,325 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,325 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,325 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,326 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,326 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,326 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,326 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,326 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,326 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,326 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,326 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,327 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,327 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,327 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,327 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,327 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+16:45:37,331 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#3\
+  Getting SiO2 reference in ternary system...\
+  SiO2 GM at 1500K: -349164.9 J/mol-atoms\
+\
+  --- CuSiO3 (copper metasilicate) ---\
+  Composition: X_Cu=0.2000, X_SI=0.2000, X_O=0.6000\
+  Reaction: Cu + SiO2 + 0.5 O2 -> CuSiO3\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -26.2 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: CRISTOBALITE#1; GAS#1; IONIC_LIQ#2\
+\
+  --- Cu2SiO4 (copper orthosilicate) ---\
+  Composition: X_Cu=0.2857, X_SI=0.1429, X_O=0.5714\
+  Reaction: 2Cu + SiO2 + O2 -> Cu2SiO4\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -52.2 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: CRISTOBALITE#1; GAS#1; IONIC_LIQ#2\
+\
+============================================================\
+System: Cu-MG-O  (oxide = MgO)\
+============================================================\
+16:46:52,411 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:46:53,657 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,658 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,659 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,659 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,659 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,659 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,659 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,659 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,659 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,659 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,659 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:46:53,662 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Getting MgO reference in ternary system...\
+  MgO GM at 1500K: -348794.9 J/mol-atoms\
+\
+  --- CuMgO2 (copper magnesioxide (hypothetical)) ---\
+  Composition: X_Cu=0.2500, X_MG=0.2500, X_O=0.5000\
+  Reaction: Cu + MgO + 0.5 O2 -> CuMgO2\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -26.1 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: GAS#1; HALITE#1; IONIC_LIQ#2\
+\
+============================================================\
+System: Cu-CA-O  (oxide = CaO)\
+============================================================\
+16:47:28,556 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:47:29,782 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:47:29,782 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,782 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,783 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,783 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,784 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,784 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,784 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,784 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,784 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,784 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,784 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,785 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,785 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,785 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,785 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,785 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,785 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,785 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,785 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,786 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,786 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,786 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,786 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:47:29,788 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Getting CaO reference in ternary system...\
+  CaO GM at 1500K: -376011.7 J/mol-atoms\
+\
+  --- CuCaO2 (copper calcioxide (hypothetical)) ---\
+  Composition: X_Cu=0.2500, X_CA=0.2500, X_O=0.5000\
+  Reaction: Cu + CaO + 0.5 O2 -> CuCaO2\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -30.7 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: GAS#1; HALITE#1; IONIC_LIQ#2\
+\
+============================================================\
+System: Cu-ZR-O  (oxide = ZrO2)\
+============================================================\
+16:48:01,986 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:48:03,221 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:48:03,222 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,222 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,222 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,222 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,222 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,222 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,223 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,223 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,223 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,223 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,223 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,223 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,223 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,224 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,224 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,224 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,224 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,224 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,224 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,224 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,224 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,224 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,224 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:03,228 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Getting ZrO2 reference in ternary system...\
+  ZrO2 GM at 1500K: -419430.5 J/mol-atoms\
+\
+  --- CuZrO3 (copper zirconate (hypothetical)) ---\
+  Composition: X_Cu=0.2000, X_ZR=0.2000, X_O=0.6000\
+  Reaction: Cu + ZrO2 + 0.5 O2 -> CuZrO3\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -25.3 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: GAS#1; IONIC_LIQ#2; ZRO2_TETR#1\
+\
+============================================================\
+System: Cu-NI-O  (oxide = NiO)\
+============================================================\
+16:48:32,500 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:48:33,727 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:48:33,728 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,729 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,730 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,730 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,730 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,730 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,730 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,730 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,730 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,730 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,730 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,731 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,731 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,731 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,731 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,731 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,731 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,731 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,731 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,731 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,731 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,731 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,731 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:48:33,733 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Getting NiO reference in ternary system...\
+  NiO GM at 1500K: -181034.5 J/mol-atoms\
+\
+  --- CuNiO2 (copper nickelate) ---\
+  Composition: X_Cu=0.2500, X_NI=0.2500, X_O=0.5000\
+  Reaction: Cu + NiO + 0.5 O2 -> CuNiO2\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -27.3 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: GAS#1; HALITE#1; IONIC_LIQ#2\
+\
+============================================================\
+System: Cu-CO-O  (oxide = CoO)\
+============================================================\
+16:49:02,593 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:49:03,835 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:49:03,836 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,836 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,836 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,836 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,836 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,837 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,838 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,838 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,838 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:03,839 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Getting CoO reference in ternary system...\
+  CoO GM at 1500K: -191706.0 J/mol-atoms\
+\
+  --- CuCo2O4 (copper cobaltite spinel) ---\
+  Composition: X_Cu=0.1429, X_CO=0.2857, X_O=0.5714\
+  Reaction: Cu + 2CoO + O2 -> CuCo2O4\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -35.8 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: GAS#1; HALITE#1; IONIC_LIQ#2\
+\
+============================================================\
+System: Cu-LA-O  (oxide = La2O3)\
+============================================================\
+16:49:35,163 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:49:36,395 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:49:36,396 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,396 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,397 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,397 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,397 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,397 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,397 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,397 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,397 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,397 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,397 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,397 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,397 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,398 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,398 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,398 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,398 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,398 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,398 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,398 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,399 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,399 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,399 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:49:36,401 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Getting La2O3 reference in ternary system...\
+  La2O3 GM at 1500K: -426387.6 J/mol-atoms\
+\
+  --- CuLaO2 (copper lanthanum oxide) ---\
+  Composition: X_Cu=0.2500, X_LA=0.2500, X_O=0.5000\
+  Reaction: Cu + 0.5 La2O3 + 0.25 O2 -> CuLaO2\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -27.8 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: IONIC_LIQ#1; IONIC_LIQ#2; M2O3A#1\
+\
+============================================================\
+System: Cu-CE-O  (oxide = CeO2)\
+============================================================\
+16:50:06,374 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:50:07,552 [Thread-1] INFO  CalculationEngine:   *** ERROR CE INPUT IGNORED\
+16:50:07,603 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:50:07,604 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,604 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,604 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,604 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,604 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,605 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,605 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,605 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,605 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,605 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,606 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,606 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,606 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,606 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,606 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,606 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,606 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,606 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,606 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,606 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,606 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,606 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,607 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:07,609 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  SYSTEM SETUP ERROR: Thermo-Calc calculation error: se.thermocalc.core.CalculationEngineException: The element CE is not in the database, it contains only the following elements: [/-, AL, AR, B, BA, C, CA, CO, CR, CU, F, FE, GD, H, HF, K, LA, LI, MG, MN, MO, N, NA, NB, NI, O, P, S, SI, TI, V, VA, W, Y, YB, ZR]\
+  (Element CE may not be in TCOX14)\
+\
+============================================================\
+System: Cu-B-O  (oxide = B2O3)\
+============================================================\
+16:50:18,253 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+16:50:19,505 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+16:50:19,505 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,505 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,505 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,506 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+16:50:19,509 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Getting B2O3 reference in ternary system...\
+  B2O3 GM at 1500K: -299636.3 J/mol-atoms\
+\
+  --- CuB2O4 (copper borate) ---\
+  Composition: X_Cu=0.1429, X_B=0.2857, X_O=0.5714\
+  Reaction: Cu + B2O3 + 0.5 O2 -> CuB2O4\
+  Completed: 23/23 temperatures\
+  At 1800K: dG_rxn = -47.7 kJ/mol \uc0\u8594  FAVORABLE (Cu captured)\
+  Phases: GAS#1; IONIC_LIQ#2\
+\
+======================================================================\
+CSV written to: U:\\4381\\honda-calphad-main\\honda-calphad-main\\data\\tcpython\\raw\\ternary_reaction_energies.csv\
+414 rows (15 oxide systems)\
+Finished: 2026-03-13T16:50:56.311302\
+======================================================================\
+\
+======================================================================\
+SUMMARY: Ternary Reaction Feasibility at 1527\'b0C (1800 K)\
+======================================================================\
+Product          dG_rxn (kJ)    Ternary Phase?       Verdict\
+----------------------------------------------------------------------\
+CuAl2O4               -32.3    not found            FAVORABLE\
+CuAlO2                -30.1    not found            FAVORABLE\
+CuCr2O4               -30.0    not found            FAVORABLE\
+CuMn2O4               -64.4    not found            FAVORABLE\
+CuFe2O4              -111.9    not found            FAVORABLE\
+CuV2O6                -45.0    not found            FAVORABLE\
+Cu3V2O8              -109.2    not found            FAVORABLE\
+CuTiO3                -36.8    not found            FAVORABLE\
+CuSiO3                -26.2    not found            FAVORABLE\
+Cu2SiO4               -52.2    not found            FAVORABLE\
+CuMgO2                -26.1    not found            FAVORABLE\
+CuCaO2                -30.7    not found            FAVORABLE\
+CuZrO3                -25.3    not found            FAVORABLE\
+CuNiO2                -27.3    not found            FAVORABLE\
+CuCo2O4               -35.8    not found            FAVORABLE\
+CuLaO2                -27.8    not found            FAVORABLE\
+CuCeO3                  N/A    --                   Element CE not in TCOX14\
+CuB2O4                -47.7    not found            FAVORABLE\
+======================================================================\
+\
+U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython>}

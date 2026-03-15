@@ -1,0 +1,138 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2867
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 U:\\>cd U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython\
+\
+U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython>"C:\\Program Files\\Thermo-Calc\\2025b\\python\\python.exe" cufe2o4_alternative_reaction.py\
+======================================================================\
+TC-Python: CuFe2O4 Alternative Reaction (Fe2O3 vs FeO)\
+======================================================================\
+Database: TCOX14\
+Temperature range: 800-1900 K, step 50 K\
+Output: U:\\4381\\honda-calphad-main\\honda-calphad-main\\data\\tcpython\\raw\\cufe2o4_alternative_reaction.csv\
+Started: 2026-03-13T18:34:15.329826\
+\
+Alternative: Cu + Fe2O3 + 0.5 O2 -> CuFe2O4  (Fe already +3)\
+Original:    Cu + 2FeO  + O2     -> CuFe2O4  (Fe at +2)\
+\
+18:34:17,494 [Thread-1] INFO  CalculationEngine: Starting Thermo-Calc 2025b, Java-version: 21.0.2\
+Connected to Thermo-Calc\
+\
+--- Getting Cu metal reference ---\
+18:34:20,146 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+18:34:23,192 [Thread-1] INFO  JavaWrapper: *** Invoking Gibbs Energy System v6 ***\
+18:34:24,265 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+18:34:24,266 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+  Cu(metal) at 1500K: -83478.2 J/mol-atoms\
+\
+--- Getting O2 gas reference ---\
+18:34:45,244 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+  O2(gas) at 1500K: -346342.4 J/mol-O2\
+\
+--- Setting up Cu-Fe-O ternary system ---\
+18:34:58,444 [Thread-1] INFO  CalculationEngine: Opening database::TCOX14::\
+18:34:59,669 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#2\
+18:34:59,670 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,671 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,671 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,671 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,671 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,672 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,672 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,672 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,672 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,673 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,673 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,673 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,673 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,673 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,673 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,673 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,673 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,674 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,674 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,674 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,674 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,674 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,675 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#2\
+18:34:59,675 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#2\
+--- Getting Fe2O3 reference (X_Fe=0.4, X_O=0.6) ---\
+  Fe2O3 GM at 1500K: -223760.5 J/mol-atoms\
+--- Getting FeO reference (X_O=0.5) ---\
+18:35:39,288 [Thread-1] INFO  CalculationEngine:  Creating a new composition set IONIC_LIQ#3\
+18:35:39,289 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,290 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,290 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,290 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,290 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,291 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,291 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,292 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,292 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,292 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,292 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,292 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,292 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,293 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,293 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,293 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,293 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,293 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,293 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,294 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,294 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,294 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,294 [Thread-1] WARN  CompositionSetCoreListener: composition set NOT added: IONIC_LIQ#3\
+18:35:39,296 [Thread-1] INFO  CalculationEngine: New CS: IONIC_LIQ#3\
+  FeO GM at 1500K: -210240.7 J/mol-atoms\
+\
+--- Calculating CuFe2O4 product at each temperature ---\
+  Completed: 23/23 temperatures\
+\
+  At 1800K:\
+    Alternative (Fe2O3): dG = -45.7 kJ\
+    Original (FeO):      dG = -111.9 kJ\
+    Fe oxidation contrib: -66.2 kJ\
+    Phases: GAS#1; IONIC_LIQ#2\
+\
+======================================================================\
+CSV written to: U:\\4381\\honda-calphad-main\\honda-calphad-main\\data\\tcpython\\raw\\cufe2o4_alternative_reaction.csv\
+23 rows\
+Finished: 2026-03-13T18:35:54.694636\
+======================================================================\
+\
+======================================================================\
+SUMMARY: CuFe2O4 Reaction Decomposition\
+======================================================================\
+T (K)       Alt dG (kJ)   Orig dG (kJ)     Fe-ox (kJ)\
+------------------------------------------------------\
+800               -85.3         -271.0         -185.7\
+850               -82.4         -262.7         -180.3\
+900               -79.4         -253.6         -174.3\
+950               -76.3         -244.6         -168.3\
+1000              -73.2         -235.7         -162.4\
+1050              -70.2         -226.8         -156.6\
+1100              -67.1         -218.0         -150.8\
+1150              -64.2         -209.2         -145.1\
+1200              -61.2         -200.5         -139.3\
+1250              -58.3         -191.9         -133.5\
+1300              -55.5         -183.3         -127.8\
+1350              -52.7         -174.7         -122.0\
+1400              -49.8         -166.0         -116.2\
+1450              -47.1         -157.6         -110.5\
+1500              -44.9         -149.6         -104.7\
+1550              -43.4         -142.2          -98.9\
+1600              -42.5         -135.5          -93.0\
+1650              -42.3         -129.3          -87.0\
+1700              -43.2         -122.3          -79.1\
+1750              -44.6         -116.8          -72.2\
+1800              -45.7         -111.9          -66.2\
+1850              -46.9         -107.2          -60.2\
+1900              -46.7         -102.7          -56.0\
+======================================================================\
+\
+U:\\4381\\honda-calphad-main\\honda-calphad-main\\simulations\\tcpython>}

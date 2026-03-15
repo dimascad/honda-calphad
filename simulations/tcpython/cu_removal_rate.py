@@ -111,7 +111,11 @@ except ImportError:
     sys.exit(1)
 
 print("Initializing TCPython session...")
-session = TCPython()
+# MUST use context manager — TCPython().__enter__() returns the session
+# object that has select_thermodynamic_and_kinetic_databases_with_elements.
+# Raw TCPython() does NOT expose this method.
+_tcp_ctx = TCPython()
+session = _tcp_ctx.__enter__()
 print("Session ready.")
 print()
 
